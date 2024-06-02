@@ -3,7 +3,7 @@
 @section('page_title', 'Login')
 
 @section('contents')
-{!! Form::open([]) !!}
+{!! Form::open(['method' => 'post', 'route' => 'login']) !!}
 
 {!! Form::label('email', 'Email') !!}
 {!! Form::email('email', null, ['class' => $errors->has('email') ? 'is-invalid form-control form-control- mt-1' :
@@ -26,6 +26,6 @@
 {!! Form::close() !!}
 
 <p class="mt-2">Forget password? <a href="{{ route('password.request') }}">Reset here</a></p>
-<p class="mt-2">Not registered? <a href="{{ route('register') }}">Register Here</a></p>
+<p class="mt-2">Not registered? <a href="{{ route('register') }}">Register here</a></p>
 
 @endsection

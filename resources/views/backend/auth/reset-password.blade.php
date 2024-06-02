@@ -1,19 +1,16 @@
 @extends('backend.auth.layouts.master')
 
-@section('page_title', 'Register')
+@section('page_title', 'Reset Password')
 
 @section('contents')
-{!! Form::open(['method' => 'post', 'route' => 'register']) !!}
+{!! Form::open(['method' => 'post', 'route' => 'password.store']) !!}
 
-{!! Form::label('name', 'Name') !!}
-{!! Form::text('name', null, ['class' => $errors->has('name') ? 'is-invalid form-control form-control- mt-1' :
-'form-control form-control-sm mt-1' , 'placeholder' => 'Enter your name']) !!}
-@error('name')
-<p class="text-danger">{{ $message }}</p>
-@enderror
+
+{!! Form::hidden('token', $request->route('token')) !!}
 
 {!! Form::label('email', 'Email', ['class' => 'mt-2']) !!}
-{!! Form::email('email', null, ['class' => $errors->has('email') ? 'is-invalid form-control form-control- mt-1' :
+{!! Form::email('email', $request->email, ['class' => $errors->has('email') ? 'is-invalid form-control form-control-
+mt-1' :
 'form-control form-control-sm mt-1', 'placeholder' => 'Enter your email']) !!}
 @error('email')
 <p class="text-danger">{{ $message }}</p>
@@ -21,7 +18,7 @@
 
 {!! Form::label('password', 'Password', ['class' => 'mt-2']) !!}
 {!! Form::password('password', ['class' => $errors->has('password') ? 'is-invalid form-control form-control- mt-1' :
-'form-control form-control-sm mt-1', 'placeholder' => 'Enter your password'])
+'form-control form-control-sm mt-1', 'placeholder' => 'Enter new password'])
 !!}
 @error('password')
 <p class="text-danger">{{ $message }}</p>
@@ -36,7 +33,7 @@ form-control- mt-1' :
 @enderror
 
 <div class="d-grid">
-    {!! Form::button('Register', ['type' => 'submit', 'class' => 'btn btn-info btn-sm mt-3']) !!}
+    {!! Form::button('Reset Password', ['type' => 'submit', 'class' => 'btn btn-info btn-sm mt-3']) !!}
 </div>
 
 {!! Form::close() !!}
