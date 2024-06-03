@@ -50,7 +50,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return view('backend.modules.category.show');
+        return view('backend.modules.category.show', compact('category'));
     }
 
     /**

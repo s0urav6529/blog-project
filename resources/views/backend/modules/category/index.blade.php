@@ -61,16 +61,4 @@
             </div>
         </div>
     </div>
-
-    @push('js')
-        <script>
-            $('#name').on('input', function() {
-
-                let name = $(this).val();
-                let slug = name.replaceAll(' ', '-').toLowerCase();
-                $('#slug').val(slug);
-            })
-        </script>
-    @endpush
-
 @endsection
