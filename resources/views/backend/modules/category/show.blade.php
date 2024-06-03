@@ -9,7 +9,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="mb-0">Category Details</h4>
+                    <h4 class="mb-0">{{ $category->name }} Details</h4>
                 </div>
                 <div class="card-body">
 
@@ -51,8 +51,13 @@
                             </tr>
                         </tbody>
                     </table>
-                    <a href="{{ route('category.index') }}"><button class="btn btn-success btn-sm mt-2"><i
-                                class="fa-solid fa-left-long mx-1"></i>Back</button></a>
+                    <div class="d-flex justify-content-center mt-3">
+                        <a href="{{ route('category.index') }}" class="btn btn-success btn-sm mr-2"><i
+                                class="fa-solid fa-left-long mx-1"></i>Back</a>
+                        <a href="{{ route('category.edit', $category->id) }}" class="btn btn-secondary btn-sm mx-1"><i
+                                class="fa-solid fa-pen-to-square mx-1"></i>Edit</a>
+                    </div>
+
                 </div>
             </div>
         </div>

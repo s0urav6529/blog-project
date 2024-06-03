@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryStoreRequest;
+use App\Http\Requests\CategoryUpdateRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -58,15 +59,24 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('backend.modules.category.edit');
+        return view('backend.modules.category.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(CategoryUpdateRequest $request, Category $category)
     {
-        //
+
+        $category_data = $request->all();
+        $category_data['slug'] = Str::slug($request->input('slug'));
+
+        $category->update($category_data);
+
+        \session()->flash('msg', 'Categoey updated successfully');
+        \session()->flash('notification_color', 'success');
+
+        return \redirect()->route('category.index');
     }
 
     /**
