@@ -48,7 +48,7 @@ class TagController extends Controller
      */
     public function show(Tag $tag)
     {
-        return view('backend.modules.tag.show');
+        return view('backend.modules.tag.show', compact('tag'));
     }
 
     /**
