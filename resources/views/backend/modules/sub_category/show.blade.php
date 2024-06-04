@@ -1,6 +1,6 @@
 @extends('backend.layouts.master')
 
-@section('page_title', 'Category')
+@section('page_title', 'Sub category')
 
 @section('page_sub_title', 'Details')
 
@@ -9,7 +9,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="mb-0">{{ $category->name }} Details</h4>
+                    <h4 class="mb-0">{{ $subCategory->name }} Details</h4>
                 </div>
                 <div class="card-body">
 
@@ -17,55 +17,60 @@
                         <tbody>
                             <tr>
                                 <th>ID</th>
-                                <td>{{ $category->id }}</td>
+                                <td>{{ $subCategory->id }}</td>
                             </tr>
 
                             <tr>
-                                <th>Category Name</th>
-                                <td>{{ $category->name }}</td>
+                                <th>Sub category Name</th>
+                                <td>{{ $subCategory->name }}</td>
                             </tr>
 
                             <tr>
-                                <th>Category Slug</th>
-                                <td>{{ $category->slug }}</td>
+                                <th>Sub category Slug</th>
+                                <td>{{ $subCategory->slug }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Category</th>
+                                <td>{{ $subCategory->category->name }}</td>
                             </tr>
 
                             <tr>
                                 <th>Status</th>
-                                <td>{{ $category->status == 1 ? 'Active' : 'Inactive' }}</td>
+                                <td>{{ $subCategory->status == 1 ? 'Active' : 'Inactive' }}</td>
                             </tr>
 
                             <tr>
                                 <th>Order By</th>
-                                <td>{{ $category->order_by }}</td>
+                                <td>{{ $subCategory->order_by }}</td>
                             </tr>
 
                             <tr>
                                 <th>Created At</th>
-                                <td>{{ $category->created_at->toDateTimeString() }}</td>
+                                <td>{{ $subCategory->created_at->toDateTimeString() }}</td>
                             </tr>
 
                             <tr>
                                 <th>Updated At</th>
-                                <td>{{ $category->created_at != $category->updated_at ? $category->updated_at->toDateTimeString() : 'Not updated' }}
+                                <td>{{ $subCategory->created_at != $subCategory->updated_at ? $subCategory->updated_at->toDateTimeString() : 'Not updated' }}
                             </tr>
                         </tbody>
                     </table>
                     <div class="d-flex justify-content-center mt-3">
-                        <a href="{{ route('category.index') }}" class="btn btn-success btn-sm mr-2"><i
+                        <a href="{{ route('sub-category.index') }}" class="btn btn-success btn-sm mr-2"><i
                                 class="fa-solid fa-left-long mx-1"></i>Back</a>
-                        <a href="{{ route('category.edit', $category->id) }}" class="btn btn-secondary btn-sm mx-2"><i
-                                class="fa-solid fa-pen-to-square mx-1"></i>Edit</a>
+                        <a href="{{ route('sub-category.edit', $subCategory->id) }}"
+                            class="btn btn-secondary btn-sm mx-2"><i class="fa-solid fa-pen-to-square mx-1"></i>Edit</a>
 
                         {!! Form::open([
                             'method' => 'delete',
-                            'id' => 'form_' . $category->id,
-                            'route' => ['category.destroy', $category->id],
+                            'id' => 'form_' . $subCategory->id,
+                            'route' => ['sub-category.destroy', $subCategory->id],
                         ]) !!}
 
                         {!! Form::button('<i class="fa-solid fa-trash"></i> Delete', [
                             'type' => 'button',
-                            'data-id' => $category->id,
+                            'data-id' => $subCategory->id,
                             'class' => 'delete btn btn-danger btn-sm',
                         ]) !!}
 

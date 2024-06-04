@@ -50,7 +50,8 @@ class SubCategoryController extends Controller
      */
     public function show(SubCategory $subCategory)
     {
-        //
+        $subCategory->load('category');
+        return view('backend.modules.sub_category.show', compact('subCategory'));
     }
 
     /**
