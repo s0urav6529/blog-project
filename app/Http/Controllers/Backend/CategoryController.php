@@ -43,7 +43,6 @@ class CategoryController extends Controller
         \session()->flash('notification_color', 'success');
 
         return \redirect()->route('category.index');
-
     }
 
     /**

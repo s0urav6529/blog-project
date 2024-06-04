@@ -30,8 +30,8 @@
                 </a>
                 <div class="collapse" id="sub_category" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="{{ route('tag.index') }}">List</a>
-                        <a class="nav-link" href="{{ route('tag.create') }}">Create</a>
+                        <a class="nav-link" href="{{ route('sub-category.index') }}">List</a>
+                        <a class="nav-link" href="{{ route('sub-category.create') }}">Create</a>
                     </nav>
                 </div>
 
