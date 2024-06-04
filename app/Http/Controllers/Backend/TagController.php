@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TagStoreRequest;
+use App\Http\Requests\TagUpdateRequest;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -56,15 +57,23 @@ class TagController extends Controller
      */
     public function edit(Tag $tag)
     {
-        return view('backend.modules.tag.edit');
+        return view('backend.modules.tag.edit', compact('tag'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Tag $tag)
+    public function update(TagUpdateRequest $request, Tag $tag)
     {
-        //
+        $tag_data = $request->all();
+        $tag_data['slug'] = Str::slug($request->input('slug'));
+
+        $tag->update($tag_data);
+
+        \session()->flash('msg', 'Tag updated successfully !');
+        \session()->flash('notification_color', 'success');
+
+        return \redirect()->route('tag.index');
     }
 
     /**
