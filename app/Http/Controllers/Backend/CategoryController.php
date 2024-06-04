@@ -39,7 +39,7 @@ class CategoryController extends Controller
 
         Category::create($category_data);
 
-        \session()->flash('msg', 'Category created successfully');
+        \session()->flash('msg', 'Category created successfully !');
         \session()->flash('notification_color', 'success');
 
         return \redirect()->route('category.index');
@@ -73,7 +73,7 @@ class CategoryController extends Controller
 
         $category->update($category_data);
 
-        \session()->flash('msg', 'Category updated successfully');
+        \session()->flash('msg', 'Category updated successfully !');
         \session()->flash('notification_color', 'success');
 
         return \redirect()->route('category.index');
@@ -85,8 +85,8 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        \session()->flash('msg', 'Category deleted successfully');
-        \session()->flash('notification_color', 'danger');
+        \session()->flash('msg', 'Category deleted successfully !');
+        \session()->flash('notification_color', 'error');
 
         return \redirect()->route('category.index');
     }

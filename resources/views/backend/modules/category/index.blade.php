@@ -9,14 +9,19 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="mb-0">Category List</h4>
+                    <div class="d-flex justify-content-between">
+                        <h4 class="mb-0">Category List</h4>
+                        <a href="{{ route('category.create') }}"> <button class="btn btn-success btn-sm"><i
+                                    class="fa-solid fa-plus mx-1"></i>Add Category
+                            </button></a>
+                    </div>
                 </div>
                 <div class="card-body">
-                    @if (session('msg'))
+                    {{-- @if (session('msg'))
                         <div class="alert alert-{{ session('notification_color') }}" id="alert-msg">
                             {{ session('msg') }}
                         </div>
-                    @endif
+                    @endif --}}
                     <table class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
@@ -37,7 +42,9 @@
                                     <td>{{ $category->name }}</td>
                                     <td>{{ $category->slug }}</td>
                                     <td>{{ $category->order_by }}</td>
-                                    <td>{{ $category->status }}</td>
+                                    <td class="{{ $category->status == 1 ? 'text-success' : 'text-danger' }}">
+                                        {{ $category->status == 1 ? 'Active' : 'Inactive' }}
+                                    </td>
                                     <td>{{ $category->created_at->toDateTimeString() }}</td>
                                     <td>{{ $category->created_at != $category->updated_at ? $category->updated_at->toDateTimeString() : 'Not updated' }}
                                     </td>
@@ -74,9 +81,25 @@
         </div>
     </div>
 
+    {{--  notification message toast --}}
+    @if (session('msg'))
+        @push('js')
+            <script>
+                Swal.fire({
+                    position: "top-end",
+                    icon: '{{ session('notification_color') }}',
+                    toast: true,
+                    title: '{{ session('msg') }}',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            </script>
+        @endpush
+    @endif
+
     @push('js')
         <script>
-            //@sweetalart during delete
+            /* @sweetalart during delete */
             $('.delete').on('click', function() {
                 let id = $(this).attr('data-id');
                 Swal.fire({
@@ -94,15 +117,15 @@
                 });
             });
 
-            //@notification message timeout during add & edit
-            document.addEventListener('DOMContentLoaded', function() {
-                const alertMsg = document.getElementById('alert-msg');
+            /* notification message timeout during add & edit */
+            /* document.addEventListener('DOMContentLoaded', function() {
+                const alertMsg = documCategoryent.getElementById('alert-msg');
                 if (alertMsg) {
                     setTimeout(() => {
                         alertMsg.style.display = 'none';
                     }, 5000);
                 }
-            });
+            }); */
         </script>
     @endpush
 @endsection

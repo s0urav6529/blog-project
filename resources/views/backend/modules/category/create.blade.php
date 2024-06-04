@@ -9,7 +9,12 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="mb-0">Create Category</h4>
+                    <div class="d-flex justify-content-between">
+                        <h4 class="mb-0">Create Category</h4>
+                        <a href="{{ route('category.index') }}"> <button class="btn btn-success btn-sm"><i
+                                    class="fa-solid fa-left-long mx-1"></i>Back
+                            </button></a>
+                    </div>
                 </div>
                 <div class="card-body">
 
@@ -25,34 +30,7 @@
 
                     {!! Form::open(['method' => 'post', 'route' => 'category.store']) !!}
 
-                    {!! Form::label('name', 'Name') !!}
-                    {!! Form::text('name', null, [
-                        'id' => 'name',
-                        'class' => 'form-control form-control-sm mt-1',
-                        'placeholder' => 'Enter cateogry name...',
-                    ]) !!}
-
-                    {!! Form::label('slug', 'Category Slug', ['class' => 'mt-2']) !!}
-                    {!! Form::text('slug', null, [
-                        'id' => 'slug',
-                        'class' => 'form-control form-control-sm mt-1',
-                        'placeholder' => 'Enter cateogry slug...',
-                        'readonly' => 'readonly',
-                    ]) !!}
-
-                    {!! Form::label('order_by', 'Category Serial', ['class' => 'mt-2']) !!}
-                    {!! Form::number('order_by', null, [
-                        'class' => 'form-control form-control-sm mt-1',
-                        'placeholder' => 'Enter cateogry serial...',
-                    ]) !!}
-
-
-                    {!! Form::label('status', 'Category Status', ['class' => 'mt-2']) !!}
-                    {!! Form::select('status', [1 => 'Active', 0 => 'Inactive'], null, [
-                        'class' => 'form-select mt-1',
-                        'placeholder' => 'Select status...',
-                    ]) !!}
-
+                    @include('backend.modules.category.form')
 
                     <div class="d-grid">
                         {!! Form::button('Create Catgory', ['type' => 'submit', 'class' => 'btn btn-info btn-sm mt-3']) !!}

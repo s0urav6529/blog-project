@@ -32,7 +32,7 @@
                     <div class="d-flex justify-content-center mt-1">
                         <a href="{{ route('category.index') }}" class="btn btn-success btn-sm mt-3"><i
                                 class="fa-solid fa-left-long mx-1"></i>Back</a>
-                        {!! Form::button('<i class="fa-solid fa-file-pen"></i> Update Catgory', [
+                        {!! Form::button('<i class="fa-solid fa-file-pen"></i> Update', [
                             'type' => 'submit',
                             'class' => 'btn btn-warning btn-sm mt-3 mx-2',
                         ]) !!}
