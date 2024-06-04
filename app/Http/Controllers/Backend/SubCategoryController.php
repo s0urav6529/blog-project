@@ -8,6 +8,7 @@ use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Http\Requests\SubCategoryStoreRequest;
+use App\Http\Requests\SubCategoryUpdateRequest;
 
 class SubCategoryController extends Controller
 {
@@ -59,15 +60,24 @@ class SubCategoryController extends Controller
      */
     public function edit(SubCategory $subCategory)
     {
-        //
+        $category_data = Category::pluck('name', 'id');
+        return view('backend.modules.sub_category.edit', compact('subCategory', 'category_data'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SubCategory $subCategory)
+    public function update(SubCategoryUpdateRequest $request, SubCategory $subCategory)
     {
-        //
+        $subcategory_data = $request->all();
+        $subcategory_data['slug'] = Str::slug($request->input('slug'));
+
+        $subCategory->update($subcategory_data);
+
+        \session()->flash('msg', 'Sub-category updated successfully !');
+        \session()->flash('notification_color', 'success');
+
+        return \redirect()->route('sub-category.index');
     }
 
     /**
