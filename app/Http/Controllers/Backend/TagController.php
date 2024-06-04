@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TagStoreRequest;
 use App\Http\Requests\TagUpdateRequest;
 use App\Models\Tag;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\View\View as ViewView;
 
 class TagController extends Controller
 {
@@ -81,6 +83,10 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        //
+        $tag->delete();
+        \session()->flash('msg', 'Tag deleted successfully !');
+        \session()->flash('notification_color', 'error');
+
+        return \redirect()->route('tag.index');
     }
 }

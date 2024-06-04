@@ -54,6 +54,7 @@
 
                                             {!! Form::open([
                                                 'method' => 'delete',
+                                                'id' => 'form_' . $tag->id,
                                                 'route' => ['tag.destroy', $tag->id],
                                             ]) !!}
 
@@ -96,6 +97,7 @@
             /* @sweetalart during delete */
             $('.delete').on('click', function() {
                 let id = $(this).attr('data-id');
+                console.log(id);
                 Swal.fire({
                     title: "Are you sure to delete?",
                     text: "You won't be able to revert this!",
