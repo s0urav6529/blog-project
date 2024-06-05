@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Backend\BackendController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\TagController;
 use App\Models\SubCategory;
@@ -26,8 +27,10 @@ Route::get('/single-post', [FrontendController::class, 'single'])->name('front.s
 Route::group(['prefix' => 'dashboard'], function () {
     Route::get('/', [BackendController::class, 'index'])->name('back.index');
     Route::resource('/category', CategoryController::class);
+    Route::get('/get-subcategory/{id}', [SubCategoryController::class, 'getCategoryWiseSubCategory']);
     Route::resource('/sub-category', SubCategoryController::class);
     Route::resource('/tag', TagController::class);
+    Route::resource('/post', PostController::class);
 });
 
 require __DIR__ . '/auth.php';

@@ -91,4 +91,10 @@ class SubCategoryController extends Controller
 
         return redirect()->route('sub-category.index');
     }
+
+    public function getCategoryWiseSubCategory(int $categoryId)
+    {
+        $subcategory_data = SubCategory::select('name', 'id')->where('category_id', $categoryId)->get();
+        return response()->json($subcategory_data);
+    }
 }
