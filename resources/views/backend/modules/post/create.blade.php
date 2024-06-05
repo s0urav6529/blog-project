@@ -28,7 +28,7 @@
                         </div>
                     @endif
 
-                    {!! Form::open(['method' => 'post', 'route' => 'post.store']) !!}
+                    {!! Form::open(['method' => 'post', 'route' => 'post.store', 'files' => true]) !!}
 
                     @include('backend.modules.post.form')
 
@@ -42,16 +42,4 @@
             </div>
         </div>
     </div>
-
-    @push('js')
-        <script>
-            $('#title').on('input', function() {
-
-                let title = $(this).val();
-                let slug = title.replaceAll(' ', '-').toLowerCase();
-                $('#slug').val(slug);
-            })
-        </script>
-    @endpush
-
 @endsection

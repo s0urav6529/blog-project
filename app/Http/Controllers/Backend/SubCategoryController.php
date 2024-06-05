@@ -40,10 +40,10 @@ class SubCategoryController extends Controller
 
         SubCategory::create($subcategory_data);
 
-        \session()->flash('msg', 'Sub-category created successfully !');
-        \session()->flash('notification_color', 'success');
+        session()->flash('msg', 'Sub-category created successfully !');
+        session()->flash('notification_color', 'success');
 
-        return \redirect()->route('sub-category.index');
+        return redirect()->route('sub-category.index');
     }
 
     /**
@@ -74,10 +74,10 @@ class SubCategoryController extends Controller
 
         $subCategory->update($subcategory_data);
 
-        \session()->flash('msg', 'Sub-category updated successfully !');
-        \session()->flash('notification_color', 'success');
+        session()->flash('msg', 'Sub-category updated successfully !');
+        session()->flash('notification_color', 'success');
 
-        return \redirect()->route('sub-category.index');
+        return redirect()->route('sub-category.index');
     }
 
     /**
@@ -94,7 +94,7 @@ class SubCategoryController extends Controller
 
     public function getCategoryWiseSubCategory(int $categoryId)
     {
-        $subcategory_data = SubCategory::select('name', 'id')->where('category_id', $categoryId)->get();
+        $subcategory_data = SubCategory::select('name', 'id')->where('status', 1)->where('category_id', $categoryId)->get();
         return response()->json($subcategory_data);
     }
 }
