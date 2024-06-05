@@ -18,7 +18,7 @@ class CategoryController extends Controller
     public function index()
     {
         $category_data = Category::orderBy('order_by')->get();
-        return \view('backend.modules.category.index', compact('category_data'));
+        return view('backend.modules.category.index', compact('category_data'));
     }
 
     /**
@@ -39,10 +39,10 @@ class CategoryController extends Controller
 
         Category::create($category_data);
 
-        \session()->flash('msg', 'Category created successfully !');
-        \session()->flash('notification_color', 'success');
+        session()->flash('msg', 'Category created successfully !');
+        session()->flash('notification_color', 'success');
 
-        return \redirect()->route('category.index');
+        return redirect()->route('category.index');
     }
 
     /**
@@ -72,10 +72,10 @@ class CategoryController extends Controller
 
         $category->update($category_data);
 
-        \session()->flash('msg', 'Category updated successfully !');
-        \session()->flash('notification_color', 'success');
+        session()->flash('msg', 'Category updated successfully !');
+        session()->flash('notification_color', 'success');
 
-        return \redirect()->route('category.index');
+        return redirect()->route('category.index');
     }
 
     /**
@@ -84,9 +84,9 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        \session()->flash('msg', 'Category deleted successfully !');
-        \session()->flash('notification_color', 'error');
+        session()->flash('msg', 'Category deleted successfully !');
+        session()->flash('notification_color', 'error');
 
-        return \redirect()->route('category.index');
+        return redirect()->route('category.index');
     }
 }

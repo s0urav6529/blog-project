@@ -17,11 +17,6 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    {{-- @if (session('msg'))
-                        <div class="alert alert-{{ session('notification_color') }}" id="alert-msg">
-                            {{ session('msg') }}
-                        </div>
-                    @endif --}}
                     <table class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
@@ -118,16 +113,6 @@
                     }
                 });
             });
-
-            /* notification message timeout during add & edit */
-            /* document.addEventListener('DOMContentLoaded', function() {
-                const alertMsg = documCategoryent.getElementById('alert-msg');
-                if (alertMsg) {
-                    setTimeout(() => {
-                        alertMsg.style.display = 'none';
-                    }, 5000);
-                }
-            }); */
         </script>
     @endpush
 @endsection

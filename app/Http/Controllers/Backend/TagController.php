@@ -72,10 +72,10 @@ class TagController extends Controller
 
         $tag->update($tag_data);
 
-        \session()->flash('msg', 'Tag updated successfully !');
-        \session()->flash('notification_color', 'success');
+        session()->flash('msg', 'Tag updated successfully !');
+        session()->flash('notification_color', 'success');
 
-        return \redirect()->route('tag.index');
+        return redirect()->route('tag.index');
     }
 
     /**
@@ -84,9 +84,9 @@ class TagController extends Controller
     public function destroy(Tag $tag)
     {
         $tag->delete();
-        \session()->flash('msg', 'Tag deleted successfully !');
-        \session()->flash('notification_color', 'error');
+        session()->flash('msg', 'Tag deleted successfully !');
+        session()->flash('notification_color', 'error');
 
-        return \redirect()->route('tag.index');
+        return redirect()->route('tag.index');
     }
 }
