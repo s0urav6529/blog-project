@@ -37,17 +37,21 @@
     'placeholder' => 'Enter post description...',
 ]) !!}
 
+
 {!! Form::label('tag_id', 'Select Tag', ['class' => 'mt-2']) !!}
-<br>
-<div class="row">
+<div class="row border rounded p-3 bg-light mt-1">
     @foreach ($tag_data as $tag)
-        <div class="col-md-3">
-            {!! Form::checkbox('tag_ids[]', $tag->id, false) !!} <span>{{ $tag->name }}</span>
+        <div class="col-md-3 mb-2">
+            <div class="form-check">
+                {!! Form::checkbox('tag_ids[]', $tag->id, false, ['class' => 'form-check-input']) !!}
+                <span>{{ $tag->name }}</span>
+            </div>
         </div>
     @endforeach
 </div>
 
-<div class="row">
+
+<div class="row mt-2">
     <div class="col-md-6">
         {!! Form::label('photo', 'Choose image', ['class' => 'mt-2']) !!}
         {!! Form::file('photo', ['class' => 'form-control']) !!}

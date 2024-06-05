@@ -33,7 +33,7 @@
                     @include('backend.modules.post.form')
 
                     <div class="justify-content-center">
-                        {!! Form::button('Create Post', ['type' => 'submit', 'class' => 'btn btn-info btn-sm mt-2']) !!}
+                        {!! Form::button('Create Post', ['type' => 'submit', 'class' => 'btn btn-info btn-sm mt-3']) !!}
                     </div>
 
                     {!! Form::close() !!}

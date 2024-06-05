@@ -45,6 +45,7 @@ class PostController extends Controller
         $post_data['is_approved'] = 1;
 
         if ($request->hasFile('photo')) {
+
             $file = $request->file('photo');
             $name = Str::slug($request->input('slug'));
             $height = 400;
@@ -53,8 +54,11 @@ class PostController extends Controller
             $thumb_height = 150;
             $thumb_width = 300;
 
-            $path = 'images/post/original';
-            $thumb_path = 'images/post/thumbnail';
+            $path = 'images/post/original/';
+            $thumb_path = 'images/post/thumbnail/';
+
+            $post_data['photo'] = PhotoUploadController::imageUpload($name, $height, $width, $path, $file);
+            PhotoUploadController::imageUpload($name, $thumb_height, $thumb_width, $thumb_path, $file);
         }
 
         dd($post_data);
