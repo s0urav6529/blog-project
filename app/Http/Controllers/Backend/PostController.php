@@ -63,6 +63,8 @@ class PostController extends Controller
 
         //dd($post_data);
         $post = Post::create($post_data);
+
+        $post->tag()->attach($request->input('tag_ids'));
     }
 
     /**
