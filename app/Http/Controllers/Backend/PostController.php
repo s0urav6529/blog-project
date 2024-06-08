@@ -19,8 +19,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $post_data = Post::orderBy('order_by')->get();
-        return view('backend.modules.post.index');
+        $post_data = Post::with('category', 'sub_category', 'user', 'tag')->latest()->paginate(2);
+        return view('backend.modules.post.index', compact('post_data'));
     }
 
     /**
@@ -61,10 +61,14 @@ class PostController extends Controller
             PhotoUploadController::imageUpload($name, $thumb_height, $thumb_width, $thumb_path, $file);
         }
 
-        //dd($post_data);
         $post = Post::create($post_data);
 
         $post->tag()->attach($request->input('tag_ids'));
+
+        session()->flash('msg', 'Post created successfully !');
+        session()->flash('notification_color', 'success');
+
+        return redirect()->route('post.index');
     }
 
     /**

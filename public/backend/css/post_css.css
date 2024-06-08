@@ -1,0 +1,26 @@
+p{
+    margin: 0 !important;
+}
+.post-table hr{
+    margin: 5px !important;
+    color: goldenrod;
+    opacity: 1;
+}
+
+.post-table th{
+    font-size: 13px;
+}
+
+.post-table th,td{
+    vertical-align: middle;
+    text-align: center;
+}
+
+.post-table tr{
+    border-bottom: 1px solid black;
+}
+
+.post-table td img{
+    width: 100px;
+    cursor: pointer;
+}
