@@ -29,6 +29,7 @@
                                 </th>
                                 <th>Description</th>
                                 <th>Photo</th>
+                                <th>Tag</th>
                                 <th>Created By</th>
                                 <th>
                                     <p>Status</p>
@@ -49,15 +50,38 @@
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $post->title }}</td>
                                     <td>
-                                        <p>{{ $post->category?->name }}</p>
+                                        <p><a href="{{ route('category.show', $post->category_id) }}"
+                                                class="text-decoration-none text-success">{{ $post->category?->name }}</a>
+
+                                        </p>
                                         <hr>
-                                        <p>{{ $post->sub_category?->name }}</p>
+                                        <p><a href="{{ route('sub-category.show', $post->sub_category_id) }}"
+                                                class="text-decoration-none ">{{ $post->sub_category?->name }}</a>
+                                        </p>
                                     </td>
-                                    <td>{{ $post->title }}</td>
+                                    <td>{{ substr(strip_tags($post->description), 0, 70) }}...</td>
+
                                     <td>
                                         <img class="img-thumbnail post-image"
                                             data-src="{{ url('images/post/original/' . $post->photo) }}"
                                             src="{{ url('images/post/thumbnail/' . $post->photo) }}" alt="">
+                                    </td>
+                                    <td>
+                                        @php
+                                            $colors = [
+                                                'btn-primary',
+                                                'btn-secondary',
+                                                'btn-success',
+                                                'btn-danger',
+                                                'btn-warning',
+                                                'btn-info',
+                                                'btn-dark',
+                                            ];
+                                        @endphp
+                                        @foreach ($post->tag as $tag)
+                                            <button
+                                                class="btn {{ $colors[random_int(0, 6)] }} btn-sm mb-1">{{ $tag->name }}</button>
+                                        @endforeach
                                     </td>
                                     <td>{{ $post->user?->name }}</td>
                                     <td>

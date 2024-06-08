@@ -24,3 +24,11 @@ p{
     width: 100px;
     cursor: pointer;
 }
+
+.wider-th-post{
+    width: 150px;
+}
+
+.wider-th-category{
+    width: 100px;
+}

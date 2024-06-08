@@ -58,7 +58,7 @@
     </div>
     <div class="col-md-6">
         {!! Form::label('status', 'Post Status', ['class' => 'mt-2']) !!}
-        {!! Form::select('status', [1 => 'Active', 0 => 'Inactive'], null, [
+        {!! Form::select('status', [1 => 'Published', 0 => 'Not Published'], null, [
             'class' => 'form-select mt-1',
             'placeholder' => 'Select status...',
         ]) !!}

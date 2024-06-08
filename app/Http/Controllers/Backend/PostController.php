@@ -19,7 +19,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $post_data = Post::with('category', 'sub_category', 'user', 'tag')->latest()->paginate(2);
+        $post_data = Post::with('category', 'sub_category', 'user', 'tag')->latest()->paginate(10);
         return view('backend.modules.post.index', compact('post_data'));
     }
 
@@ -76,7 +76,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('backend.modules.post.show');
+        $post->load(['category', 'sub_category', 'user', 'tag']);
+        return view('backend.modules.post.show', compact('post'));
     }
 
     /**
