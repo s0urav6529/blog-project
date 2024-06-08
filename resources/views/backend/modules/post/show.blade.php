@@ -165,7 +165,7 @@
                         </tbody>
                     </table>
                     <div class="d-flex justify-content-center mt-3">
-                        <a href="{{ route('category.show', $post->category?->id) }}" class="btn btn-success btn-sm"><i
+                        <a href="{{ route('category.show', $post->category?->id) }}" class="btn btn-info btn-sm"><i
                                 class="fa-solid fa-eye mx-1"></i></i>Know More</a>
                     </div>
                 </div>
@@ -197,8 +197,8 @@
                         </tbody>
                     </table>
                     <div class="d-flex justify-content-center mt-3">
-                        <a href="{{ route('sub-category.show', $post->sub_category?->id) }}"
-                            class="btn btn-success btn-sm"><i class="fa-solid fa-eye mx-1"></i></i>Know More</a>
+                        <a href="{{ route('sub-category.show', $post->sub_category?->id) }}" class="btn btn-info btn-sm"><i
+                                class="fa-solid fa-eye mx-1"></i></i>Know More</a>
                     </div>
                 </div>
             </div>
@@ -220,7 +220,7 @@
                         </tbody>
                     </table>
                     <div class="d-flex justify-content-center mt-3">
-                        <a href="" class="btn btn-success btn-sm"><i class="fa-solid fa-eye mx-1"></i></i>Know
+                        <a href="" class="btn btn-info btn-sm"><i class="fa-solid fa-eye mx-1"></i></i>Know
                             More</a>
                     </div>
                 </div>
