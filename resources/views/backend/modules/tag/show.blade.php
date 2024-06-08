@@ -9,7 +9,11 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="mb-0">{{ $tag->name }} Details</h4>
+                    <div class="d-flex justify-content-between">
+                        <h4 class="mb-0">{{ $tag->name }} Details</h4>
+                        <a href="{{ route('tag.index') }}" class="btn btn-success btn-sm mr-2"><i
+                                class="fa-solid fa-left-long mx-1"></i>Back</a>
+                    </div>
                 </div>
                 <div class="card-body">
 
@@ -52,8 +56,6 @@
                         </tbody>
                     </table>
                     <div class="d-flex justify-content-center mt-3">
-                        <a href="{{ route('tag.index') }}" class="btn btn-success btn-sm mr-2"><i
-                                class="fa-solid fa-left-long mx-1"></i>Back</a>
                         <a href="{{ route('tag.edit', $tag->id) }}" class="btn btn-secondary btn-sm mx-2"><i
                                 class="fa-solid fa-pen-to-square mx-1"></i>Edit</a>
 

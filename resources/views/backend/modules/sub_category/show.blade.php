@@ -9,14 +9,18 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="mb-0">{{ $subCategory->name }} Details</h4>
+                    <div class="d-flex justify-content-between">
+                        <h4 class="mb-0">{{ $subCategory->name }} Details</h4>
+                        <a href="{{ route('sub-category.index') }}" class="btn btn-success btn-sm mr-2"><i
+                                class="fa-solid fa-left-long mx-1"></i>Back</a>
+                    </div>
                 </div>
                 <div class="card-body">
 
                     <table class="table table-striped table-bordered table-hover">
                         <tbody>
                             <tr>
-                                <th>ID</th>
+                                <th class="wider-th-subcat">ID</th>
                                 <td>{{ $subCategory->id }}</td>
                             </tr>
 
@@ -57,8 +61,6 @@
                         </tbody>
                     </table>
                     <div class="d-flex justify-content-center mt-3">
-                        <a href="{{ route('sub-category.index') }}" class="btn btn-success btn-sm mr-2"><i
-                                class="fa-solid fa-left-long mx-1"></i>Back</a>
                         <a href="{{ route('sub-category.edit', $subCategory->id) }}"
                             class="btn btn-secondary btn-sm mx-2"><i class="fa-solid fa-pen-to-square mx-1"></i>Edit</a>
 
@@ -77,6 +79,42 @@
                         {!! Form::close() !!}
                     </div>
 
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Category Details</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped table-bordered table-hover">
+                        <tbody>
+                            <tr>
+                                <th class="wider-th-category">ID</th>
+                                <td>{{ $subCategory->category?->id }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Name</th>
+                                <td>{{ $subCategory->category?->name }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Slug</th>
+                                <td>{{ $subCategory->category?->slug }}</td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+                                <td class="{{ $subCategory->category?->status == 1 ? 'text-success' : 'text-danger' }}">
+                                    {{ $subCategory->category?->status == 1 ? 'Active' : 'Inactive' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-center mt-3">
+                        <a href="{{ route('category.show', $subCategory->category?->id) }}" class="btn btn-info btn-sm"><i
+                                class="fa-solid fa-eye mx-1"></i></i>Know More</a>
+                    </div>
                 </div>
             </div>
         </div>
