@@ -85,7 +85,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('backend.modules.post.edit');
+        $post->load(['category', 'sub_category', 'user', 'tag']);
+        return view('backend.modules.post.edit', compact('post'));
     }
 
     /**

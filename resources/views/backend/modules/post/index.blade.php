@@ -30,11 +30,12 @@
                                 <th>Description</th>
                                 <th>Photo</th>
                                 <th>Tag</th>
-                                <th>Created By</th>
                                 <th>
                                     <p>Status</p>
                                     <hr>
                                     <p>Is Aprroved</p>
+                                    <hr>
+                                    <p>Created By</p>
                                 </th>
                                 <th>
                                     <p>Created At</p>
@@ -83,13 +84,14 @@
                                                     class="btn {{ $colors[random_int(0, 6)] }} btn-sm mb-1">{{ $tag->name }}</button></a>
                                         @endforeach
                                     </td>
-                                    <td>{{ $post->user?->name }}</td>
                                     <td>
                                         <p class="{{ $post->status == 1 ? 'text-success' : 'text-danger' }}">
                                             {{ $post->status == 1 ? 'Published' : 'Not Published' }}</p>
                                         <hr>
                                         <p class="{{ $post->is_approved == 1 ? 'text-success' : 'text-danger' }}">
                                             {{ $post->is_approved == 1 ? 'Aprroved' : 'Not Aprroved' }}</p>
+                                        <hr>
+                                        <p>{{ $post->user?->name }}</p>
                                     </td>
                                     <td>
                                         <p>{{ $post->created_at->toDateTimeString() }}</p>

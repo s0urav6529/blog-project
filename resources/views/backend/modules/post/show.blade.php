@@ -150,11 +150,11 @@
                                 <td>{{ $post->category?->id }}</td>
                             </tr>
                             <tr>
-                                <th>Category Name</th>
+                                <th>Name</th>
                                 <td>{{ $post->category?->name }}</td>
                             </tr>
                             <tr>
-                                <th>Category Slug</th>
+                                <th>Slug</th>
                                 <td>{{ $post->category?->slug }}</td>
                             </tr>
                             <tr>
@@ -182,11 +182,11 @@
                                 <td>{{ $post->sub_category?->id }}</td>
                             </tr>
                             <tr>
-                                <th>Sub-category Name</th>
+                                <th>Name</th>
                                 <td>{{ $post->sub_category?->name }}</td>
                             </tr>
                             <tr>
-                                <th>Sub-category Slug</th>
+                                <th>Slug</th>
                                 <td>{{ $post->sub_category?->slug }}</td>
                             </tr>
                             <tr>
@@ -214,7 +214,7 @@
                                 <td>{{ $post->user?->id }}</td>
                             </tr>
                             <tr>
-                                <th>Sub-category Name</th>
+                                <th>Name</th>
                                 <td>{{ $post->user?->name }}</td>
                             </tr>
                         </tbody>

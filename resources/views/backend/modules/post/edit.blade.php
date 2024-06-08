@@ -1,6 +1,6 @@
 @extends('backend.layouts.master')
 
-@section('page_title', 'Category')
+@section('page_title', 'Post')
 
 @section('page_sub_title', 'Edit')
 
@@ -9,7 +9,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="mb-0">Edit Category {{ $category->name }}</h4>
+                    <h4 class="mb-0">Edit Post {{ $post->title }}</h4>
                 </div>
                 <div class="card-body">
 
@@ -23,14 +23,14 @@
                         </div>
                     @endif
 
-                    {!! Form::model($category, ['method' => 'put', 'route' => ['category.update', $category->id]]) !!}
+                    {!! Form::model($post, ['method' => 'put', 'route' => ['post.update', $post->id]]) !!}
 
-                    {!! Form::hidden('id', $category->id) !!}
+                    {!! Form::hidden('id', $post->id) !!}
 
-                    @include('backend.modules.category.form')
+                    @include('backend.modules.post.form')
 
                     <div class="d-flex justify-content-center mt-1">
-                        <a href="{{ route('category.index') }}" class="btn btn-success btn-sm mt-3"><i
+                        <a href="{{ route('post.index') }}" class="btn btn-success btn-sm mt-3"><i
                                 class="fa-solid fa-left-long mx-1"></i>Back</a>
                         {!! Form::button('<i class="fa-solid fa-file-pen"></i> Update', [
                             'type' => 'submit',
@@ -44,16 +44,4 @@
             </div>
         </div>
     </div>
-
-    @push('js')
-        <script>
-            $('#name').on('input', function() {
-
-                let name = $(this).val();
-                let slug = name.replaceAll(' ', '-').toLowerCase();
-                $('#slug').val(slug);
-            })
-        </script>
-    @endpush
-
 @endsection
