@@ -9,7 +9,11 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="mb-0">{{ $post->title }} Details</h4>
+                    <div class="d-flex justify-content-between">
+                        <h4 class="mb-0">{{ $post->title }} Details</h4>
+                        <a href="{{ route('post.index') }}" class="btn btn-success btn-sm"><i
+                                class="fa-solid fa-left-long mx-1"></i>Back</a>
+                    </div>
                 </div>
                 <div class="card-body">
 
@@ -43,27 +47,6 @@
                             <tr>
                                 <th>Description</th>
                                 <td>{!! $post->description !!}</td>
-                            </tr>
-
-                            <tr>
-                                <th>Tag</th>
-                                <td>
-                                    @php
-                                        $colors = [
-                                            'btn-primary',
-                                            'btn-secondary',
-                                            'btn-success',
-                                            'btn-danger',
-                                            'btn-warning',
-                                            'btn-info',
-                                            'btn-dark',
-                                        ];
-                                    @endphp
-                                    @foreach ($post->tag as $tag)
-                                        <button
-                                            class="btn {{ $colors[random_int(0, 6)] }} btn-sm mb-1">{{ $tag->name }}</button>
-                                    @endforeach
-                                </td>
                             </tr>
 
                             <tr>
@@ -109,11 +92,30 @@
                                 <td><img class="img-thumbnail" src="{{ url('images/post/thumbnail/' . $post->photo) }}"
                                         alt="{{ $post->title }}"></td>
                             </tr>
+
+                            <tr>
+                                <th>Tag</th>
+                                <td>
+                                    @php
+                                        $colors = [
+                                            'btn-primary',
+                                            'btn-secondary',
+                                            'btn-success',
+                                            'btn-danger',
+                                            'btn-warning',
+                                            'btn-info',
+                                            'btn-dark',
+                                        ];
+                                    @endphp
+                                    @foreach ($post->tag as $tag)
+                                        <a href="{{ route('tag.show', $tag->id) }}"><button
+                                                class="btn {{ $colors[random_int(0, 6)] }} btn-sm mb-1">{{ $tag->name }}</button></a>
+                                    @endforeach
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <div class="d-flex justify-content-center mt-3">
-                        <a href="{{ route('post.index') }}" class="btn btn-success btn-sm mr-2"><i
-                                class="fa-solid fa-left-long mx-1"></i>Back</a>
                         <a href="{{ route('post.edit', $post->id) }}" class="btn btn-secondary btn-sm mx-2"><i
                                 class="fa-solid fa-pen-to-square mx-1"></i>Edit</a>
 
@@ -136,12 +138,12 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card">
+            <div class="card mt">
                 <div class="card-header">
                     <h4>Category Details</h4>
                 </div>
                 <div class="card-body">
-                    <table class="table table-striped table-bordered table-hover">
+                    <table class="table table-striped table-bordered table-hover table-sm">
                         <tbody>
                             <tr>
                                 <th class="wider-th-category">ID</th>
@@ -162,6 +164,65 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div class="d-flex justify-content-center mt-3">
+                        <a href="{{ route('category.show', $post->category?->id) }}" class="btn btn-success btn-sm"><i
+                                class="fa-solid fa-eye mx-1"></i></i>Know More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-2">
+                <div class="card-header">
+                    <h4>Sub-category Details</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped table-bordered table-hover table-sm">
+                        <tbody>
+                            <tr>
+                                <th class="wider-th-category">ID</th>
+                                <td>{{ $post->sub_category?->id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Sub-category Name</th>
+                                <td>{{ $post->sub_category?->name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Sub-category Slug</th>
+                                <td>{{ $post->sub_category?->slug }}</td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+                                <td class="{{ $post->sub_category?->status == 1 ? 'text-success' : 'text-danger' }}">
+                                    {{ $post->sub_category?->status == 1 ? 'Active' : 'Inactive' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-center mt-3">
+                        <a href="{{ route('sub-category.show', $post->sub_category?->id) }}"
+                            class="btn btn-success btn-sm"><i class="fa-solid fa-eye mx-1"></i></i>Know More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-2">
+                <div class="card-header">
+                    <h4>Creator Details</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped table-bordered table-hover table-sm">
+                        <tbody>
+                            <tr>
+                                <th class="wider-th-category">ID</th>
+                                <td>{{ $post->user?->id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Sub-category Name</th>
+                                <td>{{ $post->user?->name }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-center mt-3">
+                        <a href="" class="btn btn-success btn-sm"><i class="fa-solid fa-eye mx-1"></i></i>Know
+                            More</a>
+                    </div>
                 </div>
             </div>
         </div>

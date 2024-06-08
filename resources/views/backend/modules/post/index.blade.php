@@ -79,8 +79,8 @@
                                             ];
                                         @endphp
                                         @foreach ($post->tag as $tag)
-                                            <button
-                                                class="btn {{ $colors[random_int(0, 6)] }} btn-sm mb-1">{{ $tag->name }}</button>
+                                            <a href="{{ route('tag.show', $tag->id) }}"><button
+                                                    class="btn {{ $colors[random_int(0, 6)] }} btn-sm mb-1">{{ $tag->name }}</button></a>
                                         @endforeach
                                     </td>
                                     <td>{{ $post->user?->name }}</td>
