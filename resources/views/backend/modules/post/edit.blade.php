@@ -9,7 +9,12 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="mb-0">Edit Post {{ $post->title }}</h4>
+                    <div class="d-flex justify-content-between">
+                        <h4 class="mb-0">Edit Post {{ $post->title }}</h4>
+                        <a href="{{ route('post.index') }}"><button class="btn btn-success btn-sm"><i
+                                    class="fa-solid fa-left-long mx-1"></i>Back
+                            </button></a>
+                    </div>
                 </div>
                 <div class="card-body">
 
@@ -23,15 +28,13 @@
                         </div>
                     @endif
 
-                    {!! Form::model($post, ['method' => 'put', 'route' => ['post.update', $post->id]]) !!}
+                    {!! Form::model($post, ['method' => 'put', 'route' => ['post.update', $post->id], 'files' => true]) !!}
 
                     {!! Form::hidden('id', $post->id) !!}
 
                     @include('backend.modules.post.form')
 
                     <div class="d-flex justify-content-center mt-1">
-                        <a href="{{ route('post.index') }}" class="btn btn-success btn-sm mt-3"><i
-                                class="fa-solid fa-left-long mx-1"></i>Back</a>
                         {!! Form::button('<i class="fa-solid fa-file-pen"></i> Update', [
                             'type' => 'submit',
                             'class' => 'btn btn-warning btn-sm mt-3 mx-2',

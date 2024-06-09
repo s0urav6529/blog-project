@@ -61,7 +61,7 @@
 <div class="row mt-2">
     <div class="col-md-6">
         {!! Form::label('photo', 'Choose image', ['class' => 'mt-2']) !!}
-        {!! Form::file('photo', ['class' => 'form-control']) !!}
+        {!! Form::file('photo', ['class' => 'form-control mt-1']) !!}
     </div>
     <div class="col-md-6">
         {!! Form::label('status', 'Post Status', ['class' => 'mt-2']) !!}
@@ -71,6 +71,13 @@
         ]) !!}
     </div>
 </div>
+
+@if (Route::currentRouteName() == 'post.edit')
+    <div class="my-3 d-flex justify-content-center">
+        <img class="img-thumbnail post-image" data-src="{{ url('images/post/original/' . $post->photo) }}"
+            src="{{ url('images/post/thumbnail/' . $post->photo) }}" alt="">
+    </div>
+@endif
 
 
 @push('css')

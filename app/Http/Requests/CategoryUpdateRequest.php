@@ -23,14 +23,15 @@ class CategoryUpdateRequest extends FormRequest
     {
 
         return [
-            'name'=>'required|min:3|max:255',
-            'slug'=>'required|min:3|max:255|unique:categories,slug,'.$this->id,
-            'order_by'=>'required|numeric',
-            'status'=>'required',
+            'name' => 'required|min:3|max:255',
+            'slug' => 'required|min:3|max:255|unique:categories,slug,' . $this->id,
+            'order_by' => 'required|numeric',
+            'status' => 'required',
         ];
     }
 
-    public function messages(): array{
+    public function messages(): array
+    {
         return [
             'name.required' => 'Category name is required',
             'name.min' => 'Category name is too short',
