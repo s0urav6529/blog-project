@@ -32,45 +32,56 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($subcategory_data as $index => $sub_category)
+                            @if ($subcategory_data->isEmpty())
                                 <tr>
-                                    <td>{{ $index + 1 }}</td>
-                                    <td>{{ $sub_category->name }}</td>
-                                    <td>{{ $sub_category->slug }}</td>
-                                    <td>{{ $sub_category->category->name }}</td>
-                                    <td>{{ $sub_category->order_by }}</td>
-                                    <td class="{{ $sub_category->status == 1 ? 'text-success' : 'text-danger' }}">
-                                        {{ $sub_category->status == 1 ? 'Active' : 'Inactive' }}
-                                    </td>
-                                    <td>{{ $sub_category->created_at->toDateTimeString() }}</td>
-                                    <td>{{ $sub_category->created_at != $sub_category->updated_at ? $sub_category->updated_at->toDateTimeString() : 'Not updated' }}
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-center">
-                                            <a href="{{ route('sub-category.show', $sub_category->id) }}"><button
-                                                    class="btn btn-info btn-sm"><i class="fa-solid fa-eye"></i></button></a>
-
-                                            <a href="{{ route('sub-category.edit', $sub_category->id) }}"><button
-                                                    class="btn btn-warning btn-sm mx-1"><i
-                                                        class="fa-solid fa-edit"></i></button></a>
-
-                                            {!! Form::open([
-                                                'method' => 'delete',
-                                                'id' => 'form_' . $sub_category->id,
-                                                'route' => ['sub-category.destroy', $sub_category->id],
-                                            ]) !!}
-
-                                            {!! Form::button('<i class="fa-solid fa-trash"></i>', [
-                                                'type' => 'button',
-                                                'data-id' => $sub_category->id,
-                                                'class' => 'delete btn btn-danger btn-sm',
-                                            ]) !!}
-
-                                            {!! Form::close() !!}
+                                    <td colspan="9" class="text-center">
+                                        <div class="alert alert-warning mb-0" role="alert">
+                                            <strong>No Sub-category Found !</strong>
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @else
+                                @foreach ($subcategory_data as $index => $sub_category)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $sub_category->name }}</td>
+                                        <td>{{ $sub_category->slug }}</td>
+                                        <td>{{ $sub_category->category->name }}</td>
+                                        <td>{{ $sub_category->order_by }}</td>
+                                        <td class="{{ $sub_category->status == 1 ? 'text-success' : 'text-danger' }}">
+                                            {{ $sub_category->status == 1 ? 'Active' : 'Inactive' }}
+                                        </td>
+                                        <td>{{ $sub_category->created_at->toDateTimeString() }}</td>
+                                        <td>{{ $sub_category->created_at != $sub_category->updated_at ? $sub_category->updated_at->toDateTimeString() : 'Not updated' }}
+                                        </td>
+                                        <td>
+                                            <div class="d-flex justify-content-center">
+                                                <a href="{{ route('sub-category.show', $sub_category->id) }}"><button
+                                                        class="btn btn-info btn-sm"><i
+                                                            class="fa-solid fa-eye"></i></button></a>
+
+                                                <a href="{{ route('sub-category.edit', $sub_category->id) }}"><button
+                                                        class="btn btn-warning btn-sm mx-1"><i
+                                                            class="fa-solid fa-edit"></i></button></a>
+
+                                                {!! Form::open([
+                                                    'method' => 'delete',
+                                                    'id' => 'form_' . $sub_category->id,
+                                                    'route' => ['sub-category.destroy', $sub_category->id],
+                                                ]) !!}
+
+                                                {!! Form::button('<i class="fa-solid fa-trash"></i>', [
+                                                    'type' => 'button',
+                                                    'data-id' => $sub_category->id,
+                                                    'class' => 'delete btn btn-danger btn-sm',
+                                                ]) !!}
+
+                                                {!! Form::close() !!}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
                     {{-- pagination open --}}
