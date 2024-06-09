@@ -141,6 +141,16 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $path = 'images/post/original/';
+        $thumb_path = 'images/post/thumbnail/';
+
+        PhotoUploadController::imageUnlink($path, $post->photo);
+        PhotoUploadController::imageUnlink($thumb_path, $post->photo);
+        $post->delete();
+
+        session()->flash('msg', 'Post deleted successfully !');
+        session()->flash('notification_color', 'success');
+
+        return redirect()->route('post.index');
     }
 }
