@@ -24,7 +24,7 @@
     </div>
     <div class="col-md-6">
         {!! Form::label('sub_category_id', 'Sub-category', ['class' => 'mt-2']) !!}
-        <select name="sub_category_id" id="subCategory-id" class="form-select mt-1">
+        <select name="sub_category_id" id="subCategory_id" class="form-select mt-1">
             <option selected="selected">Select sub-category...</option>
         </select>
     </div>
@@ -85,6 +85,38 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
 
     <script>
+        /* subcategory load function */
+        const categoryWiseSubCategoryLoad = (category_id, sub_category_id = 'null') => {
+
+            let route_name = '{{ Route::CurrentRouteName() }}';
+            let select = '';
+
+            if (route_name == 'post.create') {
+                select = 'selected';
+            }
+
+            let subcat_id = $('#subCategory_id');
+            subcat_id.empty();
+
+            subcat_id.append(`<option ${select} >Select sub-category...</option>`);
+
+            axios.get(window.location.origin + '/dashboard/get-subcategory/' + category_id).then(res => {
+
+                let subCategory_data = res.data;
+
+                subCategory_data.map((subCategory, index) => {
+
+                    select = '';
+
+                    if (route_name == 'post.edit' && sub_category_id == subCategory.id) {
+                        select = 'selected';
+                    }
+                    return subcat_id.append(
+                        `<option ${select} value="${subCategory.id}">${subCategory.name}</option>`);
+                });
+            });
+        }
+
         /* description box editor */
         ClassicEditor
             .create(document.querySelector('#description'))
@@ -92,32 +124,22 @@
                 console.error(error);
             });
 
-        /* category wise subcategory load */
-        $('#category_id').on('change', function() {
-
-            let category_id = $(this).val();
-
-            $('#subCategory-id').empty();
-            $('#subCategory-id').append('<option selected="selected">Select sub-category...</option>');
-
-            axios.get(window.location.origin + '/dashboard/get-subcategory/' + category_id).then(res => {
-
-                let subCategory_data = res.data;
-
-                subCategory_data.map((subCategory, index) => {
-                    $('#subCategory-id').append(
-                        `<option value="${subCategory.id}">${subCategory.name}</option>`);
-                })
-            });
-
-        });
-
         /* slug creator */
         $('#title').on('input', function() {
-
             let title = $(this).val();
             let slug = title.replaceAll(' ', '-').toLowerCase();
             $('#slug').val(slug);
         });
+
+        /* category wise subcategory load during create */
+        $('#category_id').on('change', function() {
+            categoryWiseSubCategoryLoad($(this).val());
+        });
     </script>
+    {{-- category wise subcategory load during edit  --}}
+    @if (Route::currentRouteName() == 'post.edit')
+        <script>
+            categoryWiseSubCategoryLoad('{{ $post->category_id }}', '{{ $post->sub_category_id }}')
+        </script>
+    @endif
 @endpush
