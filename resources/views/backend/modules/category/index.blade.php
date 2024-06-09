@@ -76,6 +76,13 @@
                             @endforeach
                         </tbody>
                     </table>
+
+                    {{-- pagination open --}}
+                    <div class="mt-3 d-flex justify-content-end">
+                        {{ $category_data->links() }}
+                    </div>
+                    {{-- pagination end --}}
+
                 </div>
             </div>
         </div>

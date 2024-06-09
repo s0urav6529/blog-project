@@ -17,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category_data = Category::orderBy('order_by')->get();
+        $category_data = Category::orderBy('order_by')->paginate(10);
         return view('backend.modules.category.index', compact('category_data'));
     }
 
