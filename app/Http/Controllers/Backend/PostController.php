@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -87,7 +88,12 @@ class PostController extends Controller
     {
         $category_data = Category::where('status', 1)->pluck('name', 'id');
         $tag_data = Tag::where('status', 1)->select('name', 'id')->get();
-        return view('backend.modules.post.edit', compact('post', 'category_data', 'tag_data'));
+        $selected_tags = DB::table('post_tag')->where('post_id', $post->id)->pluck('tag_id')->toArray();
+
+        /* $post->load('tag');
+        $selected_tags = $post->tag->pluck('id')->toArray(); */
+
+        return view('backend.modules.post.edit', compact('post', 'category_data', 'tag_data', 'selected_tags'));
     }
 
     /**

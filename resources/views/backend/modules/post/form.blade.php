@@ -43,7 +43,14 @@
     @foreach ($tag_data as $tag)
         <div class="col-md-3 mb-2">
             <div class="form-check">
-                {!! Form::checkbox('tag_ids[]', $tag->id, false, ['class' => 'form-check-input']) !!}
+                {!! Form::checkbox(
+                    'tag_ids[]',
+                    $tag->id,
+                    Route::currentRouteName() == 'post.edit' ? in_array($tag->id, $selected_tags) : false,
+                    [
+                        'class' => 'form-check-input',
+                    ],
+                ) !!}
                 <span>{{ $tag->name }}</span>
             </div>
         </div>
