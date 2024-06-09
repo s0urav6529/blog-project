@@ -36,44 +36,55 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($category_data as $index => $category)
+                            @if ($category_data->isEmpty())
                                 <tr>
-                                    <td>{{ $index + 1 }}</td>
-                                    <td>{{ $category->name }}</td>
-                                    <td>{{ $category->slug }}</td>
-                                    <td>{{ $category->order_by }}</td>
-                                    <td class="{{ $category->status == 1 ? 'text-success' : 'text-danger' }}">
-                                        {{ $category->status == 1 ? 'Active' : 'Inactive' }}
-                                    </td>
-                                    <td>{{ $category->created_at->toDateTimeString() }}</td>
-                                    <td>{{ $category->created_at != $category->updated_at ? $category->updated_at->toDateTimeString() : 'Not updated' }}
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-center">
-                                            <a href="{{ route('category.show', $category->id) }}"><button
-                                                    class="btn btn-info btn-sm"><i class="fa-solid fa-eye"></i></button></a>
-
-                                            <a href="{{ route('category.edit', $category->id) }}"><button
-                                                    class="btn btn-warning btn-sm mx-1"><i
-                                                        class="fa-solid fa-edit"></i></button></a>
-
-                                            {!! Form::open([
-                                                'method' => 'delete',
-                                                'id' => 'form_' . $category->id,
-                                                'route' => ['category.destroy', $category->id],
-                                            ]) !!}
-
-                                            {!! Form::button('<i class="fa-solid fa-trash"></i>', [
-                                                'type' => 'button',
-                                                'data-id' => $category->id,
-                                                'class' => 'delete btn btn-danger btn-sm',
-                                            ]) !!}
-
-                                            {!! Form::close() !!}
+                                    <td colspan="8" class="text-center">
+                                        <div class="alert alert-warning mb-0" role="alert">
+                                            <strong>No Category Found !</strong>
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @else
+                                @foreach ($category_data as $index => $category)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $category->name }}</td>
+                                        <td>{{ $category->slug }}</td>
+                                        <td>{{ $category->order_by }}</td>
+                                        <td class="{{ $category->status == 1 ? 'text-success' : 'text-danger' }}">
+                                            {{ $category->status == 1 ? 'Active' : 'Inactive' }}
+                                        </td>
+                                        <td>{{ $category->created_at->toDateTimeString() }}</td>
+                                        <td>{{ $category->created_at != $category->updated_at ? $category->updated_at->toDateTimeString() : 'Not updated' }}
+                                        </td>
+                                        <td>
+                                            <div class="d-flex justify-content-center">
+                                                <a href="{{ route('category.show', $category->id) }}"><button
+                                                        class="btn btn-info btn-sm"><i
+                                                            class="fa-solid fa-eye"></i></button></a>
+
+                                                <a href="{{ route('category.edit', $category->id) }}"><button
+                                                        class="btn btn-warning btn-sm mx-1"><i
+                                                            class="fa-solid fa-edit"></i></button></a>
+
+                                                {!! Form::open([
+                                                    'method' => 'delete',
+                                                    'id' => 'form_' . $category->id,
+                                                    'route' => ['category.destroy', $category->id],
+                                                ]) !!}
+
+                                                {!! Form::button('<i class="fa-solid fa-trash"></i>', [
+                                                    'type' => 'button',
+                                                    'data-id' => $category->id,
+                                                    'class' => 'delete btn btn-danger btn-sm',
+                                                ]) !!}
+
+                                                {!! Form::close() !!}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
 
