@@ -89,8 +89,7 @@
 
                             <tr>
                                 <th>Photo</th>
-                                <td><img class="img-thumbnail" src="{{ url('images/post/thumbnail/' . $post->photo) }}"
-                                        alt="{{ $post->title }}"></td>
+                                <td><img class="img-thumbnail" src="{{ $post->photo }}" alt="{{ $post->title }}"></td>
                             </tr>
 
                             <tr>

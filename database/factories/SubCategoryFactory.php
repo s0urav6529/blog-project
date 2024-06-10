@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,10 +17,11 @@ class SubCategoryFactory extends Factory
      */
     public function definition(): array
     {
+        $name = $this->faker->word;
         return [
-            'name' => $this->faker->name,
-            'slug' => $this->faker->slug,
-            'category_id' => random_int(45, 69),
+            'name' => $name,
+            'slug' => Str::slug($name),
+            'category_id' => 105,
             'status' => random_int(0, 1),
             'order_by' => random_int(1, 50)
         ];

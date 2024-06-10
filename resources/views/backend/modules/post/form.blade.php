@@ -74,8 +74,7 @@
 
 @if (Route::currentRouteName() == 'post.edit')
     <div class="my-3 d-flex justify-content-center">
-        <img class="img-thumbnail post-image" data-src="{{ url('images/post/original/' . $post->photo) }}"
-            src="{{ url('images/post/thumbnail/' . $post->photo) }}" alt="">
+        <img class="img-thumbnail post-image" data-src="{{ $post->photo }}" src="{{ $post->photo }}" alt="">
     </div>
 @endif
 
