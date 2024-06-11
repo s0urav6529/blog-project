@@ -47,11 +47,12 @@
                                 </div>
                             @else
                                 @foreach ($category_data as $category)
-                                    <li><a href="{{ route('category.show', $category->id) }}">-
+                                    <li><a href="{{ route('front.category', $category->slug) }}">-
                                             {{ $category->name }}</a>
                                         <ul class="sidebar-subcategory">
                                             @foreach ($category->sub_category as $sub_category)
-                                                <li><a href="{{ route('sub-category.show', $sub_category->id) }}">-
+                                                <li><a
+                                                        href="{{ route('front.sub_category', [$category->slug, $sub_category->slug]) }}">-
                                                         {{ $sub_category->name }}</a>
                                             @endforeach
                                         </ul>
