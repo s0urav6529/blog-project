@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
@@ -26,7 +27,10 @@ class AppServiceProvider extends ServiceProvider
 
         $category_data = Category::with('sub_category')->where('status', 1)->orderBy('order_by')->get();
         $tag_data = Tag::where('status', 1)->orderBy('order_by')->get();
-        View::share(['category_data' => $category_data, 'tag_data' => $tag_data]);
+        $recent_posts = Post::where('is_approved', 1)->where('status', 1)->latest()->limit(5)->get();
+
+        View::share(['category_data' => $category_data, 'tag_data' => $tag_data, "recent_posts" => $recent_posts]);
+
         Paginator::useBootstrap();
     }
 }

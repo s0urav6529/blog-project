@@ -22,7 +22,7 @@
                         <a class="nav-link" href="blog.html">Blog Entries</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('front.single') }}">Post Details</a>
+                        <a class="nav-link" href="">Post Details</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="contact.html">Contact Us</a>

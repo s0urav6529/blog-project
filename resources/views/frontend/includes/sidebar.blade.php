@@ -16,18 +16,19 @@
                     </div>
                     <div class="content">
                         <ul>
-                            <li><a href="post-details.html">
-                                    <h5>Vestibulum id turpis porttitor sapien facilisis scelerisque</h5>
-                                    <span>May 31, 2020</span>
-                                </a></li>
-                            <li><a href="post-details.html">
-                                    <h5>Suspendisse et metus nec libero ultrices varius eget in risus</h5>
-                                    <span>May 28, 2020</span>
-                                </a></li>
-                            <li><a href="post-details.html">
-                                    <h5>Swag hella echo park leggings, shaman cornhole ethical coloring</h5>
-                                    <span>May 14, 2020</span>
-                                </a></li>
+
+                            @if ($recent_posts->isEmpty())
+                                <div class="alert alert-danger" role="alert">
+                                    <p>Post not available</p>
+                                </div>
+                            @else
+                                @foreach ($recent_posts as $post)
+                                    <li><a href="{{ route('front.single', $post->slug) }}">
+                                            <h5>{{ $post->title }}</h5>
+                                            <span>{{ $post->updated_at->format('M d Y') }}</span>
+                                        </a></li>
+                                @endforeach
+                            @endif
                         </ul>
                     </div>
                 </div>
