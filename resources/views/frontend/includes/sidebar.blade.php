@@ -25,7 +25,7 @@
                                 @foreach ($recent_posts as $post)
                                     <li><a href="{{ route('front.single', $post->slug) }}">
                                             <h5>{{ $post->title }}</h5>
-                                            <span>{{ $post->updated_at->format('M d Y') }}</span>
+                                            <span>{{ $post->updated_at->format('M d, Y') }}</span>
                                         </a></li>
                                 @endforeach
                             @endif
