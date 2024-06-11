@@ -3,67 +3,82 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="sidebar-item search">
-                <form id="search_form" name="gs" method="GET" action="#">
-                    <input type="text" name="q" class="searchText" placeholder="type to search..." autocomplete="on">
-                </form>
+                    <form id="search_form" name="gs" method="GET" action="#">
+                        <input type="text" name="q" class="searchText" placeholder="type to search..."
+                            autocomplete="on">
+                    </form>
                 </div>
             </div>
             <div class="col-lg-12">
                 <div class="sidebar-item recent-posts">
-                <div class="sidebar-heading">
-                    <h2>Recent Posts</h2>
-                </div>
-                <div class="content">
-                    <ul>
-                    <li><a href="post-details.html">
-                        <h5>Vestibulum id turpis porttitor sapien facilisis scelerisque</h5>
-                        <span>May 31, 2020</span>
-                    </a></li>
-                    <li><a href="post-details.html">
-                        <h5>Suspendisse et metus nec libero ultrices varius eget in risus</h5>
-                        <span>May 28, 2020</span>
-                    </a></li>
-                    <li><a href="post-details.html">
-                        <h5>Swag hella echo park leggings, shaman cornhole ethical coloring</h5>
-                        <span>May 14, 2020</span>
-                    </a></li>
-                    </ul>
-                </div>
+                    <div class="sidebar-heading">
+                        <h2>Recent Posts</h2>
+                    </div>
+                    <div class="content">
+                        <ul>
+                            <li><a href="post-details.html">
+                                    <h5>Vestibulum id turpis porttitor sapien facilisis scelerisque</h5>
+                                    <span>May 31, 2020</span>
+                                </a></li>
+                            <li><a href="post-details.html">
+                                    <h5>Suspendisse et metus nec libero ultrices varius eget in risus</h5>
+                                    <span>May 28, 2020</span>
+                                </a></li>
+                            <li><a href="post-details.html">
+                                    <h5>Swag hella echo park leggings, shaman cornhole ethical coloring</h5>
+                                    <span>May 14, 2020</span>
+                                </a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-12">
                 <div class="sidebar-item categories">
-                <div class="sidebar-heading">
-                    <h2>Categories</h2>
-                </div>
-                <div class="content">
-                    <ul>
-                    <li><a href="#">- Nature Lifestyle</a></li>
-                    <li><a href="#">- Awesome Layouts</a></li>
-                    <li><a href="#">- Creative Ideas</a></li>
-                    <li><a href="#">- Responsive Templates</a></li>
-                    <li><a href="#">- HTML5 / CSS3 Templates</a></li>
-                    <li><a href="#">- Creative &amp; Unique</a></li>
-                    </ul>
-                </div>
+                    <div class="sidebar-heading">
+                        <h2>Categories</h2>
+                    </div>
+                    <div class="content">
+                        <ul>
+
+                            @if ($category_data->isEmpty())
+                                <div class="alert alert-danger" role="alert">
+                                    <p>Categories you are looking for is currently not available. Please check again
+                                        later.</p>
+                                </div>
+                            @else
+                                @foreach ($category_data as $category)
+                                    <li><a href="{{ route('category.show', $category->id) }}">-
+                                            {{ $category->name }}</a>
+                                        <ul class="sidebar-subcategory">
+                                            @foreach ($category->sub_category as $sub_category)
+                                                <li><a href="{{ route('sub-category.show', $sub_category->id) }}">-
+                                                        {{ $sub_category->name }}</a>
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                @endforeach
+                            @endif
+
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-12">
                 <div class="sidebar-item tags">
-                <div class="sidebar-heading">
-                    <h2>Tag Clouds</h2>
-                </div>
-                <div class="content">
-                    <ul>
-                    <li><a href="#">Lifestyle</a></li>
-                    <li><a href="#">Creative</a></li>
-                    <li><a href="#">HTML5</a></li>
-                    <li><a href="#">Inspiration</a></li>
-                    <li><a href="#">Motivation</a></li>
-                    <li><a href="#">PSD</a></li>
-                    <li><a href="#">Responsive</a></li>
-                    </ul>
-                </div>
+                    <div class="sidebar-heading">
+                        <h2>Tag Clouds</h2>
+                    </div>
+                    <div class="content">
+                        <ul>
+                            <li><a href="#">Lifestyle</a></li>
+                            <li><a href="#">Creative</a></li>
+                            <li><a href="#">HTML5</a></li>
+                            <li><a href="#">Inspiration</a></li>
+                            <li><a href="#">Motivation</a></li>
+                            <li><a href="#">PSD</a></li>
+                            <li><a href="#">Responsive</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

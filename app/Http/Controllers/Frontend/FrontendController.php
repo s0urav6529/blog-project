@@ -3,16 +3,18 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return view('frontend.modules.index');
     }
 
-    public function single(){
+    public function single()
+    {
         return view('frontend.modules.single');
     }
 }
-
