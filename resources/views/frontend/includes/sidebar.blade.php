@@ -71,13 +71,16 @@
                     </div>
                     <div class="content">
                         <ul>
-                            <li><a href="#">Lifestyle</a></li>
-                            <li><a href="#">Creative</a></li>
-                            <li><a href="#">HTML5</a></li>
-                            <li><a href="#">Inspiration</a></li>
-                            <li><a href="#">Motivation</a></li>
-                            <li><a href="#">PSD</a></li>
-                            <li><a href="#">Responsive</a></li>
+                            @if ($tag_data->isEmpty())
+                                <div class="alert alert-danger" role="alert">
+                                    <p>Tag you are looking for is currently not available. Please check again
+                                        later.</p>
+                                </div>
+                            @else
+                                @foreach ($tag_data as $tag)
+                                    <li><a href="{{ route('front.tag', $tag->slug) }}">{{ $tag->name }}</a></li>
+                                @endforeach
+                            @endif
                         </ul>
                     </div>
                 </div>
