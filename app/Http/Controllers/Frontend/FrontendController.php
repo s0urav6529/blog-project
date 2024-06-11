@@ -11,8 +11,12 @@ class FrontendController extends Controller
 {
     public function index()
     {
-        $post_data = Post::with('tag', 'category', 'sub_category', 'user')->where('is_approved', 1)->where('status', 1)->latest()->take(5)->get();
-        return view('frontend.modules.index', compact('post_data'));
+        $query = Post::with('tag', 'category', 'sub_category', 'user')->where('is_approved', 1)->where('status', 1);
+
+        $post_data = $query->latest()->take(5)->get();
+        $slider_post = $query->inRandomOrder()->take(6)->get();
+
+        return view('frontend.modules.index', compact('post_data', 'slider_post'));
     }
 
     public function single()
