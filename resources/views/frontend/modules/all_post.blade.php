@@ -1,13 +1,25 @@
 @extends('frontend.layouts.master')
 
-@section('page_title', 'Home')
+@section('page_title', 'All Post')
 
 @section('banner')
-    @include('frontend.includes.banner')
+    <div class="heading-page header-text">
+        <section class="page-heading">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-content">
+                            <h4>Post Details</h4>
+                            <h2>All blog post</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 @endsection
 
 @section('contents')
-
     @if ($post_data->isEmpty())
         <div class="alert alert-danger" role="alert">
             <p>Post not available</p>
@@ -65,11 +77,9 @@
             </div>
         @endforeach
     @endif
-
-
-    <div class="col-lg-12">
-        <div class="main-button">
-            <a href="{{ route('front.all_post') }}">View All Posts</a>
-        </div>
+    {{-- pagination start --}}
+    <div class="mt-1 d-flex justify-content-center">
+        {{ $post_data->links() }}
     </div>
+    {{-- pagination end --}}
 @endsection

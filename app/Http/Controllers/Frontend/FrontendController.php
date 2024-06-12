@@ -19,6 +19,13 @@ class FrontendController extends Controller
         return view('frontend.modules.index', compact('post_data', 'slider_post'));
     }
 
+    public function all_post()
+    {
+
+        $post_data = Post::with('tag', 'category', 'sub_category', 'user')->where('is_approved', 1)->where('status', 1)->latest()->paginate(10);
+        return view('frontend.modules.all_post', compact('post_data'));
+    }
+
     public function single()
     {
         return view('frontend.modules.single');
