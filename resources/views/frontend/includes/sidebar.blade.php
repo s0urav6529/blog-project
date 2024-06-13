@@ -2,11 +2,19 @@
     <div class="sidebar">
         <div class="row">
             <div class="col-lg-12">
-                <div class="sidebar-item search">
-                    <form id="search_form" name="gs" method="GET" action="#">
-                        <input type="text" name="q" class="searchText" placeholder="type to search..."
-                            autocomplete="on">
-                    </form>
+                <div class="sidebar-item">
+
+                    {!! Form::open(['method' => 'get', 'route' => 'front.search']) !!}
+
+                    <div class="input-group">
+                        {!! Form::search('search', null, ['class' => 'form-control', 'placeholder' => 'type to search...']) !!}
+                        {!! Form::button('<i class="fa-solid fa-magnifying-glass"></i>', [
+                            'class' => 'btn btn-success',
+                            'type' => 'submit',
+                        ]) !!}
+                    </div>
+
+                    {!! Form::close() !!}
                 </div>
             </div>
             <div class="col-lg-12">

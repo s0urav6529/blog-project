@@ -22,7 +22,7 @@
 @section('contents')
     @if ($post_data->isEmpty())
         <div class="alert alert-danger" role="alert">
-            <p>Post not available</p>
+            <p>Post not found !</p>
         </div>
     @else
         @foreach ($post_data as $post)

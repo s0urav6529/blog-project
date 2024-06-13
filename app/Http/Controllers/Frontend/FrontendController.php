@@ -30,4 +30,17 @@ class FrontendController extends Controller
     {
         return view('frontend.modules.single');
     }
+
+    public function search(Request $request)
+    {
+
+        $post_data = Post::with('category', 'sub_category', 'user', 'tag')
+            ->where('is_approved', 1)
+            ->where('status', 1)
+            ->where('title', 'like', '%' . $request->input('search') . '%')
+            ->latest()
+            ->paginate(10);
+
+        return view('frontend.modules.all_post', compact('post_data'));
+    }
 }
