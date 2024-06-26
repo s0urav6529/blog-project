@@ -6,13 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\SubCategory;
+use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FrontendController extends Controller
 {
     public function index()
     {
-        $query = Post::with('tag', 'category', 'sub_category', 'user')->where('is_approved', 1)->where('status', 1);
+        $query = Post::with('sub_category', 'category', 'tag', 'user')->where('is_approved', 1)->where('status', 1);
 
         $post_data = $query->latest()->take(5)->get();
         $slider_post = $query->inRandomOrder()->take(6)->get();
@@ -23,7 +25,7 @@ class FrontendController extends Controller
     public function all_post()
     {
 
-        $post_data = Post::with('tag', 'category', 'sub_category', 'user')->where('is_approved', 1)->where('status', 1)->latest()->paginate(10);
+        $post_data = Post::with('sub_category', 'category', 'tag', 'user')->where('is_approved', 1)->where('status', 1)->latest()->paginate(10);
 
         $title = 'All post';
         $sub_title = '';
@@ -89,6 +91,31 @@ class FrontendController extends Controller
                 ->where('is_approved', 1)
                 ->where('status', 1)
                 ->where('sub_category_id', $sub_category->id)
+                ->latest()
+                ->paginate(10);
+
+            return view('frontend.modules.all_post', compact('post_data', 'title', 'sub_title'));
+        } else {
+            //@make an error message
+        }
+    }
+
+    public function tag($slug)
+    {
+
+        $tag = Tag::where('slug', $slug)->first();
+
+        $post_ids = DB::table('post_tag')->where('tag_id', $tag->id)->distinct('post_id')->pluck('post_id');
+
+        if ($tag) {
+
+            $title = $tag->name;
+            $sub_title = 'Post by tag';
+
+            $post_data = Post::with('category', 'sub_category', 'user', 'tag')
+                ->where('is_approved', 1)
+                ->where('status', 1)
+                ->whereIn('id', $post_ids)
                 ->latest()
                 ->paginate(10);
 
