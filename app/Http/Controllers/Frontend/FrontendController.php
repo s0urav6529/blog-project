@@ -23,7 +23,11 @@ class FrontendController extends Controller
     {
 
         $post_data = Post::with('tag', 'category', 'sub_category', 'user')->where('is_approved', 1)->where('status', 1)->latest()->paginate(10);
-        return view('frontend.modules.all_post', compact('post_data'));
+
+        $title = 'All post';
+        $sub_title = '';
+
+        return view('frontend.modules.all_post', compact('post_data', 'title', 'sub_title'));
     }
 
     public function single()
@@ -41,6 +45,9 @@ class FrontendController extends Controller
             ->latest()
             ->paginate(10);
 
-        return view('frontend.modules.all_post', compact('post_data'));
+        $title = 'View search result';
+        $sub_title = $request->input('search');
+
+        return view('frontend.modules.all_post', compact('post_data', 'title', 'sub_title'));
     }
 }

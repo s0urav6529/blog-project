@@ -9,8 +9,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="text-content">
-                            <h4>Post Details</h4>
-                            <h2>All blog post</h2>
+                            <h4>{{ $sub_title }}</h4>
+                            <h2>{{ $title }}</h2>
                         </div>
                     </div>
                 </div>
@@ -21,8 +21,8 @@
 
 @section('contents')
     @if ($post_data->isEmpty())
-        <div class="alert alert-danger" role="alert">
-            <p>Post not found !</p>
+        <div class="text-center alert alert-danger" role="alert">
+            <p>No post found !</p>
         </div>
     @else
         @foreach ($post_data as $post)
@@ -57,7 +57,8 @@
                                             </div>
                                         @else
                                             @foreach ($post->tag as $tag)
-                                                <li><a href="{{ route('front.tag', $tag->slug) }}">{{ $tag->name }}</a>,
+                                                <li><a
+                                                        href="{{ route('front.tag', $tag->slug) }}">{{ $tag->name }}</a>,
                                                 </li>
                                             @endforeach
                                         @endif
