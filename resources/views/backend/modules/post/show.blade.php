@@ -46,7 +46,7 @@
 
                             <tr>
                                 <th>Description</th>
-                                <td>{!! $post->description !!}</td>
+                                <td class="post-table-description">{!! $post->description !!}</td>
                             </tr>
 
                             <tr>

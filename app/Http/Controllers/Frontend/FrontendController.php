@@ -33,9 +33,20 @@ class FrontendController extends Controller
         return view('frontend.modules.all_post', compact('post_data', 'title', 'sub_title'));
     }
 
-    public function single()
+    public function single($slug)
     {
-        return view('frontend.modules.single');
+
+        $post = Post::with('category', 'sub_category', 'tag', 'user')->where('slug', $slug)->first();
+
+        if ($post) {
+
+            $title = 'Post Details';
+            $sub_title = $post->title;
+
+            return view('frontend.modules.single', compact('post', 'title', 'sub_title'));
+        } else {
+            abort(404);
+        }
     }
 
     public function search(Request $request)
@@ -57,47 +68,37 @@ class FrontendController extends Controller
     public function category($slug)
     {
 
-        $category = Category::where('slug', $slug)->first();
+        $category = Category::where('slug', $slug)->firstOrFail();
 
-        if ($category) {
+        $title = $category->name;
+        $sub_title = 'Post by category';
 
-            $title = $category->name;
-            $sub_title = 'Post by category';
+        $post_data = Post::with('category', 'sub_category', 'user', 'tag')
+            ->where('is_approved', 1)
+            ->where('status', 1)
+            ->where('category_id', $category->id)
+            ->latest()
+            ->paginate(10);
 
-            $post_data = Post::with('category', 'sub_category', 'user', 'tag')
-                ->where('is_approved', 1)
-                ->where('status', 1)
-                ->where('category_id', $category->id)
-                ->latest()
-                ->paginate(10);
-
-            return view('frontend.modules.all_post', compact('post_data', 'title', 'sub_title'));
-        } else {
-            //@make an error message
-        }
+        return view('frontend.modules.all_post', compact('post_data', 'title', 'sub_title'));
     }
 
     public function sub_category($cat_slug, $sub_cat_slug)
     {
 
-        $sub_category = SubCategory::where('slug', $sub_cat_slug)->first();
+        $sub_category = SubCategory::where('slug', $sub_cat_slug)->firstOrFail();
 
-        if ($sub_category) {
+        $title = $sub_category->name;
+        $sub_title = 'Post by sub category';
 
-            $title = $sub_category->name;
-            $sub_title = 'Post by sub category';
+        $post_data = Post::with('category', 'sub_category', 'user', 'tag')
+            ->where('is_approved', 1)
+            ->where('status', 1)
+            ->where('sub_category_id', $sub_category->id)
+            ->latest()
+            ->paginate(10);
 
-            $post_data = Post::with('category', 'sub_category', 'user', 'tag')
-                ->where('is_approved', 1)
-                ->where('status', 1)
-                ->where('sub_category_id', $sub_category->id)
-                ->latest()
-                ->paginate(10);
-
-            return view('frontend.modules.all_post', compact('post_data', 'title', 'sub_title'));
-        } else {
-            //@make an error message
-        }
+        return view('frontend.modules.all_post', compact('post_data', 'title', 'sub_title'));
     }
 
     public function tag($slug)
@@ -105,9 +106,9 @@ class FrontendController extends Controller
 
         $tag = Tag::where('slug', $slug)->first();
 
-        $post_ids = DB::table('post_tag')->where('tag_id', $tag->id)->distinct('post_id')->pluck('post_id');
-
         if ($tag) {
+
+            $post_ids = DB::table('post_tag')->where('tag_id', $tag->id)->distinct('post_id')->pluck('post_id');
 
             $title = $tag->name;
             $sub_title = 'Post by tag';
@@ -121,7 +122,7 @@ class FrontendController extends Controller
 
             return view('frontend.modules.all_post', compact('post_data', 'title', 'sub_title'));
         } else {
-            //@make an error message
+            abort(404);
         }
     }
 }

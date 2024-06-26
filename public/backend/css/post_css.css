@@ -20,6 +20,11 @@ p{
     border-bottom: 1px solid black;
 }
 
+.post-table-description img{
+    width: 500px;
+    height: 400px;
+}
+
 .post-table td img{
     width: 100px;
     cursor: pointer;
