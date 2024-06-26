@@ -32,7 +32,7 @@
                         <img src="{{ $post->photo }}" alt="">
                     </div>
                     <div class="down-content">
-                        <span>{{ $post->category?->name }} | </span>
+                        <span class="text-success">{{ $post->category?->name }} | </span>
                         <span>{{ $post->sub_category?->name }}</span>
                         <a href="{{ route('front.single', $post->slug) }}">
                             <h4>{{ $post->title }}</h4>

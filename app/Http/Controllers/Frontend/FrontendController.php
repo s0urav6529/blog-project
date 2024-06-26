@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
@@ -54,14 +55,12 @@ class FrontendController extends Controller
     public function category($slug)
     {
 
-
-
         $category = Category::where('slug', $slug)->first();
 
         if ($category) {
 
             $title = $category->name;
-            $sub_title = '';
+            $sub_title = 'Post by category';
 
             $post_data = Post::with('category', 'sub_category', 'user', 'tag')
                 ->where('is_approved', 1)
@@ -72,6 +71,30 @@ class FrontendController extends Controller
 
             return view('frontend.modules.all_post', compact('post_data', 'title', 'sub_title'));
         } else {
+            //@make an error message
+        }
+    }
+
+    public function sub_category($cat_slug, $sub_cat_slug)
+    {
+
+        $sub_category = SubCategory::where('slug', $sub_cat_slug)->first();
+
+        if ($sub_category) {
+
+            $title = $sub_category->name;
+            $sub_title = 'Post by sub category';
+
+            $post_data = Post::with('category', 'sub_category', 'user', 'tag')
+                ->where('is_approved', 1)
+                ->where('status', 1)
+                ->where('sub_category_id', $sub_category->id)
+                ->latest()
+                ->paginate(10);
+
+            return view('frontend.modules.all_post', compact('post_data', 'title', 'sub_title'));
+        } else {
+            //@make an error message
         }
     }
 }
