@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 
-@section('page_title', 'All Post')
+@section('page_title', $title)
 
 @section('banner')
     <div class="heading-page header-text">

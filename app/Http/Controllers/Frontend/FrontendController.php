@@ -50,4 +50,28 @@ class FrontendController extends Controller
 
         return view('frontend.modules.all_post', compact('post_data', 'title', 'sub_title'));
     }
+
+    public function category($slug)
+    {
+
+
+
+        $category = Category::where('slug', $slug)->first();
+
+        if ($category) {
+
+            $title = $category->name;
+            $sub_title = '';
+
+            $post_data = Post::with('category', 'sub_category', 'user', 'tag')
+                ->where('is_approved', 1)
+                ->where('status', 1)
+                ->where('category_id', $category->id)
+                ->latest()
+                ->paginate(10);
+
+            return view('frontend.modules.all_post', compact('post_data', 'title', 'sub_title'));
+        } else {
+        }
+    }
 }
