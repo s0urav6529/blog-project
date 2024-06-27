@@ -22,6 +22,7 @@ class FrontendController extends Controller
         return view('frontend.modules.index', compact('post_data', 'slider_post'));
     }
 
+    /* For all post show */
     public function all_post()
     {
 
@@ -33,10 +34,11 @@ class FrontendController extends Controller
         return view('frontend.modules.all_post', compact('post_data', 'title', 'sub_title'));
     }
 
+    /* For single post details show */
     public function single($slug)
     {
 
-        $post = Post::with('category', 'sub_category', 'tag', 'user')->where('slug', $slug)->first();
+        $post = Post::with('category', 'sub_category', 'tag', 'user', 'comment', 'comment.user')->where('slug', $slug)->first();
 
         if ($post) {
 
@@ -49,6 +51,7 @@ class FrontendController extends Controller
         }
     }
 
+    /* For search */
     public function search(Request $request)
     {
 
@@ -65,6 +68,7 @@ class FrontendController extends Controller
         return view('frontend.modules.all_post', compact('post_data', 'title', 'sub_title'));
     }
 
+    /* For category wise show */
     public function category($slug)
     {
 
@@ -83,6 +87,7 @@ class FrontendController extends Controller
         return view('frontend.modules.all_post', compact('post_data', 'title', 'sub_title'));
     }
 
+    /* For sub-category wise show */
     public function sub_category($cat_slug, $sub_cat_slug)
     {
 
@@ -101,6 +106,7 @@ class FrontendController extends Controller
         return view('frontend.modules.all_post', compact('post_data', 'title', 'sub_title'));
     }
 
+    /* For tag wise show */
     public function tag($slug)
     {
 

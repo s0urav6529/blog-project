@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\TagController;
+use App\Http\Controllers\Frontend\CommentController;
 use App\Models\SubCategory;
 use Illuminate\Support\Facades\Route;
 
@@ -33,7 +34,6 @@ Route::get('/category/{cat_slug}/{sub_cat_slug}', [FrontendController::class, 's
 
 Route::get('/tag/{slug}', [FrontendController::class, 'tag'])->name('front.tag');
 
-
 Route::group(['prefix' => 'dashboard'], function () {
     Route::get('/', [BackendController::class, 'index'])->name('back.index');
     Route::resource('/category', CategoryController::class);
@@ -41,6 +41,7 @@ Route::group(['prefix' => 'dashboard'], function () {
     Route::resource('/sub-category', SubCategoryController::class);
     Route::resource('/tag', TagController::class);
     Route::resource('/post', PostController::class);
+    Route::resource('/comment', CommentController::class);
 });
 
 require __DIR__ . '/auth.php';

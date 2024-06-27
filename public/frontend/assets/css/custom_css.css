@@ -41,3 +41,7 @@
     width: 500px;
     height: 400px;
 }
+
+.swal2-container.swal2-top-end.swal2-backdrop-show {
+    z-index: 99999 ! important;
+}
