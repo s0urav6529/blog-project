@@ -61,7 +61,7 @@
                                         <ul class="sidebar-subcategory">
                                             @foreach ($category->sub_category as $sub_category)
                                                 <li><a
-                                                        href="{{ route('front.sub_category', [$category->slug, $sub_category->slug]) }}">-
+                                                        href="{{ route('front.sub_category', [$category->slug, $sub_category->slug]) }}">
                                                         {{ $sub_category->name }}</a>
                                             @endforeach
                                         </ul>
