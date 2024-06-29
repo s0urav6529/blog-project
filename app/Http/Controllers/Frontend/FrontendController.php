@@ -51,6 +51,13 @@ class FrontendController extends Controller
         }
     }
 
+    final public function contact_us()
+    {
+        $title = 'Contact Us';
+        $sub_title = 'Feel free to...';
+        return view('frontend.modules.contact_us', compact('title', 'sub_title'));
+    }
+
     /* For search */
     public function search(Request $request)
     {

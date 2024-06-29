@@ -34,6 +34,8 @@ Route::get('/category/{cat_slug}/{sub_cat_slug}', [FrontendController::class, 's
 
 Route::get('/tag/{slug}', [FrontendController::class, 'tag'])->name('front.tag');
 
+Route::get('/contact-us', [FrontendController::class, 'contact_us'])->name('front.contact');
+
 Route::group(['prefix' => 'dashboard'], function () {
     Route::get('/', [BackendController::class, 'index'])->name('back.index');
     Route::resource('/category', CategoryController::class);

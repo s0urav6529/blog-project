@@ -1,7 +1,7 @@
 <header class="">
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="{{ route('front.index') }}">
                 <h2>SM Blog<em>.</em></h2>
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
@@ -16,16 +16,16 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="about.html">About Us</a>
+                        <a class="nav-link" href="">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="blog.html">Blog Entries</a>
+                        <a class="nav-link" href="">Blog Entries</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="">Post Details</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact Us</a>
+                        <a class="nav-link" href="{{ route('front.contact') }}">Contact Us</a>
                     </li>
                 </ul>
             </div>
