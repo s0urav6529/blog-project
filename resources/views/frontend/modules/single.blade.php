@@ -19,7 +19,13 @@
     </div>
 @endsection
 
+
 @section('contents')
+
+    @php
+        $commentCount = $post->comment->count();
+    @endphp
+
     <div class="col-lg-12">
         <div class="blog-post">
             <div class="blog-thumb">
@@ -32,9 +38,9 @@
                     <h4>{{ $post->title }}</h4>
                 </a>
                 <ul class="post-info">
-                    <li><a href="#">{{ $post->user?->name }}</a></li>
-                    <li><a href="#">{{ $post->created_at->format('M d, Y') }}</a></li>
-                    <li><a href="#">10 Comments</a></li>
+                    <li><a href="">{{ $post->user?->name }}</a></li>
+                    <li><a href="">{{ $post->created_at->format('M d, Y') }}</a></li>
+                    <li><a href="">{{ $commentCount }} {{ $commentCount > 1 ? 'comments' : 'comment' }}</a></li>
                 </ul>
                 <div class="post-decription">
                     <p>{!! $post->description !!}</p>
@@ -71,9 +77,6 @@
     <div class="col-lg-12">
         <div class="sidebar-item comments">
             <div class="sidebar-heading">
-                @php
-                    $commentCount = $post->comment->count();
-                @endphp
                 <h2>{{ $commentCount }} {{ $commentCount > 1 ? 'comments' : 'comment' }} </h2>
             </div>
             <div class="content">
@@ -87,18 +90,42 @@
                                 <h4>{{ $comment->user?->name }}<span>{{ $comment->created_at->format('M d, Y') }}</span>
                                 </h4>
                                 <p>{{ $comment->comment }}</p>
+
+                                {!! Form::open(['method' => 'post', 'route' => 'comment.store']) !!}
+
+                                {!! Form::hidden('post_id', $post->id) !!}
+                                {!! Form::hidden('comment_id', $comment->id) !!}
+                                {!! Form::text('comment', null, [
+                                    'class' => 'form-control form-control-sm mt-3',
+                                    'placeholder' => 'Replay as ' . Auth::user()->name,
+                                ]) !!}
+                                {!! Form::button('<i class="fa-solid fa-reply"></i> Replay', [
+                                    'class' => 'btn btn-light btn-sm mt-2',
+                                    'type' => 'submit',
+                                ]) !!}
+
+                                {!! Form::close() !!}
                             </div>
                         </li>
-                        <li class="replied">
-                            <div class="author-thumb">
-                                <img src="{{ asset('frontend/assets/images/comment-author-02.jpg') }}" alt="">
-                            </div>
-                            <div class="right-content">
-                                <h4>Thirteen Man<span>May 20, 2020</span></h4>
-                                <p>In porta urna sed venenatis sollicitudin. Praesent urna sem, pulvinar vel mattis eget.
-                                </p>
-                            </div>
-                        </li>
+                        <div class="reply-count">
+                            @php
+                                $replyCount = $comment->reply->count();
+                            @endphp
+                            <p>{{ $replyCount }} {{ $replyCount > 1 ? 'replies' : 'reply' }} </p>
+                        </div>
+                        @foreach ($comment->reply as $reply)
+                            <li class="replied">
+                                <div class="author-thumb">
+                                    <img src="{{ asset('frontend/assets/images/comment-author-02.jpg') }}" alt="">
+                                </div>
+                                <div class="right-content">
+                                    <h4>{{ $reply->user?->name }}<span>{{ $reply->created_at->format('M d, Y') }}</span>
+                                    </h4>
+                                    <p>{{ $reply->comment }}</p>
+                                </div>
+                            </li>
+                        @endforeach
+                        <br>
                     @endforeach
                 </ul>
             </div>
@@ -107,7 +134,7 @@
     <div class="col-lg-12">
         <div class="sidebar-item submit-comment">
             <div class="sidebar-heading">
-                <h2>Your comment</h2>
+                <h2>Write a comment</h2>
             </div>
             <div class="content">
                 <form id="comment" action="{{ route('comment.store') }}" method="post">
@@ -120,10 +147,10 @@
 
                                 <input type="hidden" value="{{ $post->id }}" name="post_id">
 
-                                <textarea name="comment" rows="6" placeholder="Type your comment"></textarea>
+                                <textarea name="comment" rows="6" placeholder="Comment as {{ Auth::user()->name }}"></textarea>
 
-                                <button type="submit" id="form-submit" class="main-button">Submit</button>
-
+                                <button type="submit" id="form-submit" class="main-button"><i class="fa-solid fa-comment">
+                                    </i> Comment</button>
                             </form>
                         </div>
                     </div>

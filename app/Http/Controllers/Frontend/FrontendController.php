@@ -38,7 +38,7 @@ class FrontendController extends Controller
     public function single($slug)
     {
 
-        $post = Post::with('category', 'sub_category', 'tag', 'user', 'comment', 'comment.user')->where('slug', $slug)->first();
+        $post = Post::with('category', 'sub_category', 'tag', 'user', 'comment', 'comment.user', 'comment.reply')->where('slug', $slug)->first();
 
         if ($post) {
 

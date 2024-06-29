@@ -45,3 +45,20 @@
 .swal2-container.swal2-top-end.swal2-backdrop-show {
     z-index: 99999 ! important;
 }
+
+.reply-count {
+    margin-bottom: 10px;
+    margin-left: 100px;
+}
+
+.author-thumb img{
+    width: 75px;
+    border-radius: 50%;
+}
+
+.blog-posts .comments ul li .right-content {
+    margin-left: 100px !important;
+}
+.blog-posts .comments ul li.replied {
+    padding-left: 100px !important;
+}
