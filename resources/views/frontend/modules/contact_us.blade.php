@@ -40,7 +40,7 @@
                     </div>
                 @endif
 
-                {!! Form::open(['method' => 'post']) !!}
+                {!! Form::open(['method' => 'post', 'route' => 'contact.store']) !!}
                 {!! Form::text('name', null, ['class' => ' form-control mt-3', 'placeholder' => 'Enter your name']) !!}
                 {!! Form::email('email', null, ['class' => ' form-control mt-3', 'placeholder' => 'Enter your email address']) !!}
                 {!! Form::text('phone', null, ['class' => ' form-control mt-3', 'placeholder' => 'Enter your phone number']) !!}

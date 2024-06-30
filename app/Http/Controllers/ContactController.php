@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContactUsStoreRequest;
+use App\Jobs\SendContactUsMail;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 
@@ -26,9 +28,16 @@ class ContactController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ContactUsStoreRequest $request)
     {
-        //
+        $contact = Contact::create($request->all());
+
+        session()->flash('msg', 'Your message sent successfully !');
+        session()->flash('notification_color', 'success');
+
+        SendContactUsMail::dispatch($contact->toArray());
+
+        return redirect()->back();
     }
 
     /**
@@ -36,7 +45,6 @@ class ContactController extends Controller
      */
     public function show(Contact $contact)
     {
-        //
     }
 
     /**

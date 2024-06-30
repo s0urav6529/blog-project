@@ -97,7 +97,7 @@
                                 {!! Form::hidden('comment_id', $comment->id) !!}
                                 {!! Form::text('comment', null, [
                                     'class' => 'form-control form-control-sm mt-3',
-                                    'placeholder' => 'Replay as ' . Auth::user()->name,
+                                    'placeholder' => 'Replay as ' . (Auth::user()->name ?? 'Anonymous'),
                                 ]) !!}
                                 {!! Form::button('<i class="fa-solid fa-reply"></i> Replay', [
                                     'class' => 'btn btn-light btn-sm mt-2',
@@ -147,7 +147,7 @@
 
                                 <input type="hidden" value="{{ $post->id }}" name="post_id">
 
-                                <textarea name="comment" rows="6" placeholder="Comment as {{ Auth::user()->name }}"></textarea>
+                                <textarea name="comment" rows="6" placeholder="Comment as {{ Auth::user()->name ?? 'Anonymous' }}"></textarea>
 
                                 <button type="submit" id="form-submit" class="main-button"><i class="fa-solid fa-comment">
                                     </i> Comment</button>
