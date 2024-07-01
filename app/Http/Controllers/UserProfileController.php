@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\District;
 use App\Models\Division;
+use App\Models\Thana;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
 
@@ -66,9 +67,15 @@ class UserProfileController extends Controller
         //
     }
 
-    final public function getdivisionWiseDistrict(int $divisionId)
+    final public function getDivisionWiseDistrict(int $division_id)
     {
-        $districts = District::select('name', 'id')->where('division_id', $divisionId)->get();
+        $districts = District::select('name', 'id')->where('division_id', $division_id)->get();
         return response()->json($districts);
+    }
+
+    final public function getDistrictWiseThana(int $district_id)
+    {
+        $thanas = Thana::select('name', 'id')->where('district_id', $district_id)->get();
+        return response()->json($thanas);
     }
 }

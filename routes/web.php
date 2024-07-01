@@ -41,7 +41,8 @@ Route::get('/contact-us', [FrontendController::class, 'contact_us'])->name('fron
 Route::post('/contact-us', [ContactController::class, 'store'])->name('contact.store');
 
 
-Route::get('/get-districts/{division_id}', [UserProfileController::class, 'getdivisionWiseDistrict']);
+Route::get('/get-districts/{division_id}', [UserProfileController::class, 'getDivisionWiseDistrict']);
+Route::get('/get-thanas/{district_id}', [UserProfileController::class, 'getDistrictWiseThana']);
 
 Route::group(['prefix' => 'dashboard'], function () {
     Route::get('/', [BackendController::class, 'index'])->name('back.index');

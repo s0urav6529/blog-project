@@ -6,7 +6,7 @@
 
 @section('contents')
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        <div class="col-md-9">
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
@@ -38,6 +38,18 @@
 
                     {!! Form::close() !!}
 
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <center>Profile Photo</center>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <input type="file">
                 </div>
             </div>
         </div>

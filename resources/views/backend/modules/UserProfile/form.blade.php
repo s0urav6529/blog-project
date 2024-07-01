@@ -4,6 +4,14 @@
     'placeholder' => 'Enter phone number...',
 ]) !!}
 
+{!! Form::label('gender', 'Select Gender', ['class' => 'mt-2']) !!}
+<div class="d-flex mt-1">
+    <div class="d-flex me-4">{!! Form::radio('gender', 'Male', false, ['class' => 'form-check me-1']) !!} Male</div>
+    <div class="d-flex me-4">{!! Form::radio('gender', 'Female', false, ['class' => 'form-check me-1']) !!} Female</div>
+    <div class="d-flex">{!! Form::radio('gender', 'Other', false, ['class' => 'form-check me-1']) !!} Other</div>
+</div>
+
+
 <div class="row">
     <div class="col-md-4">
         {!! Form::label('division_id', 'Division', ['class' => 'mt-2']) !!}
@@ -21,11 +29,9 @@
     </div>
     <div class="col-md-4">
         {!! Form::label('thana_id', 'Upazila/Thana', ['class' => 'mt-2']) !!}
-        {!! Form::select('division_id', $divisions, null, [
-            'id' => 'divi_id',
-            'class' => 'form-select mt-1',
-            'placeholder' => 'Select thana...',
-        ]) !!}
+        <select name="thana_id" id="thana_id" class="form-select mt-1" disabled>
+            <option selected="selected">Select thana...</option>
+        </select>
     </div>
 </div>
 
@@ -33,7 +39,7 @@
 {!! Form::textarea('address', null, [
     'class' => 'form-control form-control-sm mt-1',
     'placeholder' => 'Write address...',
-    'rows' => '5',
+    'rows' => '3',
 ]) !!}
 
 
@@ -48,7 +54,7 @@
     <script>
         const getDistricts = (division_id) => {
 
-
+            $('#thana_id').empty().append(`<option>Select thana...</option>`).attr('disabled', 'disabled');
 
             axios.get(`${window.location.origin}/get-districts/${division_id}`).then(res => {
 
@@ -58,7 +64,7 @@
 
                 all_districts.removeAttr('disabled');
                 all_districts.empty();
-                all_districts.append(`<option value= "" >Select district..</option>`);
+                all_districts.append(`<option>Select district...</option>`);
 
                 districts.map((district, index) => {
 
@@ -68,8 +74,32 @@
             });
         }
 
+        const getThanas = (district_id) => {
+
+            axios.get(`${window.location.origin}/get-thanas/${district_id}`).then(res => {
+
+                let thanas = res.data;
+
+                let all_thanas = $('#thana_id');
+
+                all_thanas.removeAttr('disabled');
+                all_thanas.empty();
+                all_thanas.append(`<option>Select thana...</option>`);
+
+                thanas.map((thana, index) => {
+
+                    all_thanas.append(
+                        `<option value="${thana.id}">${thana.name}</option>`);
+                });
+            });
+        }
+
         $('#division_id').on('change', function() {
             getDistricts($(this).val());
+        });
+
+        $('#district_id').on('change', function() {
+            getThanas($(this).val());
         });
     </script>
 @endpush
