@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\TagController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Frontend\CommentController;
+use App\Http\Controllers\UserProfileController;
 use App\Models\SubCategory;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,9 @@ Route::get('/tag/{slug}', [FrontendController::class, 'tag'])->name('front.tag')
 Route::get('/contact-us', [FrontendController::class, 'contact_us'])->name('front.contact');
 Route::post('/contact-us', [ContactController::class, 'store'])->name('contact.store');
 
+
+Route::get('/get-districts/{division_id}', [UserProfileController::class, 'getdivisionWiseDistrict']);
+
 Route::group(['prefix' => 'dashboard'], function () {
     Route::get('/', [BackendController::class, 'index'])->name('back.index');
     Route::resource('/category', CategoryController::class);
@@ -46,6 +50,7 @@ Route::group(['prefix' => 'dashboard'], function () {
     Route::resource('/sub-category', SubCategoryController::class);
     Route::resource('/tag', TagController::class);
     Route::resource('/post', PostController::class);
+    Route::resource('/user-profile', UserProfileController::class);
     Route::resource('/comment', CommentController::class);
 });
 
