@@ -28,12 +28,12 @@
                         </div>
                     @endif
 
-                    {!! Form::open(['method' => 'post', 'route' => 'user-profile.store']) !!}
+                    {!! Form::model($profile, ['method' => 'post', 'route' => 'user-profile.store']) !!}
 
                     @include('backend.modules.UserProfile.form')
 
                     <div class="d-grid">
-                        {!! Form::button('Submit', ['type' => 'submit', 'class' => 'btn btn-info btn-sm mt-3']) !!}
+                        {!! Form::button('Update Profile', ['type' => 'submit', 'class' => 'btn btn-success btn-sm mt-3']) !!}
                     </div>
 
                     {!! Form::close() !!}
@@ -54,16 +54,5 @@
             </div>
         </div>
     </div>
-
-    @push('js')
-        <script>
-            $('#name').on('input', function() {
-
-                let name = $(this).val();
-                let slug = name.replaceAll(' ', '-').toLowerCase();
-                $('#slug').val(slug);
-            })
-        </script>
-    @endpush
 
 @endsection

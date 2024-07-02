@@ -1,3 +1,5 @@
+{!! Form::hidden('user_id', Auth::id()) !!}
+
 {!! Form::label('phone', 'Phone') !!}
 {!! Form::text('phone', null, [
     'class' => 'form-control form-control-sm mt-1',
@@ -52,7 +54,7 @@
 
 
     <script>
-        const getDistricts = (division_id) => {
+        const getDistricts = (division_id, select_district = null) => {
 
             $('#thana_id').empty().append(`<option>Select thana...</option>`).attr('disabled', 'disabled');
 
@@ -69,12 +71,13 @@
                 districts.map((district, index) => {
 
                     all_districts.append(
-                        `<option value="${district.id}">${district.name}</option>`);
+                        `<option value="${district.id}" ${select_district == district.id ? 'selected' : '' }>${district.name}</option>`
+                    );
                 });
             });
         }
 
-        const getThanas = (district_id) => {
+        const getThanas = (district_id, select_thana = null) => {
 
             axios.get(`${window.location.origin}/get-thanas/${district_id}`).then(res => {
 
@@ -89,7 +92,8 @@
                 thanas.map((thana, index) => {
 
                     all_thanas.append(
-                        `<option value="${thana.id}">${thana.name}</option>`);
+                        `<option value="${thana.id}" ${select_thana == thana.id ? 'selected' : ''}>${thana.name}</option>`
+                    );
                 });
             });
         }
@@ -103,3 +107,29 @@
         });
     </script>
 @endpush
+
+@if (!empty($profile))
+    @push('js')
+        <script>
+            getDistricts('{{ $profile->division_id }}', '{{ $profile->district_id }}');
+            getThanas('{{ $profile->district_id }}', '{{ $profile->thana_id }}');
+        </script>
+    @endpush
+@endif
+
+
+{{--  notification message toast --}}
+@if (session('msg'))
+    @push('js')
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: '{{ session('notification_color') }}',
+                toast: true,
+                title: '{{ session('msg') }}',
+                showConfirmButton: false,
+                timer: 3000
+            });
+        </script>
+    @endpush
+@endif

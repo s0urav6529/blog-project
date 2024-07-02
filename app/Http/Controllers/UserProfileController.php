@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserProfileStoreRequest;
 use App\Models\District;
 use App\Models\Division;
 use App\Models\Thana;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserProfileController extends Controller
 {
@@ -16,7 +18,8 @@ class UserProfileController extends Controller
     final public function index()
     {
         $divisions = Division::pluck('name', 'id');
-        return view('backend.modules.UserProfile.user_profile', compact('divisions'));
+        $profile = UserProfile::where('user_id', Auth::id())->first();
+        return view('backend.modules.UserProfile.user_profile', compact('divisions', 'profile'));
     }
 
     /**
@@ -30,9 +33,22 @@ class UserProfileController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    final public function store(UserProfileStoreRequest $request)
     {
-        //
+        $profile = $request->all();
+
+        $userProfileExist = UserProfile::where('user_id', $profile['user_id'])->first();
+
+        if ($userProfileExist) {
+            $userProfileExist->update($profile);
+        } else {
+            UserProfile::create($profile);
+        }
+
+        session()->flash('msg', 'Profile Updated successfully !');
+        session()->flash('notification_color', 'success');
+
+        return redirect()->back();
     }
 
     /**
