@@ -45,13 +45,21 @@ Route::get('/get-districts/{division_id}', [UserProfileController::class, 'getDi
 Route::get('/get-thanas/{district_id}', [UserProfileController::class, 'getDistrictWiseThana']);
 
 Route::group(['prefix' => 'dashboard'], function () {
+
     Route::get('/', [BackendController::class, 'index'])->name('back.index');
+
     Route::resource('/category', CategoryController::class);
+
     Route::get('/get-subcategory/{id}', [SubCategoryController::class, 'getCategoryWiseSubCategory']);
     Route::resource('/sub-category', SubCategoryController::class);
+
     Route::resource('/tag', TagController::class);
+
     Route::resource('/post', PostController::class);
+
+    Route::post('/upload-photo', [UserProfileController::class, 'uploadUserProfilePhoto']);
     Route::resource('/user-profile', UserProfileController::class);
+
     Route::resource('/comment', CommentController::class);
 });
 

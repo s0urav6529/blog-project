@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Backend\PhotoUploadController;
 use App\Http\Requests\UserProfileStoreRequest;
 use App\Models\District;
 use App\Models\Division;
 use App\Models\Thana;
 use App\Models\UserProfile;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class UserProfileController extends Controller
 {
@@ -93,5 +96,39 @@ class UserProfileController extends Controller
     {
         $thanas = Thana::select('name', 'id')->where('district_id', $district_id)->get();
         return response()->json($thanas);
+    }
+
+    final public function uploadUserProfilePhoto(Request $request)
+    {
+        $file = $request->input('photo');
+        $name = Str::slug(Auth::user()->name . Carbon::now());
+        $height = 250;
+        $width = 400;
+        $path = 'images/user/';
+
+        $profile = UserProfile::where('user_id', Auth::id())->first();
+
+        if ($profile?->photo) {
+            PhotoUploadController::imageUnlink($path, $profile->photo);
+        }
+
+        if ($profile) {
+
+            $photo_name = PhotoUploadController::imageUpload($name, $height, $width, $path, $file);
+
+            $update_profile['photo'] = $photo_name;
+
+            $profile->update($update_profile);
+            return response()->json([
+                'msg' => 'Profile Photo uploaded successfully !',
+                'notification_color' => 'success',
+                'photo' => url($path . $profile->photo)
+            ]);
+        } else {
+            return response()->json([
+                'msg' => 'Please add profile information first !',
+                'notification_color' => 'warning'
+            ]);
+        }
     }
 }
