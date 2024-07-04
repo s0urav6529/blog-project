@@ -42,3 +42,7 @@ p{
     width: 200px;
 }
 
+.card-header-title{
+    max-width: calc(100% - 100px);
+}
+

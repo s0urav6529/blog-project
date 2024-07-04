@@ -9,10 +9,13 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <div class="d-flex justify-content-between">
-                        <h4 class="mb-0">{{ $post->title }} Details</h4>
-                        <a href="{{ route('post.index') }}" class="btn btn-success btn-sm"><i
-                                class="fa-solid fa-left-long mx-1"></i>Back</a>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="text-truncate card-header-title">
+                            <h4 class="mb-0 text-truncate">{{ $post->title }}</h4>
+                        </div>
+                        <a href="{{ route('post.index') }}" class="btn btn-success btn-sm ml-2">
+                            <i class="fa-solid fa-left-long mx-1"></i>Back
+                        </a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -164,8 +167,11 @@
                         </tbody>
                     </table>
                     <div class="d-flex justify-content-center mt-3">
-                        <a href="{{ route('category.show', $post->category?->id) }}" class="btn btn-info btn-sm"><i
-                                class="fa-solid fa-eye mx-1"></i></i>Know More</a>
+                        @if (Auth::id() == \App\Models\User::ADMIN)
+                            <a href="{{ route('category.show', $post->category?->id) }}" class="btn btn-info btn-sm"><i
+                                    class="fa-solid fa-eye mx-1"></i></i>Know More</a>
+                        @endif
+
                     </div>
                 </div>
             </div>
@@ -196,34 +202,39 @@
                         </tbody>
                     </table>
                     <div class="d-flex justify-content-center mt-3">
-                        <a href="{{ route('sub-category.show', $post->sub_category?->id) }}" class="btn btn-info btn-sm"><i
-                                class="fa-solid fa-eye mx-1"></i></i>Know More</a>
+                        @if (Auth::id() == \App\Models\User::ADMIN)
+                            <a href="{{ route('sub-category.show', $post->sub_category?->id) }}"
+                                class="btn btn-info btn-sm"><i class="fa-solid fa-eye mx-1"></i></i>Know More</a>
+                        @endif
                     </div>
                 </div>
             </div>
-            <div class="card mt-2">
-                <div class="card-header">
-                    <h4>Creator Details</h4>
-                </div>
-                <div class="card-body">
-                    <table class="table table-striped table-bordered table-hover table-sm">
-                        <tbody>
-                            <tr>
-                                <th class="wider-th-category">ID</th>
-                                <td>{{ $post->user?->id }}</td>
-                            </tr>
-                            <tr>
-                                <th>Name</th>
-                                <td>{{ $post->user?->name }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="d-flex justify-content-center mt-3">
-                        <a href="" class="btn btn-info btn-sm"><i class="fa-solid fa-eye mx-1"></i></i>Know
-                            More</a>
+
+            @if (Auth::id() == \App\Models\User::ADMIN)
+                <div class="card mt-2">
+                    <div class="card-header">
+                        <h4>Creator Details</h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped table-bordered table-hover table-sm">
+                            <tbody>
+                                <tr>
+                                    <th class="wider-th-category">ID</th>
+                                    <td>{{ $post->user?->id }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Name</th>
+                                    <td>{{ $post->user?->name }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="d-flex justify-content-center mt-3">
+                            <a href="" class="btn btn-info btn-sm"><i class="fa-solid fa-eye mx-1"></i></i>Know
+                                More</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
     @push('js')

@@ -10,6 +10,7 @@ use App\Models\Post;
 use App\Models\SubCategory;
 use Illuminate\Support\Str;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -19,9 +20,16 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    final public function index()
     {
-        $post_data = Post::with('category', 'sub_category', 'user', 'tag')->latest()->paginate(10);
+
+        $query = Post::with('category', 'sub_category', 'user', 'tag')->latest();
+
+        if (Auth::user()->role == User::USER) {
+            $query->where('user_id', Auth::id());
+        }
+        $post_data = $query->paginate(10);
+
         return view('backend.modules.post.index', compact('post_data'));
     }
 
@@ -78,6 +86,11 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+
+        if (Auth::user()->role == User::USER && $post->user_id != Auth::id()) {
+            return abort(403);
+        }
+
         $post->load(['category', 'sub_category', 'user', 'tag']);
         return view('backend.modules.post.show', compact('post'));
     }

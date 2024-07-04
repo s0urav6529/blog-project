@@ -56,7 +56,7 @@
                                     </div>
                                 @else
                                     @foreach ($post->tag as $tag)
-                                        <li><a href="{{ route('front.tag', $tag->slug) }}">{{ $tag->name }}</a>,
+                                        <li><a href="{{ route('front.tag', $tag->slug) }}">{{ $tag->name }}</a>
                                         </li>
                                     @endforeach
                                 @endif
@@ -91,20 +91,22 @@
                                 </h4>
                                 <p>{{ $comment->comment }}</p>
 
-                                {!! Form::open(['method' => 'post', 'route' => 'comment.store']) !!}
+                                @if (Auth::id())
+                                    {!! Form::open(['method' => 'post', 'route' => 'comment.store']) !!}
 
-                                {!! Form::hidden('post_id', $post->id) !!}
-                                {!! Form::hidden('comment_id', $comment->id) !!}
-                                {!! Form::text('comment', null, [
-                                    'class' => 'form-control form-control-sm mt-3',
-                                    'placeholder' => 'Replay as ' . (Auth::user()->name ?? 'Anonymous'),
-                                ]) !!}
-                                {!! Form::button('<i class="fa-solid fa-reply"></i> Replay', [
-                                    'class' => 'btn btn-light btn-sm mt-2',
-                                    'type' => 'submit',
-                                ]) !!}
+                                    {!! Form::hidden('post_id', $post->id) !!}
+                                    {!! Form::hidden('comment_id', $comment->id) !!}
+                                    {!! Form::text('comment', null, [
+                                        'class' => 'form-control form-control-sm mt-3',
+                                        'placeholder' => 'Replay as ' . (Auth::user()->name ?? 'Anonymous'),
+                                    ]) !!}
+                                    {!! Form::button('<i class="fa-solid fa-reply"></i> Replay', [
+                                        'class' => 'btn btn-light btn-sm mt-2',
+                                        'type' => 'submit',
+                                    ]) !!}
 
-                                {!! Form::close() !!}
+                                    {!! Form::close() !!}
+                                @endif
                             </div>
                         </li>
                         <div class="reply-count">
@@ -133,29 +135,30 @@
     </div>
     <div class="col-lg-12">
         <div class="sidebar-item submit-comment">
-            <div class="sidebar-heading">
-                <h2>Write a comment</h2>
-            </div>
-            <div class="content">
-                <form id="comment" action="{{ route('comment.store') }}" method="post">
-                    <div class="row">
+            @if (Auth::id())
+                <div class="sidebar-heading">
+                    <h2>Write a comment</h2>
+                </div>
+                <div class="content">
 
-                        <div class="col-lg-12">
+                    <form id="comment" action="{{ route('comment.store') }}" method="post">
+                        @csrf
+                        <input type="hidden" value="{{ $post->id }}" name="post_id">
 
-                            <form action="" method="post">
-                                @csrf
+                        <textarea name="comment" rows="6" placeholder="Comment as {{ Auth::user()->name ?? 'Anonymous' }}"></textarea>
 
-                                <input type="hidden" value="{{ $post->id }}" name="post_id">
-
-                                <textarea name="comment" rows="6" placeholder="Comment as {{ Auth::user()->name ?? 'Anonymous' }}"></textarea>
-
-                                <button type="submit" id="form-submit" class="main-button"><i class="fa-solid fa-comment">
-                                    </i> Comment</button>
-                            </form>
-                        </div>
-                    </div>
-                </form>
-            </div>
+                        <button type="submit" id="form-submit" class="main-button"><i class="fa-solid fa-comment">
+                            </i> Comment</button>
+                    </form>
+                </div>
+            @else
+                <div class="d-flex align-items-center">
+                    <a href="{{ route('login') }}" class="mr-2">
+                        <h3>Login </h3>
+                    </a>
+                    <h3 class="mb-0 ms-2">to write a comment</h3>
+                </div>
+            @endif
         </div>
     </div>
 

@@ -44,23 +44,24 @@ Route::post('/contact-us', [ContactController::class, 'store'])->name('contact.s
 Route::get('/get-districts/{division_id}', [UserProfileController::class, 'getDivisionWiseDistrict']);
 Route::get('/get-thanas/{district_id}', [UserProfileController::class, 'getDistrictWiseThana']);
 
-Route::group(['prefix' => 'dashboard'], function () {
+Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
+
+    Route::group(['middleware' => 'admin'], static function () {
+        Route::resource('/category', CategoryController::class);
+        Route::resource('/sub-category', SubCategoryController::class);
+        Route::resource('/tag', TagController::class);
+    });
 
     Route::get('/', [BackendController::class, 'index'])->name('back.index');
 
-    Route::resource('/category', CategoryController::class);
-
     Route::get('/get-subcategory/{id}', [SubCategoryController::class, 'getCategoryWiseSubCategory']);
-    Route::resource('/sub-category', SubCategoryController::class);
-
-    Route::resource('/tag', TagController::class);
 
     Route::resource('/post', PostController::class);
 
+    Route::resource('/comment', CommentController::class);
+
     Route::post('/upload-photo', [UserProfileController::class, 'uploadUserProfilePhoto']);
     Route::resource('/user-profile', UserProfileController::class);
-
-    Route::resource('/comment', CommentController::class);
 });
 
 require __DIR__ . '/auth.php';

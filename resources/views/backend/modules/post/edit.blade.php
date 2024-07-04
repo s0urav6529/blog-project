@@ -6,12 +6,14 @@
 
 @section('contents')
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="card">
                 <div class="card-header">
-                    <div class="d-flex justify-content-between">
-                        <h4 class="mb-0">Edit Post {{ $post->title }}</h4>
-                        <a href="{{ route('post.index') }}"><button class="btn btn-success btn-sm"><i
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="text-truncate card-header-title">
+                            <h4 class="mb-0 text-truncate">{{ $post->title }}</h4>
+                        </div>
+                        <a href="{{ route('post.index') }}"><button class="btn btn-success btn-sm ml-2"><i
                                     class="fa-solid fa-left-long mx-1"></i>Back
                             </button></a>
                     </div>
