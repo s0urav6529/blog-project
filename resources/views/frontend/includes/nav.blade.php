@@ -11,24 +11,48 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="{{ route('front.index') }}">Home
+                        <a class="nav-link" href="{{ route('front.index') }}">{{ __('Home') }}
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">About Us</a>
+                        <a class="nav-link" href="">{{ __('About Us') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">Blog Entries</a>
+                        <a class="nav-link" href="{{ route('front.all_post') }}">{{ __('All Post') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">Post Details</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('front.contact') }}">Contact Us</a>
+                        <a class="nav-link" href="{{ route('front.contact') }}">{{ __('Contact Us') }}</a>
                     </li>
                 </ul>
             </div>
         </div>
+        <div class="switch-language me-5">
+            <form action="" id="switch_language_form" method="get">
+                <select class="form-select form-select-sm" id="switch_language" name="lang">
+                    <option value="en">Eng</option>
+                    <option value="bn">Ban</option>
+                </select>
+            </form>
+        </div>
     </nav>
 </header>
+
+@push('js')
+    <script>
+        if (localStorage.lang == 'bn') {
+            $('#switch_language').val('bn');
+        } else {
+            $('#switch_language').val('en');
+        }
+
+        $('#switch_language').on('change', function(e) {
+
+            e.preventDefault();
+
+            localStorage.lang = $(this).val();
+
+            $('#switch_language_form').submit();
+        });
+    </script>
+@endpush

@@ -20,14 +20,14 @@
             <div class="col-lg-12">
                 <div class="sidebar-item recent-posts">
                     <div class="sidebar-heading">
-                        <h2>Recent Posts</h2>
+                        <h2>{{ __('Recent Posts') }}</h2>
                     </div>
                     <div class="content">
                         <ul>
 
                             @if ($recent_posts->isEmpty())
                                 <div class="alert alert-danger" role="alert">
-                                    <p>Post not available</p>
+                                    <p>{{ __('Post not available') }}</p>
                                 </div>
                             @else
                                 @foreach ($recent_posts as $post)
@@ -44,7 +44,7 @@
             <div class="col-lg-12">
                 <div class="sidebar-item categories">
                     <div class="sidebar-heading">
-                        <h2>Categories</h2>
+                        <h2>{{ __('Categories') }}</h2>
                     </div>
                     <div class="content">
                         <ul>
@@ -76,7 +76,7 @@
             <div class="col-lg-12">
                 <div class="sidebar-item tags">
                     <div class="sidebar-heading">
-                        <h2>Tag Clouds</h2>
+                        <h2>{{ __('Tag Clouds') }}</h2>
                     </div>
                     <div class="content">
                         <ul>
