@@ -15,7 +15,7 @@ class FrontendController extends Controller
 {
     public function index()
     {
-        $query = Post::with('sub_category', 'category', 'tag', 'user')->where('is_approved', 1)->where('status', 1);
+        $query = Post::with('sub_category', 'category', 'tag', 'user', 'post_count', 'comment')->where('is_approved', 1)->where('status', 1);
 
         $post_data = $query->latest()->take(5)->get();
         $slider_post = $query->inRandomOrder()->take(6)->get();
@@ -27,7 +27,7 @@ class FrontendController extends Controller
     public function all_post()
     {
 
-        $post_data = Post::with('sub_category', 'category', 'tag', 'user')->where('is_approved', 1)->where('status', 1)->latest()->paginate(10);
+        $post_data = Post::with('sub_category', 'category', 'tag', 'user', 'post_count', 'comment')->where('is_approved', 1)->where('status', 1)->latest()->paginate(10);
 
         $title = 'All post';
         $sub_title = '';
@@ -39,7 +39,7 @@ class FrontendController extends Controller
     final public function single(string $slug)
     {
 
-        $post = Post::with('category', 'sub_category', 'tag', 'user', 'comment', 'comment.user', 'comment.reply')
+        $post = Post::with('category', 'sub_category', 'tag', 'user', 'comment', 'comment.user', 'comment.reply', 'post_count')
             ->where('slug', $slug)
             ->first();
 

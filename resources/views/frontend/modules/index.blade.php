@@ -25,10 +25,18 @@
                         <a href="{{ route('front.single', $post->slug) }}">
                             <h4>{{ $post->title }}</h4>
                         </a>
+
+                        @php
+                            $commentCount = $post->comment->count();
+                            $postViews = $post->post_count?->count | 0;
+                        @endphp
+
                         <ul class="post-info">
                             <li><a href="#">{{ $post->user?->name }}</a></li>
                             <li><a href="#">{{ $post->created_at->format('M d, Y') }}</a></li>
-                            <li><a href="#">12 Comments</a></li>
+                            <li><a href="">{{ $commentCount }} {{ $commentCount > 1 ? 'comments' : 'comment' }}</a>
+                            </li>
+                            <li><a href="">{{ $postViews }} {{ $postViews > 1 ? 'views' : 'view' }}</a></li>
                         </ul>
                         <p>{{ strip_tags(Str::substr($post->description, 0, 400)) . '..' }}
                             <a href="{{ route('front.single', $post->slug) }}"><button class="read-more-button">Read
@@ -45,7 +53,8 @@
                                             </div>
                                         @else
                                             @foreach ($post->tag as $tag)
-                                                <li><a href="{{ route('front.tag', $tag->slug) }}">{{ $tag->name }}</a>,
+                                                <li><a
+                                                        href="{{ route('front.tag', $tag->slug) }}">{{ $tag->name }}</a>,
                                                 </li>
                                             @endforeach
                                         @endif

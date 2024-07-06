@@ -24,6 +24,7 @@
 
     @php
         $commentCount = $post->comment->count();
+        $postViews = $post->post_count?->count | 0;
     @endphp
 
     <div class="col-lg-12">
@@ -41,6 +42,7 @@
                     <li><a href="">{{ $post->user?->name }}</a></li>
                     <li><a href="">{{ $post->created_at->format('M d, Y') }}</a></li>
                     <li><a href="">{{ $commentCount }} {{ $commentCount > 1 ? 'comments' : 'comment' }}</a></li>
+                    <li><a href="">{{ $postViews }} {{ $postViews > 1 ? 'views' : 'view' }}</a></li>
                 </ul>
                 <div class="post-decription">
                     <p>{!! $post->description !!}</p>
@@ -98,7 +100,7 @@
                                     {!! Form::hidden('comment_id', $comment->id) !!}
                                     {!! Form::text('comment', null, [
                                         'class' => 'form-control form-control-sm mt-3',
-                                        'placeholder' => 'Replay as ' . (Auth::user()->name ?? 'Anonymous'),
+                                        'placeholder' => 'Replay as ' . Auth::user()->name,
                                     ]) !!}
                                     {!! Form::button('<i class="fa-solid fa-reply"></i> Replay', [
                                         'class' => 'btn btn-light btn-sm mt-2',
@@ -145,7 +147,7 @@
                         @csrf
                         <input type="hidden" value="{{ $post->id }}" name="post_id">
 
-                        <textarea name="comment" rows="6" placeholder="Comment as {{ Auth::user()->name ?? 'Anonymous' }}"></textarea>
+                        <textarea name="comment" rows="6" placeholder="Comment as {{ Auth::user()->name }}"></textarea>
 
                         <button type="submit" id="form-submit" class="main-button"><i class="fa-solid fa-comment">
                             </i> Comment</button>
@@ -191,7 +193,7 @@
 
             setTimeout(() => {
                 callPostCounter();
-            }, 10000);
+            }, 30000);
         </script>
     @endpush
 

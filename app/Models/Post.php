@@ -35,4 +35,9 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class)->whereNull('comment_id')->orderBy('created_at', 'desc');
     }
+
+    public function post_count()
+    {
+        return $this->hasOne(PostCount::class);
+    }
 }
