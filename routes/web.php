@@ -44,6 +44,8 @@ Route::post('/contact-us', [ContactController::class, 'store'])->name('contact.s
 Route::get('/get-districts/{division_id}', [UserProfileController::class, 'getDivisionWiseDistrict']);
 Route::get('/get-thanas/{district_id}', [UserProfileController::class, 'getDistrictWiseThana']);
 
+Route::get('/post-count/{post_id}', [FrontendController::class, 'postReadCount']);
+
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
 
     Route::group(['middleware' => 'admin'], static function () {

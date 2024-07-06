@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PostCountController;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\SubCategory;
@@ -35,10 +36,12 @@ class FrontendController extends Controller
     }
 
     /* For single post details show */
-    public function single($slug)
+    final public function single(string $slug)
     {
 
-        $post = Post::with('category', 'sub_category', 'tag', 'user', 'comment', 'comment.user', 'comment.reply')->where('slug', $slug)->first();
+        $post = Post::with('category', 'sub_category', 'tag', 'user', 'comment', 'comment.user', 'comment.reply')
+            ->where('slug', $slug)
+            ->first();
 
         if ($post) {
 
@@ -50,6 +53,12 @@ class FrontendController extends Controller
             abort(404);
         }
     }
+
+    final public function postReadCount(int $post_id)
+    {
+        (new PostCountController($post_id))->postReadCount();
+    }
+
 
     final public function contact_us()
     {

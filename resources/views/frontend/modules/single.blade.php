@@ -178,4 +178,21 @@
         @endpush
     @endif
 
+    {{-- post count increase --}}
+    @push('js')
+        {{-- axios cdn --}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js"
+            integrity="sha512-JSCFHhKDilTRRXe9ak/FJ28dcpOJxzQaCd3Xg8MyF6XFjODhy/YMCM8HW0TFDckNHWUewW+kfvhin43hKtJxAw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script>
+            const callPostCounter = () => {
+                axios.get(window.location.origin + '/post-count/' + {{ $post->id }});
+            }
+
+            setTimeout(() => {
+                callPostCounter();
+            }, 10000);
+        </script>
+    @endpush
+
 @endsection
