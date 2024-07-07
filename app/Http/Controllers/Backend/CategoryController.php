@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryStoreRequest;
 use App\Http\Requests\CategoryUpdateRequest;
+use App\Http\Resources\CategoryListResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -88,5 +89,12 @@ class CategoryController extends Controller
         session()->flash('notification_color', 'error');
 
         return redirect()->route('category.index');
+    }
+
+    final public function getCategories()
+    {
+
+        $categories = Category::where('status', 1)->latest()->get();
+        return CategoryListResource::collection($categories);
     }
 }
