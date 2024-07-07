@@ -112,6 +112,19 @@ class CategoryController extends Controller
         return response()->json(['msg' => 'Category created successfully !']);
     }
 
+    final public function categoryUpdate(CategoryUpdateRequest $request, int $id)
+    {
+
+        $category_data = $request->all();
+        $category_data['slug'] = Str::slug($request->input('slug'));
+
+        $category = Category::findOrFail($id);
+
+        $category->update($category_data);
+
+        return response()->json(['msg' => 'Category updated successfully !']);
+    }
+
     final public function categoryDelete(int $id)
     {
         $category = Category::findOrFail($id);

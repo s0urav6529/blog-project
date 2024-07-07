@@ -19,3 +19,6 @@ Route::get('/category', [CategoryController::class, 'getCategories']);
 Route::get('/category/{id}', [CategoryController::class, 'categoryDetails']);
 Route::post('/category', [CategoryController::class, 'categoryStore']);
 Route::delete('/category/{id}', [CategoryController::class, 'categoryDelete']);
+
+//@in postman select post method & in form-date add extra one field '_method' as 'put'
+Route::put('/category/{id}', [CategoryController::class, 'categoryUpdate']);
