@@ -105,4 +105,10 @@ class CategoryController extends Controller
         //@for single data
         return new CategoryListResource($category);
     }
+
+    final public function categoryStore(CategoryStoreRequest $request)
+    {
+        Category::create($request->all());
+        return response()->json(['msg' => 'Category created successfully !']);
+    }
 }
