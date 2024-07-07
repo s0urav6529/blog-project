@@ -18,3 +18,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/category', [CategoryController::class, 'getCategories']);
 Route::get('/category/{id}', [CategoryController::class, 'categoryDetails']);
 Route::post('/category', [CategoryController::class, 'categoryStore']);
+Route::delete('/category/{id}', [CategoryController::class, 'categoryDelete']);

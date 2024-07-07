@@ -111,4 +111,11 @@ class CategoryController extends Controller
         Category::create($request->all());
         return response()->json(['msg' => 'Category created successfully !']);
     }
+
+    final public function categoryDelete(int $id)
+    {
+        $category = Category::findOrFail($id);
+        $category->delete();
+        return response()->json(['msg' => 'Category deleted successfully !']);
+    }
 }
