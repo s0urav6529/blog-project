@@ -97,4 +97,12 @@ class CategoryController extends Controller
         $categories = Category::where('status', 1)->latest()->get();
         return CategoryListResource::collection($categories);
     }
+
+    final public function categoryDetails(int $id)
+    {
+
+        $category = Category::findOrFail($id);
+        //@for single data
+        return new CategoryListResource($category);
+    }
 }

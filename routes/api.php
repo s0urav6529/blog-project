@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/category', [CategoryController::class, 'getCategories']);
+Route::get('/category/{id}', [CategoryController::class, 'categoryDetails']);
