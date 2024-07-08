@@ -43,6 +43,9 @@ Route::group(['middleware' => 'lang'], static function () {
     Route::get('/contact-us', [FrontendController::class, 'contact_us'])->name('front.contact');
     Route::post('/contact-us', [ContactController::class, 'store'])->name('contact.store');
 
+    /*     about us module */
+    Route::get("/about-us", [FrontendController::class, 'about_us'])->name('front.about_us');
+
 
     Route::get('/get-districts/{division_id}', [UserProfileController::class, 'getDivisionWiseDistrict']);
     Route::get('/get-thanas/{district_id}', [UserProfileController::class, 'getDistrictWiseThana']);

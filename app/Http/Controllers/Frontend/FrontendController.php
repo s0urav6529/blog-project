@@ -67,6 +67,13 @@ class FrontendController extends Controller
         return view('frontend.modules.contact_us', compact('title', 'sub_title'));
     }
 
+    final public function about_us()
+    {
+        $title = 'About Us';
+        $sub_title = '';
+        return view('frontend.modules.about_us', compact('title', 'sub_title'));
+    }
+
     /* For search */
     public function search(Request $request)
     {

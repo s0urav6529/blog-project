@@ -16,10 +16,10 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">{{ __('About Us') }}</a>
+                        <a class="nav-link" href="{{ route('front.all_post') }}">{{ __('All Post') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('front.all_post') }}">{{ __('All Post') }}</a>
+                        <a class="nav-link" href="{{ route('front.about_us') }}">{{ __('About Us') }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('front.contact') }}">{{ __('Contact Us') }}</a>
