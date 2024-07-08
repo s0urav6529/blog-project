@@ -27,13 +27,44 @@
                 </ul>
             </div>
         </div>
-        <div class="switch-language me-5">
+        <div class="switch-language">
             <form action="" id="switch_language_form" method="get">
                 <select class="form-select form-select-sm" id="switch_language" name="lang">
                     <option value="en">Eng</option>
                     <option value="bn">Ban</option>
                 </select>
             </form>
+        </div>
+        <div class="d-flex gap-2 me-2">
+            @if (Auth::user() && Auth::user()?->role == \App\Models\User::USER)
+                {{-- <button class="btn btn-danger"><a href="" class="text-white">Logout</a></button> --}}
+                <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="">Create Post</a></li>
+                            <li><a class="dropdown-item" href="">My Profile</a></li>
+                            <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li class="text-center">
+                                {!! Form::open(['method' => 'post', 'route' => 'logout']) !!}
+                                {!! Form::button('Logout', [
+                                    'class' => 'btn btn-danger btn-sm',
+                                    'onclick' => 'return confirm("Are you sure to logout?")',
+                                    'type' => 'submit',
+                                ]) !!}
+                                {!! Form::close() !!}
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            @else
+                <button class="btn btn-warning"><a href="" class="text-white">Register</a></button>
+                <button class="btn btn-primary"><a href="" class="text-white">Login</a></button>
+            @endif
         </div>
     </nav>
 </header>

@@ -35,14 +35,12 @@
             <div class="down-content">
                 <span class="text-success">{{ $post->category?->name }} <sub
                         class="text-warning">{{ $post->sub_category?->name }}</sub> </span>
-                <a href="post-details.html">
-                    <h4>{{ $post->title }}</h4>
-                </a>
+                <h4>{{ $post->title }}</h4>
                 <ul class="post-info">
-                    <li><a href="">{{ $post->user?->name }}</a></li>
-                    <li><a href="">{{ $post->created_at->format('M d, Y') }}</a></li>
-                    <li><a href="">{{ $commentCount }} {{ $commentCount > 1 ? 'comments' : 'comment' }}</a></li>
-                    <li><a href="">{{ $postViews }} {{ $postViews > 1 ? 'views' : 'view' }}</a></li>
+                    <li><a>{{ $post->user?->name }}</a></li>
+                    <li><a>{{ $post->created_at->format('M d, Y') }}</a></li>
+                    <li><a href="#comments">{{ $commentCount }} {{ $commentCount > 1 ? 'comments' : 'comment' }}</a></li>
+                    <li><a>{{ $postViews }} {{ $postViews > 1 ? 'views' : 'view' }}</a></li>
                 </ul>
                 <div class="post-decription">
                     <p>{!! $post->description !!}</p>
@@ -76,7 +74,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-12">
+    <div class="col-lg-12" id="comments">
         <div class="sidebar-item comments">
             <div class="sidebar-heading">
                 <h2>{{ $commentCount }} {{ $commentCount > 1 ? 'comments' : 'comment' }} </h2>

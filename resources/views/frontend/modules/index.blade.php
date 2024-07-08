@@ -20,8 +20,8 @@
                         <img src="{{ $post->photo }}" alt="">
                     </div>
                     <div class="down-content">
-                        <span>{{ $post->category?->name }} | </span>
-                        <span>{{ $post->sub_category?->name }}</span>
+                        <span class="text-success">{{ $post->category?->name }} <sub
+                                class="text-warning">{{ $post->sub_category?->name }}</sub> </span>
                         <a href="{{ route('front.single', $post->slug) }}">
                             <h4>{{ $post->title }}</h4>
                         </a>
@@ -32,11 +32,11 @@
                         @endphp
 
                         <ul class="post-info">
-                            <li><a href="#">{{ $post->user?->name }}</a></li>
-                            <li><a href="#">{{ $post->created_at->format('M d, Y') }}</a></li>
-                            <li><a href="">{{ $commentCount }} {{ $commentCount > 1 ? 'comments' : 'comment' }}</a>
+                            <li><a>{{ $post->user?->name }}</a></li>
+                            <li><a>{{ $post->created_at->format('M d, Y') }}</a></li>
+                            <li><a>{{ $commentCount }} {{ $commentCount > 1 ? 'comments' : 'comment' }}</a>
                             </li>
-                            <li><a href="">{{ $postViews }} {{ $postViews > 1 ? 'views' : 'view' }}</a></li>
+                            <li><a>{{ $postViews }} {{ $postViews > 1 ? 'views' : 'view' }}</a></li>
                         </ul>
                         <p>{{ strip_tags(Str::substr($post->description, 0, 400)) . '..' }}
                             <a href="{{ route('front.single', $post->slug) }}"><button class="read-more-button">Read

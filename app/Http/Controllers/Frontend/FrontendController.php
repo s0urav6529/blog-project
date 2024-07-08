@@ -30,7 +30,7 @@ class FrontendController extends Controller
         $post_data = Post::with('sub_category', 'category', 'tag', 'user', 'post_count', 'comment')->where('is_approved', 1)->where('status', 1)->latest()->paginate(10);
 
         $title = 'All post';
-        $sub_title = '';
+        $sub_title = 'You Can read...';
 
         return view('frontend.modules.all_post', compact('post_data', 'title', 'sub_title'));
     }
@@ -70,7 +70,7 @@ class FrontendController extends Controller
     final public function about_us()
     {
         $title = 'About Us';
-        $sub_title = '';
+        $sub_title = 'Know More...';
         return view('frontend.modules.about_us', compact('title', 'sub_title'));
     }
 

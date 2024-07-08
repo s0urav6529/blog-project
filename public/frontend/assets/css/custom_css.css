@@ -90,3 +90,11 @@
     margin-bottom: 4px !important;
     color: firebrick !important;
 }
+
+.switch-language{
+    margin-right: 15px;
+    width: 90px;
+}
+header .navbar {
+    padding: 18px 50px !important;
+}
