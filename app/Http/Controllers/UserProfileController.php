@@ -29,7 +29,7 @@ class UserProfileController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    final public function create()
     {
         $divisions = Division::pluck('name', 'id');
         $profile = UserProfile::where('user_id', Auth::id())->first();
@@ -62,7 +62,8 @@ class UserProfileController extends Controller
      */
     public function show(UserProfile $userProfile)
     {
-        //
+        $userProfile->load('division', 'district', 'thana', 'user');
+        return view('backend.modules.UserProfile.show', compact('userProfile'));
     }
 
     /**

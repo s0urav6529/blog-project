@@ -25,4 +25,9 @@ class UserProfile extends Model
     {
         return $this->belongsTo(Thana::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

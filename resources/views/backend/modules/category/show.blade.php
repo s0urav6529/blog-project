@@ -52,6 +52,7 @@
                             <tr>
                                 <th>Updated At</th>
                                 <td>{{ $category->created_at != $category->updated_at ? $category->updated_at->toDateTimeString() : 'Not updated' }}
+                                </td>
                             </tr>
                         </tbody>
                     </table>

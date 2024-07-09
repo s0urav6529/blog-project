@@ -79,17 +79,12 @@
                                         </td>
                                         <td>
                                             <div class="d-flex justify-content-center">
-                                                <a href=""><button class="btn btn-info btn-sm"><i
+                                                <a href="{{ route('user-profile.show', $user->user_profile->id) }}"><button
+                                                        class="btn btn-info btn-sm"><i
                                                             class="fa-solid fa-eye"></i></button></a>
 
                                                 <a href=""><button class="btn btn-warning btn-sm mx-1"><i
                                                             class="fa-solid fa-edit"></i></button></a>
-
-                                                {!! Form::open([
-                                                    'method' => 'delete',
-                                                    'id' => 'form_' . $user->id,
-                                                ]) !!}
-
                                             </div>
                                         </td>
                                     </tr>
