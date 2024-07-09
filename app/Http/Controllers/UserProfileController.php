@@ -71,7 +71,8 @@ class UserProfileController extends Controller
      */
     public function edit(UserProfile $userProfile)
     {
-        //
+        $userProfile->load('division', 'district', 'thana', 'user');
+        return view('backend.modules.UserProfile.edit', compact('userProfile'));
     }
 
     /**
