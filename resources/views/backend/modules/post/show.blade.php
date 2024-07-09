@@ -92,7 +92,9 @@
 
                             <tr>
                                 <th>Photo</th>
-                                <td><img class="img-thumbnail" src="{{ $post->photo }}" alt="{{ $post->title }}"></td>
+                                <td><img class="img-thumbnail"
+                                        src="{{ strpos($post->photo, 'https') === 0 ? $post->photo : asset('images/post/original/' . $post->photo) }}"
+                                        alt="{{ $post->title }}" alt=""></td>
                             </tr>
 
                             <tr>

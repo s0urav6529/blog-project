@@ -29,7 +29,8 @@
             <div class="col-lg-12">
                 <div class="blog-post">
                     <div class="blog-thumb">
-                        <img src="{{ $post->photo }}" alt="">
+                        <img src="{{ strpos($post->photo, 'https') === 0 ? $post->photo : asset('images/post/original/' . $post->photo) }}"
+                            alt="">
                     </div>
                     <div class="down-content">
                         <span class="text-success">{{ $post->category?->name }} <sub

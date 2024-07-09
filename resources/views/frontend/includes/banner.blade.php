@@ -4,7 +4,8 @@
 
             @foreach ($slider_post as $post)
                 <div class="item">
-                    <img src="{{ $post->photo }}" alt="">
+                    <img src="{{ strpos($post->photo, 'https') === 0 ? $post->photo : asset('images/post/original/' . $post->photo) }}"
+                        alt="">
                     <div class="item-content">
                         <div class="main-content">
                             <a href="{{ route('front.single', $post->slug) }}">

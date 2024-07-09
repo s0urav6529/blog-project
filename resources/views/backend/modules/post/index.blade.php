@@ -72,8 +72,10 @@
                                         <td>{{ substr(strip_tags($post->description), 0, 70) }}...</td>
 
                                         <td>
-                                            <img class="img-thumbnail post-image" data-src="{{ $post->photo }}"
-                                                src="{{ $post->photo }}" alt="">
+                                            <img class="img-thumbnail post-image"
+                                                data-src="{{ strpos($post->photo, 'https') === 0 ? $post->photo : asset('images/post/original/' . $post->photo) }}"
+                                                src="{{ strpos($post->photo, 'https') === 0 ? $post->photo : asset('images/post/thumbnail/' . $post->photo) }}"
+                                                alt="">
                                         </td>
                                         <td>
                                             @php

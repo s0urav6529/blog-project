@@ -5,7 +5,7 @@
 
                 <div class="sb-sidenav-menu-heading">Core</div>
                 <a class="nav-link" href="{{ route('back.index') }}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-house"></i></div>
                     Dashboard
                 </a>
 
@@ -75,13 +75,6 @@
                                 class="fa-regular fa-square-plus mx-1"></i>Create</a>
                     </nav>
                 </div>
-
-
-                <div class="sb-sidenav-menu-heading">Addons</div>
-                <a class="nav-link" href="charts.html">
-                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                    Charts
-                </a>
             </div>
         </div>
         <div class="sb-sidenav-footer">

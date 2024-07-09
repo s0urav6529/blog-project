@@ -62,7 +62,8 @@
                     </li>
                 </ul>
             @else
-                <button class="btn btn-warning"><a href="" class="text-white">Register</a></button>
+                <button class="btn btn-warning"><a href="{{ route('register') }}"
+                        class="text-white">Register</a></button>
                 <button class="btn btn-primary"><a href="" class="text-white">Login</a></button>
             @endif
         </div>
