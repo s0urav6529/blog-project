@@ -10,4 +10,19 @@ class UserProfile extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function division()
+    {
+        return $this->belongsTo(Division::class);
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
+
+    public function thana()
+    {
+        return $this->belongsTo(Thana::class);
+    }
 }

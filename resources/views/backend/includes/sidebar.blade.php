@@ -61,7 +61,7 @@
                     </div>
                 @endif
 
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#post"
+                <a class="nav-link collapsed" href="" data-bs-toggle="collapse" data-bs-target="#post"
                     aria-expanded="false" aria-controls="collapseLayouts">
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     Post
@@ -75,6 +75,14 @@
                                 class="fa-regular fa-square-plus mx-1"></i>Create</a>
                     </nav>
                 </div>
+
+                @if (Auth::user()->role == \App\Models\User::ADMIN)
+                    <a class="nav-link collapsed" href="{{ route('user-profile.index') }}">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>All User
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                @endif
+
             </div>
         </div>
         <div class="sb-sidenav-footer">

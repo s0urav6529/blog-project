@@ -7,6 +7,7 @@ use App\Http\Requests\UserProfileStoreRequest;
 use App\Models\District;
 use App\Models\Division;
 use App\Models\Thana;
+use App\Models\User;
 use App\Models\UserProfile;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -20,9 +21,9 @@ class UserProfileController extends Controller
      */
     final public function index()
     {
-        $divisions = Division::pluck('name', 'id');
-        $profile = UserProfile::where('user_id', Auth::id())->first();
-        return view('backend.modules.UserProfile.user_profile', compact('divisions', 'profile'));
+        $users = User::with('user_profile', 'user_profile.division', 'user_profile.district', 'user_profile.thana')->where('role', 2)->paginate(10);
+        //dd($users);
+        return view('backend.modules.UserProfile.index', compact('users'));
     }
 
     /**
@@ -30,7 +31,9 @@ class UserProfileController extends Controller
      */
     public function create()
     {
-        //
+        $divisions = Division::pluck('name', 'id');
+        $profile = UserProfile::where('user_id', Auth::id())->first();
+        return view('backend.modules.UserProfile.user_profile', compact('divisions', 'profile'));
     }
 
     /**
