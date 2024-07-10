@@ -17,7 +17,7 @@ class SubCategoryController extends Controller
      */
     public function index()
     {
-        $subcategory_data = SubCategory::with('category')->orderBy('order_by')->paginate(10);
+        $subcategory_data = (new SubCategory())->subCatList($withCategory = true)->paginate(10);
         return view('backend.modules.sub_category.index', compact('subcategory_data'));
     }
 
@@ -26,7 +26,7 @@ class SubCategoryController extends Controller
      */
     public function create()
     {
-        $category_data = Category::pluck('name', 'id');
+        $category_data = (new SubCategory())->pluckCategories();
         return view('backend.modules.sub_category.create', compact('category_data'));
     }
 
@@ -35,10 +35,10 @@ class SubCategoryController extends Controller
      */
     public function store(SubCategoryStoreRequest $request)
     {
-        $subcategory_data = $request->all();
-        $subcategory_data['slug'] = Str::slug($request->input('slug'));
+        $subCategory = $request->all();
+        $subCategory['slug'] = Str::slug($request->input('slug'));
 
-        SubCategory::create($subcategory_data);
+        (new SubCategory())->createSubCat($subCategory);
 
         session()->flash('msg', 'Sub-category created successfully !');
         session()->flash('notification_color', 'success');
@@ -60,7 +60,7 @@ class SubCategoryController extends Controller
      */
     public function edit(SubCategory $subCategory)
     {
-        $category_data = Category::pluck('name', 'id');
+        $category_data = (new SubCategory())->pluckCategories();
         return view('backend.modules.sub_category.edit', compact('subCategory', 'category_data'));
     }
 
@@ -69,10 +69,10 @@ class SubCategoryController extends Controller
      */
     public function update(SubCategoryUpdateRequest $request, SubCategory $subCategory)
     {
-        $subcategory_data = $request->all();
-        $subcategory_data['slug'] = Str::slug($request->input('slug'));
+        $upSubCategory = $request->all();
+        $upSubCategory['slug'] = Str::slug($request->input('slug'));
 
-        $subCategory->update($subcategory_data);
+        (new SubCategory())->updateSubCat($subCategory, $upSubCategory);
 
         session()->flash('msg', 'Sub-category updated successfully !');
         session()->flash('notification_color', 'success');
@@ -85,7 +85,8 @@ class SubCategoryController extends Controller
      */
     public function destroy(SubCategory $subCategory)
     {
-        $subCategory->delete();
+        (new SubCategory())->deleteSubCat($subCategory);
+
         session()->flash('msg', 'Sub-categoey deleted successfully !');
         session()->flash('notification_color', 'error');
 

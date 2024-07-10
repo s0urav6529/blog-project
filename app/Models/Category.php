@@ -19,7 +19,7 @@ class Category extends Model
     }
 
     /* database queries */
-    public function getCategories(bool $withSubCategory = false, bool $isActive = false)
+    public function catList(bool $withSubCategory = false, bool $isActive = false)
     {
         $query = self::query();
 
