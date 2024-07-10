@@ -18,7 +18,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tag_data = Tag::orderBy('order_by')->paginate(10);
+        $tag_data = (new Tag())->tagList()->paginate(10);
         return view('backend.modules.tag.index', compact('tag_data'));
     }
 
@@ -35,10 +35,10 @@ class TagController extends Controller
      */
     public function store(TagStoreRequest $request)
     {
-        $tag_data = $request->all();
-        $tag_data['slug'] = Str::slug($request->input('slug'));
+        $tag = $request->all();
+        $tag['slug'] = Str::slug($request->input('slug'));
 
-        Tag::create($tag_data);
+        (new Tag())->createTag($tag);
 
         session()->flash('msg', 'Tag created successfully !');
         session()->flash('notification_color', 'success');
@@ -67,10 +67,10 @@ class TagController extends Controller
      */
     public function update(TagUpdateRequest $request, Tag $tag)
     {
-        $tag_data = $request->all();
-        $tag_data['slug'] = Str::slug($request->input('slug'));
+        $upTag = $request->all();
+        $upTag['slug'] = Str::slug($request->input('slug'));
 
-        $tag->update($tag_data);
+        (new Tag())->updateTag($tag, $upTag);
 
         session()->flash('msg', 'Tag updated successfully !');
         session()->flash('notification_color', 'success');
@@ -83,7 +83,8 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        $tag->delete();
+        (new Tag())->deleteTag($tag);
+
         session()->flash('msg', 'Tag deleted successfully !');
         session()->flash('notification_color', 'error');
 

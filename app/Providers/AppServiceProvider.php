@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
 
         $category_data = (new Category())->catList($withSubCategory = true, $isActive = true)->get();
 
-        $tag_data = Tag::where('status', 1)->orderBy('order_by')->get();
+        $tag_data = (new Tag())->tagList(true)->get();
         $recent_posts = Post::where('is_approved', 1)->where('status', 1)->latest()->limit(5)->get();
 
         View::share(['category_data' => $category_data, 'tag_data' => $tag_data, "recent_posts" => $recent_posts]);
