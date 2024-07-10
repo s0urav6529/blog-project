@@ -18,7 +18,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category_data = Category::orderBy('order_by')->paginate(10);
+        $category_data = (new Category())->getCategories()->paginate(10);
         return view('backend.modules.category.index', compact('category_data'));
     }
 
@@ -35,10 +35,10 @@ class CategoryController extends Controller
      */
     public function store(CategoryStoreRequest $request)
     {
-        $category_data = $request->all();
-        $category_data['slug'] = Str::slug($request->input('slug'));
+        $category = $request->all();
+        $category['slug'] = Str::slug($request->input('slug'));
 
-        Category::create($category_data);
+        (new Category())->createCategory($category);
 
         session()->flash('msg', 'Category created successfully !');
         session()->flash('notification_color', 'success');
@@ -68,10 +68,10 @@ class CategoryController extends Controller
     public function update(CategoryUpdateRequest $request, Category $category)
     {
 
-        $category_data = $request->all();
-        $category_data['slug'] = Str::slug($request->input('slug'));
+        $upCategory = $request->all();
+        $upCategory['slug'] = Str::slug($request->input('slug'));
 
-        $category->update($category_data);
+        (new Category())->updateCategory($category, $upCategory);
 
         session()->flash('msg', 'Category updated successfully !');
         session()->flash('notification_color', 'success');
@@ -84,12 +84,17 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $category->delete();
+
+        (new Category())->deleteCategory($category);
+
         session()->flash('msg', 'Category deleted successfully !');
         session()->flash('notification_color', 'error');
 
         return redirect()->route('category.index');
     }
+
+
+    //this function for api
 
     final public function getCategories()
     {

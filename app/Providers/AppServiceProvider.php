@@ -25,7 +25,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
 
-        $category_data = Category::with('sub_category')->where('status', 1)->orderBy('order_by')->get();
+        $category_data = (new Category())->getCategories($withSubCategory = true, $isActive = true)->get();
+
         $tag_data = Tag::where('status', 1)->orderBy('order_by')->get();
         $recent_posts = Post::where('is_approved', 1)->where('status', 1)->latest()->limit(5)->get();
 
