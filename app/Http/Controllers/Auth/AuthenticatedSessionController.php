@@ -9,6 +9,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
@@ -16,8 +17,16 @@ class AuthenticatedSessionController extends Controller
     /**
      * Display the login view.
      */
-    public function create(): View
+    public function create(Request $request): View
     {
+
+        // Store the intended URL in the session
+        if ($request->has('redirectTo')) {
+            Session::put('url.intended', $request->input('redirectTo'));
+        } elseif (!Session::has('url.intended')) {
+            Session::put('url.intended', url()->previous());
+        }
+
         return view('backend.auth.login');
     }
 
@@ -31,7 +40,8 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         if ($request->user()->role === User::USER) {
-            return redirect(RouteServiceProvider::HOME);
+            $intendedUrl = Session::pull('url.intended', RouteServiceProvider::HOME);
+            return redirect()->to($intendedUrl);
         }
 
         return redirect()->intended(RouteServiceProvider::DASHBOARD);
@@ -42,11 +52,17 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        $role = Auth::user()->role;
+
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
+
+        if ($role == User::USER) {
+            return redirect(RouteServiceProvider::HOME);
+        }
 
         return redirect('/login');
     }

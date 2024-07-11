@@ -154,7 +154,7 @@
                 </div>
             @else
                 <div class="d-flex align-items-center">
-                    <a href="{{ route('login') }}" class="mr-2">
+                    <a href="{{ route('login', ['redirectTo' => url()->current() . '#comments']) }}" class="mr-2">
                         <h3>Login </h3>
                     </a>
                     <h3 class="mb-0 ms-2">to write a comment</h3>
