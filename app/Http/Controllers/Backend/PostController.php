@@ -23,7 +23,7 @@ class PostController extends Controller
     final public function index()
     {
 
-        $query = Post::with('category', 'sub_category', 'user', 'tag')->latest();
+        $query = (new Post())->postList(true, true, true, true, false, false);
 
         if (Auth::user()->role == User::USER) {
             $query->where('user_id', Auth::id());
@@ -38,8 +38,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        $category_data = Category::where('status', 1)->pluck('name', 'id');
-        $tag_data = Tag::where('status', 1)->select('name', 'id')->get();
+        $category_data = (new Post())->pluckCategories();
+        $tag_data = (new Post())->selectTags();
+
         return view('backend.modules.post.create', compact('category_data', 'tag_data'));
     }
 
@@ -49,10 +50,10 @@ class PostController extends Controller
     public function store(PostStoreRequest $request)
     {
 
-        $post_data = $request->except(['tag_ids', 'photo']);
-        $post_data['slug'] = Str::slug($request->input('slug'));
-        $post_data['user_id'] = Auth::user()->id;
-        $post_data['is_approved'] = 1;
+        $post = $request->except(['tag_ids', 'photo']);
+        $post['slug'] = Str::slug($request->input('slug'));
+        $post['user_id'] = Auth::user()->id;
+        $post['is_approved'] = 1;
 
         if ($request->hasFile('photo')) {
 
@@ -67,11 +68,11 @@ class PostController extends Controller
             $path = 'images/post/original/';
             $thumb_path = 'images/post/thumbnail/';
 
-            $post_data['photo'] = PhotoUploadController::imageUpload($name, $height, $width, $path, $file);
+            $post['photo'] = PhotoUploadController::imageUpload($name, $height, $width, $path, $file);
             PhotoUploadController::imageUpload($name, $thumb_height, $thumb_width, $thumb_path, $file);
         }
 
-        $post = Post::create($post_data);
+        $post = (new Post())->createPost($post);
 
         $post->tag()->attach($request->input('tag_ids'));
 
@@ -100,11 +101,13 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        $category_data = Category::where('status', 1)->pluck('name', 'id');
-        $tag_data = Tag::where('status', 1)->select('name', 'id')->get();
-        $selected_tags = DB::table('post_tag')->where('post_id', $post->id)->pluck('tag_id')->toArray();
+        $category_data = (new Post())->pluckCategories();
+        $tag_data = (new Post())->selectTags();
 
-        /* $post->load('tag');
+        $selected_tags = (new Post())->markedTags($post->id);
+
+        /* another way to load selected tags
+        $post->load('tag');
         $selected_tags = $post->tag->pluck('id')->toArray(); */
 
         return view('backend.modules.post.edit', compact('post', 'category_data', 'tag_data', 'selected_tags'));
@@ -115,10 +118,10 @@ class PostController extends Controller
      */
     public function update(PostUpdateRequest $request, Post $post)
     {
-        $post_data = $request->except(['tag_ids', 'photo']);
-        $post_data['slug'] = Str::slug($request->input('slug'));
-        $post_data['user_id'] = Auth::user()->id;
-        $post_data['is_approved'] = 1;
+        $upPost = $request->except(['tag_ids', 'photo']);
+        $upPost['slug'] = Str::slug($request->input('slug'));
+        $upPost['user_id'] = Auth::user()->id;
+        $upPost['is_approved'] = 1;
 
         if ($request->hasFile('photo')) {
 
@@ -136,11 +139,12 @@ class PostController extends Controller
             PhotoUploadController::imageUnlink($path, $post->photo);
             PhotoUploadController::imageUnlink($thumb_path, $post->photo);
 
-            $post_data['photo'] = PhotoUploadController::imageUpload($name, $height, $width, $path, $file);
+            $upPost['photo'] = PhotoUploadController::imageUpload($name, $height, $width, $path, $file);
             PhotoUploadController::imageUpload($name, $thumb_height, $thumb_width, $thumb_path, $file);
         }
 
-        $post->update($post_data);
+        (new Post())->updatePost($post, $upPost);
+
         $post->tag()->sync($request->input('tag_ids'));
 
         session()->flash('msg', 'Post updated successfully !');
@@ -159,7 +163,8 @@ class PostController extends Controller
 
         PhotoUploadController::imageUnlink($path, $post->photo);
         PhotoUploadController::imageUnlink($thumb_path, $post->photo);
-        $post->delete();
+
+        (new Post())->deletePost($post);
 
         session()->flash('msg', 'Post deleted successfully !');
         session()->flash('notification_color', 'success');
