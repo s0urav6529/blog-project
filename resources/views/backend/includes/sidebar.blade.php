@@ -3,11 +3,13 @@
         <div class="sb-sidenav-menu">
             <div class="nav">
 
-                <div class="sb-sidenav-menu-heading">Core</div>
-                <a class="nav-link" href="{{ route('back.index') }}">
-                    <div class="sb-nav-link-icon"><i class="fa-solid fa-house"></i></div>
-                    Dashboard
-                </a>
+                @if (Auth::user()->role === \App\Models\User::ADMIN)
+                    <div class="sb-sidenav-menu-heading">Core</div>
+                    <a class="nav-link" href="{{ route('back.index') }}">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-house"></i></div>
+                        Dashboard
+                    </a>
+                @endif
 
                 <div class="sb-sidenav-menu-heading">Interface</div>
 
@@ -87,7 +89,7 @@
         </div>
         <div class="sb-sidenav-footer">
             <div class="small">Logged in as:</div>
-            Blog Admin
+            {{ Auth::user()->role == 2 ? 'Blog User' : 'Blog Admin' }}
         </div>
     </nav>
 </div>
