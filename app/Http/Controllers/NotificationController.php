@@ -12,9 +12,7 @@ class NotificationController extends Controller
 
     final public function userWiseNotifications()
     {
-
-        $notifications = Notification::with('user', 'post')->where('post_owner', Auth::id())->latest()->get();
-
+        $notifications = (new Notification())->notificationList(Auth::id());
         return response()->json($notifications);
     }
 }

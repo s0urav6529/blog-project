@@ -37,4 +37,9 @@ class Notification extends Model
             self::create($notification);
         }
     }
+
+    public function notificationList($post_owner)
+    {
+        return self::with('user', 'post')->where('post_owner', $post_owner)->latest()->get();
+    }
 }
