@@ -43,9 +43,10 @@
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" id="notification-modal">Notifications</a></li>
                             <li><a class="dropdown-item" href="">Create Post</a></li>
                             <li><a class="dropdown-item" href="">My Profile</a></li>
-                            <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                            <li><a class="dropdown-item" href="">Activity Log</a></li>
                             <li>
                                 <hr class="dropdown-divider" />
                             </li>
@@ -68,16 +69,74 @@
             @endif
         </div>
     </nav>
+
+    {{--  notification modal start --}}
+    <button id="notification-modal" type="button" class="btn btn-primary d-none" data-bs-toggle="modal"
+        data-bs-target="#notification-show"></button>
+    <div class="modal fade" id="notification-show" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Notifications</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="notifications-container">
+                    {{-- content --}}
+                </div>
+            </div>
+        </div>
+    </div>
+    {{--  notification modal end --}}
+
 </header>
 
 @push('js')
+    {{-- axios cdn --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js"
+        integrity="sha512-JSCFHhKDilTRRXe9ak/FJ28dcpOJxzQaCd3Xg8MyF6XFjODhy/YMCM8HW0TFDckNHWUewW+kfvhin43hKtJxAw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script>
+        const notifications = () => {
+
+            axios.get(window.location.origin + '/my-notifications').then(res => {
+
+                let data = res.data;
+
+                let notificationsContainer = document.getElementById('notifications-container');
+                notificationsContainer.innerHTML = '';
+
+                let notificationElement = document.createElement('p');
+
+                if (data.length === 0) {
+                    notificationElement.textContent = 'No notification yet.';
+                    notificationsContainer.appendChild(notificationElement);
+                } else {
+                    data.forEach(notification => {
+
+                        notificationElement = document.createElement('p');
+
+                        let anchorElement = document.createElement('a');
+                        anchorElement.href = '/single-post/' + notification.post.slug + '#comments';
+
+                        anchorElement.textContent = notification.post.title;
+
+                        notificationElement.textContent = `${notification.user.name} commented on `;
+                        notificationElement.appendChild(anchorElement);
+
+                        notificationsContainer.appendChild(notificationElement);
+                    });
+                }
+            });
+        }
+
+        /* For localization */
         if (localStorage.lang == 'bn') {
             $('#switch_language').val('bn');
         } else {
             $('#switch_language').val('en');
         }
-
         $('#switch_language').on('change', function(e) {
 
             e.preventDefault();
@@ -86,5 +145,11 @@
 
             $('#switch_language_form').submit();
         });
+
+        /* For notifications */
+        $('#notification-modal').on('click', function() {
+            notifications();
+            $('#notification-show').modal('show');
+        })
     </script>
 @endpush

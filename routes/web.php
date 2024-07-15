@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\TagController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Frontend\CommentController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserProfileController;
 use App\Models\SubCategory;
 use Illuminate\Support\Facades\Route;
@@ -45,6 +46,9 @@ Route::group(['middleware' => 'lang'], static function () {
 
     /*     about us module */
     Route::get("/about-us", [FrontendController::class, 'about_us'])->name('front.about_us');
+
+    /* notification modal */
+    Route::get('/my-notifications', [NotificationController::class, 'userWiseNotifications']);
 
 
     Route::get('/get-districts/{division_id}', [UserProfileController::class, 'getDivisionWiseDistrict']);

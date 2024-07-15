@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Http\Requests\CommentStoreRequest;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
@@ -31,11 +32,9 @@ class CommentController extends Controller
      */
     public function store(CommentStoreRequest $request)
     {
-        $comment = $request->all();
-        $comment['status'] = 1;
-        $comment['user_id'] = Auth::id();
 
-        Comment::create($comment);
+        (new Comment())->createComment($request, Auth::id());
+        (new Notification())->createNotification($request, Auth::id());
 
         session()->flash('msg', 'Your comment posted successfully !');
         session()->flash('notification_color', 'success');

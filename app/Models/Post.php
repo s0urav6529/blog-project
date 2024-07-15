@@ -83,6 +83,12 @@ class Post extends Model
         return $query->latest();
     }
 
+    public function postOwnerId(int $post_id)
+    {
+        return self::where('id', $post_id)->value('user_id');
+    }
+
+
     public function pluckCategories()
     {
         return (new Category())->catList(false, true)->pluck('name', 'id');

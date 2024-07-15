@@ -20,4 +20,13 @@ class Comment extends Model
     {
         return $this->hasMany(self::class)->orderBy('created_at', 'desc');
     }
+
+    /* database queries */
+    public function createComment($request, $user_id)
+    {
+        $comment = $request->all();
+        $comment['status'] = 1;
+        $comment['user_id'] = $user_id;
+        self::create($comment);
+    }
 }

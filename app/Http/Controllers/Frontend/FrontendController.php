@@ -74,6 +74,12 @@ class FrontendController extends Controller
         return view('frontend.modules.about_us', compact('title', 'sub_title'));
     }
 
+    final public function notification()
+    {
+
+        return view('frontend.modules.notification');
+    }
+
     /* For search */
     public function search(Request $request)
     {
