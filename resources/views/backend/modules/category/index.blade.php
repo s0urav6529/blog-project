@@ -114,7 +114,7 @@
 
                     {{-- pagination open --}}
                     <div class="mt-3 d-flex justify-content-end">
-                        {{ $category_data->links() }}
+                        {{ $category_data->withQueryString()->links() }}
                     </div>
                     {{-- pagination end --}}
 

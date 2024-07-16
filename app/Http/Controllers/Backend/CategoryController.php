@@ -18,7 +18,7 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $category_data = (new Category())->catList()->paginate(10);
+        $category_data = (new Category())->catListDashboard($request)->paginate(10);
         return view('backend.modules.category.index', compact('category_data'));
     }
 

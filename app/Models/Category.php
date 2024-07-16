@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class Category extends Model
 {
@@ -19,17 +20,33 @@ class Category extends Model
     }
 
     /* database queries */
-    public function catList(bool $withSubCategory = false, bool $isActive = false)
+    public function catListDashboard(Request $request)
     {
+        $query = self::query();
+
+        if (isset($request->status) && !is_null($request->status)) {
+            $query->where('status', $request->status);
+        }
+
+        if (isset($request->date) && !is_null($request->date)) {
+            $query->whereDate('created_at', $request->date);
+        }
+
+        return $query->orderBy('order_by', 'asc');
+    }
+
+    public function catListFrontend(bool $withSubCategory = false, $isActive = false)
+    {
+
         $query = self::query();
 
         if ($withSubCategory) {
             $query->with('sub_category');
         }
-
         if ($isActive) {
-            $query->where('status', 1);
+            $query->where('status', '1');
         }
+
         return $query->orderBy('order_by', 'asc');
     }
 

@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
 
-        $category_data = (new Category())->catList(true, true)->get();
+        $category_data = (new Category())->catListFrontend(true, true)->get();
 
         $tag_data = (new Tag())->tagList(true)->get();
 
