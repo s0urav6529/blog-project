@@ -9,13 +9,37 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">Category List</h4>
-                        <a href="{{ route('category.create') }}"> <button class="btn btn-success btn-sm"><i
-                                    class="fa-solid fa-plus mx-1"></i>Add Category
-                            </button></a>
+                        <div class="form-container d-flex align-items-center">
+                            <form action="{{ route('category.index') }}" method="get" class="d-flex align-items-center">
+                                <div class="form-group me-3">
+                                    <select name="status" class="status-select form-control form-control-sm">
+                                        <option value="" {{ request('status') === null ? 'selected' : '' }}>
+                                            Select Status...</option>
+                                        <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Active
+                                        </option>
+                                        <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Inactive
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group me-3">
+                                    <input type="date" name="date" placeholder="Select Date"
+                                        class="form-control form-control-sm" value="{{ request('date') }}">
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="Filter" class="btn btn-primary btn-sm custom-submit-btn">
+                                </div>
+                            </form>
+                        </div>
+                        <a href="{{ route('category.create') }}">
+                            <button class="btn btn-success">
+                                <i class="fa-solid fa-plus mx-1"></i>Add Category
+                            </button>
+                        </a>
                     </div>
                 </div>
+
                 <div class="card-body">
                     {{-- @if (session('msg'))
                         <div class="alert alert-{{ session('notification_color') }}" id="alert-msg">
@@ -117,6 +141,9 @@
 
     @push('js')
         <script>
+            $(document).ready(function() {
+                $('.status-select').select2();
+            });
             /* @sweetalart during delete */
             $('.delete').on('click', function() {
                 let id = $(this).attr('data-id');
@@ -134,16 +161,6 @@
                     }
                 });
             });
-
-            /* notification message timeout during add & edit */
-            /* document.addEventListener('DOMContentLoaded', function() {
-                const alertMsg = documCategoryent.getElementById('alert-msg');
-                if (alertMsg) {
-                    setTimeout(() => {
-                        alertMsg.style.display = 'none';
-                    }, 5000);
-                }
-            }); */
         </script>
     @endpush
 @endsection
