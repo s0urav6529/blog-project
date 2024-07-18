@@ -30,6 +30,8 @@ class SubCategory extends Model
 
     public function pluckCategories()
     {
+        /* $data = Category::pluck('name', 'id');
+        dd($data); */
         return Category::pluck('name', 'id');
     }
 

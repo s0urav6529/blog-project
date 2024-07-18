@@ -9,11 +9,43 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="d-flex justify-content-between">
-                        <h4 class="mb-0">Sub-category List</h4>
-                        <a href="{{ route('sub-category.create') }}"> <button class="btn btn-success btn-sm"><i
-                                    class="fa-solid fa-plus mx-1"></i>Add Sub-category
-                            </button></a>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="form-container d-flex align-items-center">
+                            <form id="filter-form" action="{{ route('sub-category.index') }}" method="get"
+                                class="d-flex align-items-center">
+                                <div class="form-group me-3">
+                                    <label class="category-label">Category </label>
+                                    <select name="category" class="category-select form-control form-control-sm">
+                                        <option value="" {{ request('status') === null ? 'selected' : '' }}>...
+                                        </option>
+                                        @foreach ($categories as $id => $name)
+                                            <option value="{{ $name }}"
+                                                {{ request('category') == $name ? 'selected' : '' }}>{{ $name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group me-5">
+                                    <label class="status-label">Status </label>
+                                    <select name="status" class="status-select form-control form-control-sm">
+                                        <option value="" {{ request('status') === null ? 'selected' : '' }}>...
+                                        </option>
+                                        <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Active
+                                        </option>
+                                        <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Inactive
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group ms-5">
+                                    <input type="submit" value="Filter" class="btn btn-primary custom-submit-btn">
+                                </div>
+                            </form>
+                        </div>
+                        <a href="{{ route('category.create') }}">
+                            <button class="btn btn-success">
+                                <i class="fa-solid fa-plus mx-1"></i>Add Sub-category
+                            </button>
+                        </a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -32,7 +64,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if ($subcategory_data->isEmpty())
+                            @if ($subCategories->isEmpty())
                                 <tr>
                                     <td colspan="9" class="text-center">
                                         <div class="alert alert-warning mb-0" role="alert">
@@ -41,38 +73,38 @@
                                     </td>
                                 </tr>
                             @else
-                                @foreach ($subcategory_data as $index => $sub_category)
+                                @foreach ($subCategories as $index => $subCategory)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
-                                        <td>{{ $sub_category->name }}</td>
-                                        <td>{{ $sub_category->slug }}</td>
-                                        <td>{{ $sub_category->category->name }}</td>
-                                        <td>{{ $sub_category->order_by }}</td>
-                                        <td class="{{ $sub_category->status == 1 ? 'text-success' : 'text-danger' }}">
-                                            {{ $sub_category->status == 1 ? 'Active' : 'Inactive' }}
+                                        <td>{{ $subCategory->name }}</td>
+                                        <td>{{ $subCategory->slug }}</td>
+                                        <td>{{ $subCategory->category->name }}</td>
+                                        <td>{{ $subCategory->order_by }}</td>
+                                        <td class="{{ $subCategory->status == 1 ? 'text-success' : 'text-danger' }}">
+                                            {{ $subCategory->status == 1 ? 'Active' : 'Inactive' }}
                                         </td>
-                                        <td>{{ $sub_category->created_at->toDateTimeString() }}</td>
-                                        <td>{{ $sub_category->created_at != $sub_category->updated_at ? $sub_category->updated_at->toDateTimeString() : 'Not updated' }}
+                                        <td>{{ $subCategory->created_at->toDateTimeString() }}</td>
+                                        <td>{{ $subCategory->created_at != $subCategory->updated_at ? $subCategory->updated_at->toDateTimeString() : 'Not updated' }}
                                         </td>
                                         <td>
                                             <div class="d-flex justify-content-center">
-                                                <a href="{{ route('sub-category.show', $sub_category->id) }}"><button
+                                                <a href="{{ route('sub-category.show', $subCategory->id) }}"><button
                                                         class="btn btn-info btn-sm"><i
                                                             class="fa-solid fa-eye"></i></button></a>
 
-                                                <a href="{{ route('sub-category.edit', $sub_category->id) }}"><button
+                                                <a href="{{ route('sub-category.edit', $subCategory->id) }}"><button
                                                         class="btn btn-warning btn-sm mx-1"><i
                                                             class="fa-solid fa-edit"></i></button></a>
 
                                                 {!! Form::open([
                                                     'method' => 'delete',
-                                                    'id' => 'form_' . $sub_category->id,
-                                                    'route' => ['sub-category.destroy', $sub_category->id],
+                                                    'id' => 'form_' . $subCategory->id,
+                                                    'route' => ['sub-category.destroy', $subCategory->id],
                                                 ]) !!}
 
                                                 {!! Form::button('<i class="fa-solid fa-trash"></i>', [
                                                     'type' => 'button',
-                                                    'data-id' => $sub_category->id,
+                                                    'data-id' => $subCategory->id,
                                                     'class' => 'delete btn btn-danger btn-sm',
                                                 ]) !!}
 
@@ -86,7 +118,7 @@
                     </table>
                     {{-- pagination open --}}
                     <div class="mt-3 d-flex justify-content-end">
-                        {{ $subcategory_data->links() }}
+                        {{ $subCategories->withQueryString()->links() }}
                     </div>
                     {{-- pagination end --}}
                 </div>
@@ -112,6 +144,24 @@
 
     @push('js')
         <script>
+            /*  select to for filteration of status */
+            $(document).ready(function() {
+                $('.status-select').select2();
+            });
+
+            /*  select to for filteration of category */
+            $(document).ready(function() {
+                $('.category-select').select2();
+            });
+
+            /* parameter is only included in the URL if it is explicitly provided during filteration */
+            $('#filter-form').on('submit', function(event) {
+                $(this).find('input, select').each(function() {
+                    if (!$(this).val()) {
+                        $(this).prop('disabled', true);
+                    }
+                });
+            });
             /* @sweetalart during delete */
             $('.delete').on('click', function() {
                 let id = $(this).attr('data-id');

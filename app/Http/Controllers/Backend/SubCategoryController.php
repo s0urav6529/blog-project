@@ -17,8 +17,10 @@ class SubCategoryController extends Controller
      */
     public function index()
     {
-        $subcategory_data = (new SubCategory())->subCatList($withCategory = true)->paginate(10);
-        return view('backend.modules.sub_category.index', compact('subcategory_data'));
+        $categories = (new SubCategory())->pluckCategories();
+
+        $subCategories = (new SubCategory())->subCatList(true)->paginate(10);
+        return view('backend.modules.sub_category.index', compact('subCategories', 'categories'));
     }
 
     /**
