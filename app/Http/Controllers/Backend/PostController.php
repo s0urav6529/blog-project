@@ -5,15 +5,10 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostStoreRequest;
 use App\Http\Requests\PostUpdateRequest;
-use App\Models\Category;
 use App\Models\Post;
-use App\Models\SubCategory;
 use Illuminate\Support\Str;
-use App\Models\Tag;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
