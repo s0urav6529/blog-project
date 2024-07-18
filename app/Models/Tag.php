@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,8 +13,27 @@ class Tag extends Model
     protected $guarded = [];
 
     /* database queries */
-    public function tagList(bool $isActive = false)
+    public function tagListDashboard(Request $request)
     {
+        $query = self::query();
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('order_by')) {
+            $query->orderBy('order_by', $request->order_by);
+        } else {
+            //default ascending
+            $query->orderBy('order_by', 'asc');
+        }
+
+        return $query;
+    }
+
+    public function tagListFrontend(bool $isActive = false)
+    {
+
         $query = self::query();
 
         if ($isActive) {

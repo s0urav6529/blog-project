@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
 
         $category_data = (new Category())->catListFrontend(true, true)->get();
 
-        $tag_data = (new Tag())->tagList(true)->get();
+        $tag_data = (new Tag())->tagListFrontend(true)->get();
 
         $recent_posts = (new Post())->postList(false, false, false, false, true, true)->limit(5)->get();
 

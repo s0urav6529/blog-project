@@ -37,7 +37,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group me-5">
-                                    <label class="orderBy-label">Order By </label>
+                                    <label class="orderBy-subcat-label">Order By </label>
                                     <select name="order_by" class="order_by-select form-control form-control-sm">
                                         <option value="" {{ request('order_by') === null ? 'selected' : '' }}>...
                                         </option>

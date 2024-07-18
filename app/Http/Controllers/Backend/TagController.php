@@ -6,19 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TagStoreRequest;
 use App\Http\Requests\TagUpdateRequest;
 use App\Models\Tag;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\View\View as ViewView;
 
 class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tag_data = (new Tag())->tagList()->paginate(10);
+        $tag_data = (new Tag())->tagListDashboard($request)->paginate(10);
         return view('backend.modules.tag.index', compact('tag_data'));
     }
 

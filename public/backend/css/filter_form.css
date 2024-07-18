@@ -49,9 +49,14 @@
 .date-label{
     margin-left: 30px !important;
 }
-.orderBy-label{
+.orderBy-subcat-label{
     margin-left: 50px !important;
 }
+
+.orderBy-tag-label{
+    margin-left: 75px !important;
+}
+
 
 .select2-container--open .select2-dropdown--below {
     width: 150px !important;
