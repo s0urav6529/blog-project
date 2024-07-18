@@ -12,6 +12,7 @@
     font-weight: 500;
     border: none;
     cursor: pointer;
+    margin-left: 30px !important;
 }
 .form-group input[type="submit"]:hover {
     background-color: #45a049;
@@ -45,8 +46,11 @@
     margin-left: 30px !important;
 }
 
-span.select2-results {
-    width: 150px !important;
+.date-label{
+    margin-left: 30px !important;
+}
+.orderBy-label{
+    margin-left: 50px !important;
 }
 
 .select2-container--open .select2-dropdown--below {

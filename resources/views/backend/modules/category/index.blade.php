@@ -10,26 +10,22 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h4 class="mb-0">Category List</h4>
                         <div class="form-container d-flex align-items-center">
                             <form id="filter-form" action="{{ route('category.index') }}" method="get"
                                 class="d-flex align-items-center">
                                 <div class="form-group me-3">
+                                    <label class="status-label">Status </label>
                                     <select name="status" class="status-select form-control form-control-sm">
-                                        <option value="" {{ request('status') === null ? 'selected' : '' }}>
-                                            Select Status...</option>
+                                        <option value="" {{ request('status') === null ? 'selected' : '' }}>...
+                                        </option>
                                         <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Active
                                         </option>
                                         <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Inactive
                                         </option>
                                     </select>
                                 </div>
-                                <div class="form-group me-3">
-                                    <input type="date" name="date" placeholder="Select Date"
-                                        class="form-control form-control-sm" value="{{ request('date') }}">
-                                </div>
-                                <div class="form-group">
-                                    <input type="submit" value="Filter" class="btn btn-primary btn-sm custom-submit-btn">
+                                <div class="form-group ms-5">
+                                    <input type="submit" value="Filter" class="btn btn-primary custom-submit-btn">
                                 </div>
                             </form>
                         </div>

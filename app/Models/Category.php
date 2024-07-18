@@ -24,12 +24,8 @@ class Category extends Model
     {
         $query = self::query();
 
-        if (isset($request->status) && !is_null($request->status)) {
+        if ($request->filled('status')) {
             $query->where('status', $request->status);
-        }
-
-        if (isset($request->date) && !is_null($request->date)) {
-            $query->whereDate('created_at', $request->date);
         }
 
         return $query->orderBy('order_by', 'asc');

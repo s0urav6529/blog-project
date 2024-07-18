@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,7 +19,30 @@ class SubCategory extends Model
     }
 
     /* database queries */
-    public function subCatList($withCategory = false)
+
+    public function subCatListDashboard(Request $request)
+    {
+        $query = self::query();
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->category);
+        }
+
+        if ($request->filled('order_by')) {
+            $query->orderBy('order_by', $request->order_by);
+        } else {
+            //default ascending
+            $query->orderBy('order_by', 'asc');
+        }
+
+        return $query;
+    }
+
+    public function subCatListFrontend($withCategory = false)
     {
         $query = self::query();
 

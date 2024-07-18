@@ -19,8 +19,8 @@
                                         <option value="" {{ request('status') === null ? 'selected' : '' }}>...
                                         </option>
                                         @foreach ($categories as $id => $name)
-                                            <option value="{{ $name }}"
-                                                {{ request('category') == $name ? 'selected' : '' }}>{{ $name }}
+                                            <option value="{{ $id }}"
+                                                {{ request('category') == $id ? 'selected' : '' }}>{{ $name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -36,12 +36,23 @@
                                         </option>
                                     </select>
                                 </div>
+                                <div class="form-group me-5">
+                                    <label class="orderBy-label">Order By </label>
+                                    <select name="order_by" class="order_by-select form-control form-control-sm">
+                                        <option value="" {{ request('order_by') === null ? 'selected' : '' }}>...
+                                        </option>
+                                        <option value="desc" {{ request('order_by') === 'desc' ? 'selected' : '' }}>Desc
+                                        </option>
+                                        <option value="asc" {{ request('order_by') === 'asc' ? 'selected' : '' }}>Asc
+                                        </option>
+                                    </select>
+                                </div>
                                 <div class="form-group ms-5">
                                     <input type="submit" value="Filter" class="btn btn-primary custom-submit-btn">
                                 </div>
                             </form>
                         </div>
-                        <a href="{{ route('category.create') }}">
+                        <a href="{{ route('sub-category.create') }}">
                             <button class="btn btn-success">
                                 <i class="fa-solid fa-plus mx-1"></i>Add Sub-category
                             </button>
@@ -152,6 +163,11 @@
             /*  select to for filteration of category */
             $(document).ready(function() {
                 $('.category-select').select2();
+            });
+
+            /*  select to for filteration of sort-by */
+            $(document).ready(function() {
+                $('.order_by-select').select2();
             });
 
             /* parameter is only included in the URL if it is explicitly provided during filteration */

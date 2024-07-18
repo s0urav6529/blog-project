@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -15,11 +14,12 @@ class SubCategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+
         $categories = (new SubCategory())->pluckCategories();
 
-        $subCategories = (new SubCategory())->subCatList(true)->paginate(10);
+        $subCategories = (new SubCategory())->subCatListDashboard($request)->paginate(10);
         return view('backend.modules.sub_category.index', compact('subCategories', 'categories'));
     }
 
