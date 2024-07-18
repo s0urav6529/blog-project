@@ -9,7 +9,6 @@ use App\Http\Resources\CategoryListResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Collection;
 
 class CategoryController extends Controller
 {

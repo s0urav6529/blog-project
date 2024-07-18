@@ -12,7 +12,8 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">Category List</h4>
                         <div class="form-container d-flex align-items-center">
-                            <form action="{{ route('category.index') }}" method="get" class="d-flex align-items-center">
+                            <form id="filter-form" action="{{ route('category.index') }}" method="get"
+                                class="d-flex align-items-center">
                                 <div class="form-group me-3">
                                     <select name="status" class="status-select form-control form-control-sm">
                                         <option value="" {{ request('status') === null ? 'selected' : '' }}>
@@ -141,9 +142,20 @@
 
     @push('js')
         <script>
+            /*  select to for filteration */
             $(document).ready(function() {
                 $('.status-select').select2();
             });
+
+            /* parameter is only included in the URL if it is explicitly provided during filteration */
+            $('#filter-form').on('submit', function(event) {
+                $(this).find('input, select').each(function() {
+                    if (!$(this).val()) {
+                        $(this).prop('disabled', true);
+                    }
+                });
+            });
+
             /* @sweetalart during delete */
             $('.delete').on('click', function() {
                 let id = $(this).attr('data-id');

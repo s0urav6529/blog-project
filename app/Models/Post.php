@@ -91,7 +91,7 @@ class Post extends Model
 
     public function pluckCategories()
     {
-        return (new Category())->catList(false, true)->pluck('name', 'id');
+        return (new Category())->catListFrontend(false, true)->pluck('name', 'id');
     }
 
     public function selectTags()
