@@ -96,7 +96,7 @@ class Post extends Model
 
     public function selectTags()
     {
-        return (new Tag())->tagList(true)->select('name', 'id')->get();
+        return (new Tag())->tagListFrontend(true)->select('name', 'id')->get();
     }
 
     public function markedTags($post_id)
