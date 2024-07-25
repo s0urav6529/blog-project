@@ -15,7 +15,8 @@
                                 class="d-flex align-items-center">
                                 <div class="form-group me-3">
                                     <label class="category-label">Category </label>
-                                    <select name="category" class="category-select form-control form-control-sm">
+                                    <select name="category" class="category-select form-control form-control-sm"
+                                        id="category-select">
                                         <option value="" {{ request('status') === null ? 'selected' : '' }}>...
                                         </option>
                                         @foreach ($categories as $id => $name)
@@ -27,7 +28,8 @@
                                 </div>
                                 <div class="form-group me-5">
                                     <label class="status-label">Status </label>
-                                    <select name="status" class="status-select form-control form-control-sm">
+                                    <select name="status" class="status-select form-control form-control-sm"
+                                        id="status-select">
                                         <option value="" {{ request('status') === null ? 'selected' : '' }}>...
                                         </option>
                                         <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Active
@@ -38,7 +40,8 @@
                                 </div>
                                 <div class="form-group me-5">
                                     <label class="orderBy-subcat-label">Order By </label>
-                                    <select name="order_by" class="order_by-select form-control form-control-sm">
+                                    <select name="order_by" class="order_by-select form-control form-control-sm"
+                                        id="order_by-select">
                                         <option value="" {{ request('order_by') === null ? 'selected' : '' }}>...
                                         </option>
                                         <option value="desc" {{ request('order_by') === 'desc' ? 'selected' : '' }}>Desc
@@ -46,9 +49,6 @@
                                         <option value="asc" {{ request('order_by') === 'asc' ? 'selected' : '' }}>Asc
                                         </option>
                                     </select>
-                                </div>
-                                <div class="form-group ms-5">
-                                    <input type="submit" value="Filter" class="btn btn-primary custom-submit-btn">
                                 </div>
                             </form>
                         </div>
@@ -59,79 +59,8 @@
                         </a>
                     </div>
                 </div>
-                <div class="card-body">
-                    <table class="table table-striped table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>SL</th>
-                                <th>Sub-category Name</th>
-                                <th>Sub-category Slug</th>
-                                <th>Category Name</th>
-                                <th>Order By</th>
-                                <th>Status</th>
-                                <th>Created At</th>
-                                <th>Updated At</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if ($subCategories->isEmpty())
-                                <tr>
-                                    <td colspan="9" class="text-center">
-                                        <div class="alert alert-warning mb-0" role="alert">
-                                            <strong>No Sub-category Found !</strong>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @else
-                                @foreach ($subCategories as $index => $subCategory)
-                                    <tr>
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>{{ $subCategory->name }}</td>
-                                        <td>{{ $subCategory->slug }}</td>
-                                        <td>{{ $subCategory->category->name }}</td>
-                                        <td>{{ $subCategory->order_by }}</td>
-                                        <td class="{{ $subCategory->status == 1 ? 'text-success' : 'text-danger' }}">
-                                            {{ $subCategory->status == 1 ? 'Active' : 'Inactive' }}
-                                        </td>
-                                        <td>{{ $subCategory->created_at->toDateTimeString() }}</td>
-                                        <td>{{ $subCategory->created_at != $subCategory->updated_at ? $subCategory->updated_at->toDateTimeString() : 'Not updated' }}
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <a href="{{ route('sub-category.show', $subCategory->id) }}"><button
-                                                        class="btn btn-info btn-sm"><i
-                                                            class="fa-solid fa-eye"></i></button></a>
-
-                                                <a href="{{ route('sub-category.edit', $subCategory->id) }}"><button
-                                                        class="btn btn-warning btn-sm mx-1"><i
-                                                            class="fa-solid fa-edit"></i></button></a>
-
-                                                {!! Form::open([
-                                                    'method' => 'delete',
-                                                    'id' => 'form_' . $subCategory->id,
-                                                    'route' => ['sub-category.destroy', $subCategory->id],
-                                                ]) !!}
-
-                                                {!! Form::button('<i class="fa-solid fa-trash"></i>', [
-                                                    'type' => 'button',
-                                                    'data-id' => $subCategory->id,
-                                                    'class' => 'delete btn btn-danger btn-sm',
-                                                ]) !!}
-
-                                                {!! Form::close() !!}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @endif
-                        </tbody>
-                    </table>
-                    {{-- pagination open --}}
-                    <div class="mt-3 d-flex justify-content-end">
-                        {{ $subCategories->withQueryString()->links() }}
-                    </div>
-                    {{-- pagination end --}}
+                <div class="card-body" id="results">
+                    @include('backend.modules.sub_category.table', ['subCategories' => $subCategories])
                 </div>
             </div>
         </div>
@@ -158,26 +87,89 @@
             /*  select to for filteration of status */
             $(document).ready(function() {
                 $('.status-select').select2();
-            });
-
-            /*  select to for filteration of category */
-            $(document).ready(function() {
                 $('.category-select').select2();
-            });
-
-            /*  select to for filteration of sort-by */
-            $(document).ready(function() {
                 $('.order_by-select').select2();
+
+                function updateFormValues() {
+
+                    let urlParams = new URLSearchParams(window.location.search);
+
+                    let category = urlParams.get('category') || '';
+                    let status = urlParams.get('status') || '';
+                    let orderBy = urlParams.get('order_by') || '';
+
+                    $('#category-select').val(category).trigger('change');
+                    $('#status-select').val(status).trigger('change');
+                    $('#order_by-select').val(orderBy).trigger('change');
+                }
+
+                function sendRequest() {
+
+                    let form = $('#filter-form');
+                    let url = form.attr('action');
+                    let params = form.serializeArray();
+
+                    let query = params.map(function(param) {
+                        return encodeURIComponent(param.name) + '=' + encodeURIComponent(param.value);
+                    }).filter(function(param) {
+                        return param.split('=')[1] !== '';
+                    }).join('&');
+
+                    url = url + (query ? '?' + query : '');
+
+                    $.ajax({
+                        url: url,
+                        method: 'GET',
+                        success: function(response) {
+                            $('#results').html(response);
+                            // Push the new state to the history stack
+                            history.pushState({
+                                url: url
+                            }, '', url);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                }
+
+                // Initialize form values based on URL parameters on page load
+                updateFormValues();
+
+                $('#category-select, #status-select, #order_by-select').on('change', function() {
+                    sendRequest();
+                });
+
+                // Handle the back and forward button and restore the state
+                window.onpopstate = function(event) {
+                    if (event.state && event.state.url) {
+                        let url = event.state.url;
+
+                        // Update the form values based on the URL
+                        let urlParams = new URLSearchParams(new URL(url).search);
+                        let category = urlParams.get('category') || '';
+                        let status = urlParams.get('status') || '';
+                        let orderBy = urlParams.get('order_by') || '';
+
+                        $('#category-select').val(category).trigger('change');
+                        $('#status-select').val(status).trigger('change');
+                        $('#order_by-select').val(orderBy).trigger('change');
+
+                        // Load the content based on the URL
+                        $.ajax({
+                            url: url,
+                            method: 'GET',
+                            success: function(response) {
+                                $('#results').html(response);
+                            },
+                            error: function(xhr, status, error) {
+                                console.error(error);
+                            }
+                        });
+                    }
+                };
             });
 
-            /* parameter is only included in the URL if it is explicitly provided during filteration */
-            $('#filter-form').on('submit', function(event) {
-                $(this).find('input, select').each(function() {
-                    if (!$(this).val()) {
-                        $(this).prop('disabled', true);
-                    }
-                });
-            });
             /* @sweetalart during delete */
             $('.delete').on('click', function() {
                 let id = $(this).attr('data-id');

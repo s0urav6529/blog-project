@@ -20,6 +20,11 @@ class SubCategoryController extends Controller
         $categories = (new SubCategory())->pluckCategories();
 
         $subCategories = (new SubCategory())->subCatListDashboard($request)->paginate(10);
+
+        if ($request->ajax()) {
+            return view('backend.modules.sub_category.table', compact('subCategories'))->render();
+        }
+
         return view('backend.modules.sub_category.index', compact('subCategories', 'categories'));
     }
 
