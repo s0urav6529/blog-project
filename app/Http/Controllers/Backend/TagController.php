@@ -16,8 +16,13 @@ class TagController extends Controller
      */
     public function index(Request $request)
     {
-        $tag_data = (new Tag())->tagListDashboard($request)->paginate(10);
-        return view('backend.modules.tag.index', compact('tag_data'));
+        $tags = (new Tag())->tagListDashboard($request)->paginate(10);
+
+        if ($request->ajax()) {
+            return view('backend.modules.tag.table', compact('tags'))->render();
+        }
+
+        return view('backend.modules.tag.index', compact('tags'));
     }
 
     /**

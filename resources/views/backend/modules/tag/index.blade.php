@@ -15,7 +15,8 @@
                                 class="d-flex align-items-center">
                                 <div class="form-group me-3">
                                     <label class="status-label">Status </label>
-                                    <select name="status" class="status-select form-control form-control-sm">
+                                    <select name="status" class="status-select form-control form-control-sm"
+                                        id="status-select">
                                         <option value="" {{ request('status') === null ? 'selected' : '' }}>...
                                         </option>
                                         <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Active
@@ -26,7 +27,8 @@
                                 </div>
                                 <div class="form-group me-5">
                                     <label class="orderBy-tag-label">Order By </label>
-                                    <select name="order_by" class="order_by-select form-control form-control-sm">
+                                    <select name="order_by" class="order_by-select form-control form-control-sm"
+                                        id="order_by-select">
                                         <option value="" {{ request('order_by') === null ? 'selected' : '' }}>...
                                         </option>
                                         <option value="desc" {{ request('order_by') === 'desc' ? 'selected' : '' }}>Desc
@@ -34,9 +36,6 @@
                                         <option value="asc" {{ request('order_by') === 'asc' ? 'selected' : '' }}>Asc
                                         </option>
                                     </select>
-                                </div>
-                                <div class="form-group ms-5">
-                                    <input type="submit" value="Filter" class="btn btn-primary custom-submit-btn">
                                 </div>
                             </form>
                         </div>
@@ -47,77 +46,8 @@
                         </a>
                     </div>
                 </div>
-                <div class="card-body">
-                    <table class="table table-striped table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>SL</th>
-                                <th>Tag Name</th>
-                                <th>Tag Slug</th>
-                                <th>Order By</th>
-                                <th>Status</th>
-                                <th>Created At</th>
-                                <th>Updated At</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if ($tag_data->isEmpty())
-                                <tr>
-                                    <td colspan="8" class="text-center">
-                                        <div class="alert alert-warning mb-0" role="alert">
-                                            <strong>No Tag Found !</strong>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @else
-                                @foreach ($tag_data as $index => $tag)
-                                    <tr>
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>{{ $tag->name }}</td>
-                                        <td>{{ $tag->slug }}</td>
-                                        <td>{{ $tag->order_by }}</td>
-                                        <td class="{{ $tag->status == 1 ? 'text-success' : 'text-danger' }}">
-                                            {{ $tag->status == 1 ? 'Active' : 'Inactive' }}
-                                        </td>
-                                        <td>{{ $tag->created_at->toDateTimeString() }}</td>
-                                        <td>{{ $tag->created_at != $tag->updated_at ? $tag->updated_at->toDateTimeString() : 'Not updated' }}
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <a href="{{ route('tag.show', $tag->id) }}"><button
-                                                        class="btn btn-info btn-sm"><i
-                                                            class="fa-solid fa-eye"></i></button></a>
-
-                                                <a href="{{ route('tag.edit', $tag->id) }}"><button
-                                                        class="btn btn-warning btn-sm mx-1"><i
-                                                            class="fa-solid fa-edit"></i></button></a>
-
-                                                {!! Form::open([
-                                                    'method' => 'delete',
-                                                    'id' => 'form_' . $tag->id,
-                                                    'route' => ['tag.destroy', $tag->id],
-                                                ]) !!}
-
-                                                {!! Form::button('<i class="fa-solid fa-trash"></i>', [
-                                                    'type' => 'button',
-                                                    'data-id' => $tag->id,
-                                                    'class' => 'delete btn btn-danger btn-sm',
-                                                ]) !!}
-
-                                                {!! Form::close() !!}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @endif
-                        </tbody>
-                    </table>
-                    {{-- pagination open --}}
-                    <div class="mt-3 d-flex justify-content-end">
-                        {{ $tag_data->links() }}
-                    </div>
-                    {{-- pagination end --}}
+                <div class="card-body" id="results">
+                    @include('backend.modules.tag.table', ['tags' => $tags])
                 </div>
             </div>
         </div>
@@ -140,24 +70,98 @@
     @endif
 
     @push('js')
+        {{-- axios cdn --}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js"
+            integrity="sha512-JSCFHhKDilTRRXe9ak/FJ28dcpOJxzQaCd3Xg8MyF6XFjODhy/YMCM8HW0TFDckNHWUewW+kfvhin43hKtJxAw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
         <script>
-            /*  select to for filteration of status */
+            /*  select2 to for filteration of status & order-by & form submit after every change */
+
+
             $(document).ready(function() {
+
+                // Initialize Select2 on the select elements
                 $('.status-select').select2();
-            });
-
-            /*  select to for filteration of sort-by */
-            $(document).ready(function() {
                 $('.order_by-select').select2();
-            });
 
-            /* parameter is only included in the URL if it is explicitly provided during filteration */
-            $('#filter-form').on('submit', function(event) {
-                $(this).find('input, select').each(function() {
-                    if (!$(this).val()) {
-                        $(this).prop('disabled', true);
-                    }
+                function updateFormValues() {
+
+                    let urlParams = new URLSearchParams(window.location.search);
+
+                    let status = urlParams.get('status') || '';
+                    let orderBy = urlParams.get('order_by') || '';
+
+                    // Set the value for status-select and order_by-select
+                    $('#status-select').val(status).trigger('change');
+                    $('#order_by-select').val(orderBy).trigger('change');
+                }
+
+                function sendRequest() {
+                    let form = $('#filter-form');
+                    let url = form.attr('action');
+                    let params = form.serializeArray();
+
+                    let query = params.map(function(param) {
+                        return encodeURIComponent(param.name) + '=' + encodeURIComponent(param.value);
+                    }).filter(function(param) {
+                        return param.split('=')[1] !== '';
+                    }).join('&');
+
+                    url = url + (query ? '?' + query : '');
+
+                    $.ajax({
+                        url: url,
+                        method: 'GET',
+                        success: function(response) {
+                            $('#results').html(response);
+                            // Push the new state to the history stack
+                            history.pushState({
+                                url: url
+                            }, '', url);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                }
+
+                // Initialize form values based on URL parameters on page load
+                updateFormValues();
+
+                // Bind change event to select elements
+                $('#status-select, #order_by-select').on('change', function() {
+                    sendRequest();
                 });
+
+                // Handle the back and forward button and restore the state
+                window.onpopstate = function(event) {
+                    if (event.state && event.state.url) {
+                        let url = event.state.url;
+
+                        // Update the form values based on the URL
+                        let urlParams = new URLSearchParams(new URL(url).search);
+                        let status = urlParams.get('status') || '';
+                        let orderBy = urlParams.get('order_by') || '';
+
+                        // Set the value for status-select and order_by-select
+                        $('#status-select').val(status).trigger('change');
+                        $('#order_by-select').val(orderBy).trigger('change');
+
+                        // Load the content based on the URL
+                        $.ajax({
+                            url: url,
+                            method: 'GET',
+                            success: function(response) {
+                                $('#results').html(response);
+                            },
+                            error: function(xhr, status, error) {
+                                console.error(error);
+                            }
+                        });
+                    }
+                };
+
             });
 
             /* @sweetalart during delete */
