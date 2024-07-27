@@ -66,7 +66,6 @@ class CategoryController extends Controller
      */
     public function update(CategoryUpdateRequest $request, Category $category)
     {
-
         $upCategory = $request->all();
         $upCategory['slug'] = Str::slug($request->input('slug'));
 
@@ -83,7 +82,6 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-
         (new Category())->deleteCategory($category);
 
         session()->flash('msg', 'Category deleted successfully !');
@@ -92,19 +90,15 @@ class CategoryController extends Controller
         return redirect()->route('category.index');
     }
 
-
     //this function for api
-
     final public function getCategories()
     {
-
         $categories = Category::where('status', 1)->latest()->get();
         return CategoryListResource::collection($categories);
     }
 
     final public function categoryDetails(int $id)
     {
-
         $category = Category::findOrFail($id);
         //@for single data
         return new CategoryListResource($category);
@@ -118,7 +112,6 @@ class CategoryController extends Controller
 
     final public function categoryUpdate(CategoryUpdateRequest $request, int $id)
     {
-
         $category_data = $request->all();
         $category_data['slug'] = Str::slug($request->input('slug'));
 
