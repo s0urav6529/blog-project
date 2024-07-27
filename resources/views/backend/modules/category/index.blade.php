@@ -14,7 +14,7 @@
                             <form id="filter-form" action="{{ route('category.index') }}" method="get"
                                 class="d-flex align-items-center">
                                 <div class="form-group me-3">
-                                    <label class="status-label">Status </label>
+                                    <label class="cat-l-status">Status </label>
                                     <select name="status" class="status-select form-control form-control-sm">
                                         <option value="" {{ request('status') === null ? 'selected' : '' }}>...
                                         </option>

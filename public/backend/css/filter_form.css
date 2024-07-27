@@ -38,26 +38,59 @@
     top: -2px !important;
 }
 
-.category-label {
-    margin-left: 20px !important;
-}
-
-.status-label {
-    margin-left: 30px !important;
-}
-
 .date-label{
     margin-left: 30px !important;
 }
-.orderBy-subcat-label{
-    margin-left: 50px !important;
-}
-
-.orderBy-tag-label{
-    margin-left: 75px !important;
-}
-
 
 .select2-container--open .select2-dropdown--below {
     width: 150px !important;
 }
+
+/* category index css */
+.cat-l-status{
+    margin-left: 40px !important;
+}
+
+/* sub category index css */
+.subcat-l-status{
+    margin-left: 40px !important;
+}
+.subcat-l-category{
+    margin-left: 40px !important;
+}
+.subcat-l-orderby{
+    margin-left: 45px !important;
+}
+
+/* tag index css */
+.tag-l-status {
+    margin-left: 40px !important;
+}
+.tag-l-orderby{
+    margin-left: 75px !important;
+}
+
+/* post index css */
+.post-l-category{
+    margin-left: 0px !important;
+}
+.post-l-status{
+    margin-left: 115px !important;
+}
+.post-l-subcategory{
+    margin-left: 40px !important;
+}
+.post-l-tag{
+    margin-left: 40px !important;
+}
+
+.post-l-approval{
+    margin-left: 10px !important;
+}
+.post-l-createdby{
+    margin-left: 40px !important;
+}
+
+
+
+

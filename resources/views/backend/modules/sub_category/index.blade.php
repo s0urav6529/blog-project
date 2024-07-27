@@ -11,13 +11,12 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="form-container d-flex align-items-center">
-                            <form id="filter-form" action="{{ route('sub-category.index') }}" method="get"
-                                class="d-flex align-items-center">
+                            <form id="filter-form" class="d-flex align-items-center">
                                 <div class="form-group me-3">
-                                    <label class="category-label">Category </label>
+                                    <label class="subcat-l-category">Category </label>
                                     <select name="category" class="category-select form-control form-control-sm"
                                         id="category-select">
-                                        <option value="" {{ request('status') === null ? 'selected' : '' }}>...
+                                        <option value="" {{ request('category') === null ? 'selected' : '' }}>...
                                         </option>
                                         @foreach ($categories as $id => $name)
                                             <option value="{{ $id }}"
@@ -27,7 +26,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group me-5">
-                                    <label class="status-label">Status </label>
+                                    <label class="subcat-l-status">Status </label>
                                     <select name="status" class="status-select form-control form-control-sm"
                                         id="status-select">
                                         <option value="" {{ request('status') === null ? 'selected' : '' }}>...
@@ -39,7 +38,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group me-5">
-                                    <label class="orderBy-subcat-label">Order By </label>
+                                    <label class="subcat-l-orderby">Order By </label>
                                     <select name="order_by" class="order_by-select form-control form-control-sm"
                                         id="order_by-select">
                                         <option value="" {{ request('order_by') === null ? 'selected' : '' }}>...
@@ -90,7 +89,7 @@
                 $('.category-select').select2();
                 $('.order_by-select').select2();
 
-                function updateFormValues() {
+                function filterQuery() {
 
                     let urlParams = new URLSearchParams(window.location.search);
 
@@ -106,7 +105,7 @@
                 function sendRequest() {
 
                     let form = $('#filter-form');
-                    let url = form.attr('action');
+                    let url = "{{ route('sub-category.index') }}";
                     let params = form.serializeArray();
 
                     let query = params.map(function(param) {
@@ -134,7 +133,7 @@
                 }
 
                 // Initialize form values based on URL parameters on page load
-                updateFormValues();
+                filterQuery();
 
                 $('#category-select, #status-select, #order_by-select').on('change', function() {
                     sendRequest();

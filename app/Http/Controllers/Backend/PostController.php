@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PostStoreRequest;
 use App\Http\Requests\PostUpdateRequest;
 use App\Models\Post;
+use App\Models\SubCategory;
 use Illuminate\Support\Str;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
@@ -15,17 +17,24 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    final public function index()
+    final public function index(Request $request)
     {
+        //dd($request->all());
+        $categories = (new SubCategory())->pluckCategories();
 
-        $query = (new Post())->postList(true, true, true, true, false, false);
+        $query = (new Post())->postListDashboard($request);
 
         if (Auth::user()->role == User::USER) {
             $query->where('user_id', Auth::id());
         }
-        $post_data = $query->paginate(10);
+        $posts = $query->paginate(10);
 
-        return view('backend.modules.post.index', compact('post_data'));
+        if ($request->ajax()) {
+            //only show the rendered table
+            return view('backend.modules.post.table', compact('posts'))->render();
+        }
+
+        return view('backend.modules.post.index', compact('posts', 'categories'));
     }
 
     /**

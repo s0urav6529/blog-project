@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -81,6 +82,31 @@ class Post extends Model
         }
 
         return $query->latest();
+    }
+
+    public function postListDashboard(Request $request)
+    {
+
+        $query = self::query();
+
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->category);
+        }
+
+        if ($request->filled('sub_category')) {
+            $query->where('sub_category_id', $request->sub_category);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('approval')) {
+            $query->where('is_approved', $request->approval);
+        }
+
+
+        return $query;
     }
 
     public function postOwnerId(int $post_id)

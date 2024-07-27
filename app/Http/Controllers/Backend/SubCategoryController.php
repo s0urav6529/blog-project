@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Http\Requests\SubCategoryStoreRequest;
 use App\Http\Requests\SubCategoryUpdateRequest;
+use Psy\Readline\Hoa\Console;
 
 class SubCategoryController extends Controller
 {
@@ -22,6 +23,7 @@ class SubCategoryController extends Controller
         $subCategories = (new SubCategory())->subCatListDashboard($request)->paginate(10);
 
         if ($request->ajax()) {
+            //only show the rendered table
             return view('backend.modules.sub_category.table', compact('subCategories'))->render();
         }
 

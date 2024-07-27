@@ -14,7 +14,7 @@
                             <form id="filter-form" action="{{ route('tag.index') }}" method="get"
                                 class="d-flex align-items-center">
                                 <div class="form-group me-3">
-                                    <label class="status-label">Status </label>
+                                    <label class="tag-l-status">Status </label>
                                     <select name="status" class="status-select form-control form-control-sm"
                                         id="status-select">
                                         <option value="" {{ request('status') === null ? 'selected' : '' }}>...
@@ -26,7 +26,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group me-5">
-                                    <label class="orderBy-tag-label">Order By </label>
+                                    <label class="tag-l-orderby">Order By </label>
                                     <select name="order_by" class="order_by-select form-control form-control-sm"
                                         id="order_by-select">
                                         <option value="" {{ request('order_by') === null ? 'selected' : '' }}>...
@@ -71,10 +71,6 @@
 
     @push('js')
         {{-- axios cdn --}}
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js"
-            integrity="sha512-JSCFHhKDilTRRXe9ak/FJ28dcpOJxzQaCd3Xg8MyF6XFjODhy/YMCM8HW0TFDckNHWUewW+kfvhin43hKtJxAw=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
         <script>
             /*  select2 to for filteration of status & order-by & form submit after every change */
 
