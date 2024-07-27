@@ -44,7 +44,7 @@ class AuthenticatedSessionController extends Controller
             return redirect()->to($intendedUrl);
         }
 
-        return redirect()->intended(RouteServiceProvider::DASHBOARD);
+        return redirect()->to(RouteServiceProvider::DASHBOARD);
     }
 
     /**
