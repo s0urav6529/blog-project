@@ -96,7 +96,7 @@
     {{--  notification message toast --}}
     @if (session('msg'))
         @push('js')
-            @include('backend.modules.post.commonJs.toast')
+            @include('backend.modules.common-script.toast')
         @endpush
     @endif
 
@@ -225,7 +225,9 @@
             });
         </script>
 
-        {{-- include common script tag for image modal, delete post --}}
-        @include('backend.modules.post.commonJs.index-js')
+        {{-- common script tag for image modal --}}
+        @include('backend.modules.post.commonJs.modalTrigger')
+        {{-- common script tag for delete post --}}
+        @include('backend.modules.common-script.delete')
     @endpush
 @endsection

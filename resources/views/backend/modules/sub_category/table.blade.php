@@ -68,3 +68,9 @@
     {{ $subCategories->withQueryString()->links() }}
 </div>
 {{-- pagination end --}}
+
+{{-- common script tag for delete subcategory --}}
+@include('backend.modules.common-script.delete')
+
+{{-- common script tag for toast message --}}
+@include('backend.modules.common-script.toast')
