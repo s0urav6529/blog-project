@@ -169,7 +169,7 @@
                         </tbody>
                     </table>
                     <div class="d-flex justify-content-center mt-3">
-                        @if (Auth::id() == \App\Models\User::ADMIN)
+                        @if (Auth::user()->role == \App\Models\User::ADMIN)
                             <a href="{{ route('category.show', $post->category?->id) }}" class="btn btn-info btn-sm"><i
                                     class="fa-solid fa-eye mx-1"></i></i>Know More</a>
                         @endif
@@ -204,7 +204,7 @@
                         </tbody>
                     </table>
                     <div class="d-flex justify-content-center mt-3">
-                        @if (Auth::id() == \App\Models\User::ADMIN)
+                        @if (Auth::user()->role == \App\Models\User::ADMIN)
                             <a href="{{ route('sub-category.show', $post->sub_category?->id) }}"
                                 class="btn btn-info btn-sm"><i class="fa-solid fa-eye mx-1"></i></i>Know More</a>
                         @endif
@@ -212,7 +212,7 @@
                 </div>
             </div>
 
-            @if (Auth::id() == \App\Models\User::ADMIN)
+            @if (Auth::user()->role == \App\Models\User::ADMIN)
                 <div class="card mt-2">
                     <div class="card-header">
                         <h4>Creator Details</h4>

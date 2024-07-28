@@ -96,16 +96,7 @@
     {{--  notification message toast --}}
     @if (session('msg'))
         @push('js')
-            <script>
-                Swal.fire({
-                    position: "top-end",
-                    icon: '{{ session('notification_color') }}',
-                    toast: true,
-                    title: '{{ session('msg') }}',
-                    showConfirmButton: false,
-                    timer: 3000
-                });
-            </script>
+            @include('backend.modules.post.commonJs.toast')
         @endpush
     @endif
 
@@ -232,33 +223,9 @@
                     }
                 };
             });
-
-            /* @sweetalart during delete */
-            $('.delete').on('click', function() {
-                let id = $(this).attr('data-id');
-                Swal.fire({
-                    title: "Are you sure to delete?",
-                    text: "You won't be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $(`#form_${id}`).submit()
-                    }
-                });
-            });
-
-            /* @image modal open */
-            $('.post-image').on('click', function() {
-
-                let image = $(this).attr('data-src');
-                $('#display_image').attr('src', image);
-                $('#img_show_btn').trigger('click');
-
-            })
         </script>
+
+        {{-- include common script tag for image modal, delete post --}}
+        @include('backend.modules.post.commonJs.index-js')
     @endpush
 @endsection

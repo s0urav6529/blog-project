@@ -124,3 +124,11 @@
     {{ $posts->withQueryString()->links() }}
 </div>
 {{-- pagination end --}}
+
+{{-- common script tag for image modal, delete post --}}
+@include('backend.modules.post.commonJs.index-js')
+
+{{--  common notification toast message --}}
+@if (session('msg'))
+    @include('backend.modules.post.commonJs.toast')
+@endif
