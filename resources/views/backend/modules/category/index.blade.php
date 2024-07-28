@@ -123,16 +123,7 @@
     {{--  notification message toast --}}
     @if (session('msg'))
         @push('js')
-            <script>
-                Swal.fire({
-                    position: "top-end",
-                    icon: '{{ session('notification_color') }}',
-                    toast: true,
-                    title: '{{ session('msg') }}',
-                    showConfirmButton: false,
-                    timer: 3000
-                });
-            </script>
+            @include('backend.modules.common-script.toast')
         @endpush
     @endif
 
@@ -151,24 +142,9 @@
                     }
                 });
             });
-
-            /* @sweetalart during delete */
-            $('.delete').on('click', function() {
-                let id = $(this).attr('data-id');
-                Swal.fire({
-                    title: "Are you sure to delete?",
-                    text: "You won't be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $(`#form_${id}`).submit()
-                    }
-                });
-            });
         </script>
+
+        {{-- common script tag for delete category --}}
+        @include('backend.modules.common-script.delete')
     @endpush
 @endsection
