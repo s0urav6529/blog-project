@@ -66,3 +66,11 @@
     {{ $tags->withQueryString()->links() }}
 </div>
 {{-- pagination end --}}
+
+{{-- common script tag for delete post --}}
+@include('backend.modules.common-script.delete')
+
+{{--  common notification toast message --}}
+@if (session('msg'))
+    @include('backend.modules.common-script.toast')
+@endif
