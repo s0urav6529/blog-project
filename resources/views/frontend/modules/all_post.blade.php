@@ -89,7 +89,7 @@
     @endif
     {{-- pagination start --}}
     <div class="mt-1 d-flex justify-content-center">
-        {{ $post_data->links() }}
+        {{ $post_data->withQueryString()->links() }}
     </div>
     {{-- pagination end --}}
 @endsection
