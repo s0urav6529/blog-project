@@ -39,7 +39,7 @@
                                 </div>
                             </form>
                         </div>
-                        <a href="{{ route('sub-category.create') }}">
+                        <a href="{{ route('tag.create') }}">
                             <button class="btn btn-success">
                                 <i class="fa-solid fa-plus mx-1"></i>Add Tag
                             </button>
