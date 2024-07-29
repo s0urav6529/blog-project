@@ -11,6 +11,7 @@ class UserProfile extends Model
 
     protected $guarded = [];
 
+    /* relations */
     public function division()
     {
         return $this->belongsTo(Division::class);
@@ -29,5 +30,16 @@ class UserProfile extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /* database queries */
+    public function pluckDivisions()
+    {
+        return Division::pluck('name', 'id');
+    }
+
+    public function findRole(int $user_id)
+    {
+        return User::find($user_id)->role;
     }
 }

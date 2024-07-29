@@ -22,7 +22,6 @@ class UserProfileController extends Controller
     final public function index()
     {
         $users = User::with('user_profile', 'user_profile.division', 'user_profile.district', 'user_profile.thana')->where('role', 2)->paginate(10);
-        //dd($users);
         return view('backend.modules.UserProfile.index', compact('users'));
     }
 
@@ -31,9 +30,12 @@ class UserProfileController extends Controller
      */
     final public function create()
     {
-        $divisions = Division::pluck('name', 'id');
+        $divisions = (new UserProfile())->pluckDivisions();
         $profile = UserProfile::where('user_id', Auth::id())->first();
-        return view('backend.modules.UserProfile.user_profile', compact('divisions', 'profile'));
+
+        $isEditable = true;
+
+        return view('backend.modules.UserProfile.user_profile', compact('divisions', 'profile', 'isEditable'));
     }
 
     /**
@@ -71,8 +73,22 @@ class UserProfileController extends Controller
      */
     public function edit(UserProfile $userProfile)
     {
-        $userProfile->load('division', 'district', 'thana', 'user');
-        return view('backend.modules.UserProfile.edit', compact('userProfile'));
+        $user_id = $userProfile->user_id;
+
+        $isEditable = Auth::id() === $user_id;
+        $profile = UserProfile::where('user_id', $user_id)->first();
+        $divisions = (new UserProfile())->pluckDivisions();
+
+        $userProfile->load('user');
+        $role = (new UserProfile())->findRole($user_id);
+
+        $roles = [
+            1 => 'Admin',
+            2 => 'User',
+            3 => 'Modarator'
+        ];
+
+        return view('backend.modules.UserProfile.edit', compact('userProfile', 'divisions', 'profile', 'isEditable', 'role', 'roles'));
     }
 
     /**

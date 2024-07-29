@@ -4,13 +4,23 @@
 {!! Form::text('phone', null, [
     'class' => 'form-control form-control-sm mt-1',
     'placeholder' => 'Enter phone number...',
+    $isEditable ? '' : 'readonly' => 'readonly',
 ]) !!}
 
 {!! Form::label('gender', 'Select Gender', ['class' => 'mt-2']) !!}
 <div class="d-flex mt-1">
-    <div class="d-flex me-4">{!! Form::radio('gender', 'Male', false, ['class' => 'form-check me-1']) !!} Male</div>
-    <div class="d-flex me-4">{!! Form::radio('gender', 'Female', false, ['class' => 'form-check me-1']) !!} Female</div>
-    <div class="d-flex">{!! Form::radio('gender', 'Other', false, ['class' => 'form-check me-1']) !!} Other</div>
+    <div class="d-flex me-4">{!! Form::radio('gender', 'Male', false, [
+        'class' => 'form-check me-1',
+        $isEditable ? '' : 'disabled' => 'disabled',
+    ]) !!} Male</div>
+    <div class="d-flex me-4">{!! Form::radio('gender', 'Female', false, [
+        'class' => 'form-check me-1',
+        $isEditable ? '' : 'disabled' => 'disabled',
+    ]) !!} Female</div>
+    <div class="d-flex">{!! Form::radio('gender', 'Other', false, [
+        'class' => 'form-check me-1',
+        $isEditable ? '' : 'disabled' => 'disabled',
+    ]) !!} Other</div>
 </div>
 
 
@@ -21,17 +31,18 @@
             'id' => 'division_id',
             'class' => 'form-select mt-1',
             'placeholder' => 'Select division...',
+            $isEditable ? '' : 'disabled' => 'disabled',
         ]) !!}
     </div>
     <div class="col-md-4">
         {!! Form::label('district_id', 'District', ['class' => 'mt-2']) !!}
-        <select name="district_id" id="district_id" class="form-select mt-1" disabled>
+        <select name="district_id" id="district_id" class="form-select mt-1" {{ $isEditable ? '' : 'disabled' }}>
             <option selected="selected">Select district...</option>
         </select>
     </div>
     <div class="col-md-4">
         {!! Form::label('thana_id', 'Upazila/Thana', ['class' => 'mt-2']) !!}
-        <select name="thana_id" id="thana_id" class="form-select mt-1" disabled>
+        <select name="thana_id" id="thana_id" class="form-select mt-1" {{ $isEditable ? '' : 'disabled' }}>
             <option selected="selected">Select thana...</option>
         </select>
     </div>
@@ -42,8 +53,13 @@
     'class' => 'form-control form-control-sm mt-1',
     'placeholder' => 'Write address...',
     'rows' => '3',
+    $isEditable ? '' : 'readonly' => 'readonly',
 ]) !!}
 
+@if (Auth::user()->role === \App\Models\User::ADMIN && Route::currentRouteName() == 'user-profile.edit')
+    {!! Form::label('role', 'Role', ['class' => 'mt-2']) !!}
+    {!! Form::select('role', $roles, $role, ['class' => 'form-select form-select-sm mt-1']) !!}
+@endif
 
 
 @push('js')
@@ -54,6 +70,8 @@
 
 
     <script>
+        const isEditable = {{ $isEditable ? 'true' : 'false' }};
+
         const getDistricts = (division_id, select_district = null) => {
 
             $('#thana_id').empty().append(`<option>Select thana...</option>`).attr('disabled', 'disabled');
@@ -64,7 +82,9 @@
 
                 let all_districts = $('#district_id');
 
-                all_districts.removeAttr('disabled');
+                if (isEditable) {
+                    all_districts.removeAttr('disabled');
+                }
                 all_districts.empty();
                 all_districts.append(`<option>Select district...</option>`);
 
@@ -85,7 +105,9 @@
 
                 let all_thanas = $('#thana_id');
 
-                all_thanas.removeAttr('disabled');
+                if (isEditable) {
+                    all_thanas.removeAttr('disabled');
+                }
                 all_thanas.empty();
                 all_thanas.append(`<option>Select thana...</option>`);
 

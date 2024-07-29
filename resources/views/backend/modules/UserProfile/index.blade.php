@@ -96,7 +96,7 @@
 
                     {{-- pagination open --}}
                     <div class="mt-3 d-flex justify-content-end">
-                        {{ $users->links() }}
+                        {{ $users->withQueryString()->links() }}
                     </div>
                     {{-- pagination end --}}
 
