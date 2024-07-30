@@ -20,6 +20,7 @@ class User extends Authenticatable
 
     public const ADMIN = 1;
     public const USER = 2;
+    public const MODARATOR = 3;
 
     protected $fillable = [
         'name',

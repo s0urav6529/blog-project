@@ -21,7 +21,7 @@ class UserProfileController extends Controller
      */
     final public function index()
     {
-        $users = User::with('user_profile', 'user_profile.division', 'user_profile.district', 'user_profile.thana')->where('role', 2)->paginate(10);
+        $users = User::with('user_profile', 'user_profile.division', 'user_profile.district', 'user_profile.thana')->paginate(10);
         return view('backend.modules.UserProfile.index', compact('users'));
     }
 
@@ -31,7 +31,7 @@ class UserProfileController extends Controller
     final public function create()
     {
         $divisions = (new UserProfile())->pluckDivisions();
-        $profile = UserProfile::where('user_id', Auth::id())->first();
+        $profile = (new UserProfile())->findProfileDetails(Auth::id());
 
         $isEditable = true;
 
@@ -45,7 +45,7 @@ class UserProfileController extends Controller
     {
         $profile = $request->all();
 
-        $userProfileExist = UserProfile::where('user_id', $profile['user_id'])->first();
+        $userProfileExist = (new UserProfile())->findProfileDetails($profile['user_id']);
 
         if ($userProfileExist) {
             $userProfileExist->update($profile);
@@ -76,11 +76,10 @@ class UserProfileController extends Controller
         $user_id = $userProfile->user_id;
 
         $isEditable = Auth::id() === $user_id;
-        $profile = UserProfile::where('user_id', $user_id)->first();
-        $divisions = (new UserProfile())->pluckDivisions();
-
-        $userProfile->load('user');
+        $profile = (new UserProfile())->findProfileDetails($user_id);
         $role = (new UserProfile())->findRole($user_id);
+        $divisions = (new UserProfile())->pluckDivisions();
+        $userProfile->load('user');
 
         $roles = [
             1 => 'Admin',
@@ -96,7 +95,18 @@ class UserProfileController extends Controller
      */
     public function update(Request $request, UserProfile $userProfile)
     {
-        //
+
+        $user = User::find($userProfile->user_id);
+
+        if ($user) {
+            $user->role = $request->role;
+            $user->save();
+
+            session()->flash('msg', 'User role updated successfully !');
+            session()->flash('notification_color', 'success');
+
+            return redirect()->route('user-profile.index');
+        }
     }
 
     /**

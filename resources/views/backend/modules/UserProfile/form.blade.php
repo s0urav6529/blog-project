@@ -1,4 +1,23 @@
-{!! Form::hidden('user_id', Auth::id()) !!}
+@if (Auth::user()->role === \App\Models\User::ADMIN && Route::currentRouteName() == 'user-profile.edit')
+    {!! Form::label('name', 'Name') !!}
+    {!! Form::text('name', $userProfile->user?->name, [
+        'class' => 'form-control form-control-sm mt-1',
+        'placeholder' => 'Enter phone number...',
+        $isEditable ? '' : 'readonly' => 'readonly',
+    ]) !!}
+
+    {!! Form::label('email', 'Email') !!}
+    {!! Form::text('email', $userProfile->user?->email, [
+        'class' => 'form-control form-control-sm mt-1',
+        'placeholder' => 'Enter phone number...',
+        $isEditable ? '' : 'readonly' => 'readonly',
+    ]) !!}
+
+    {!! Form::label('role', 'Role', ['class' => 'mt-2']) !!}
+    {!! Form::select('role', $roles, $role, ['class' => 'form-select form-select-sm mt-1']) !!}
+@else
+    {!! Form::hidden('user_id', Auth::id()) !!}
+@endif
 
 {!! Form::label('phone', 'Phone') !!}
 {!! Form::text('phone', null, [
@@ -22,7 +41,6 @@
         $isEditable ? '' : 'disabled' => 'disabled',
     ]) !!} Other</div>
 </div>
-
 
 <div class="row">
     <div class="col-md-4">
@@ -61,13 +79,11 @@
     {!! Form::select('role', $roles, $role, ['class' => 'form-select form-select-sm mt-1']) !!}
 @endif
 
-
 @push('js')
     {{-- axios cdn --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js"
         integrity="sha512-JSCFHhKDilTRRXe9ak/FJ28dcpOJxzQaCd3Xg8MyF6XFjODhy/YMCM8HW0TFDckNHWUewW+kfvhin43hKtJxAw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
 
     <script>
         const isEditable = {{ $isEditable ? 'true' : 'false' }};
@@ -138,7 +154,6 @@
         </script>
     @endpush
 @endif
-
 
 {{--  notification message toast --}}
 @if (session('msg'))

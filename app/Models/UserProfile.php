@@ -42,4 +42,9 @@ class UserProfile extends Model
     {
         return User::find($user_id)->role;
     }
+
+    public function findProfileDetails(int $user_id)
+    {
+        return self::where('user_id', $user_id)->first();
+    }
 }

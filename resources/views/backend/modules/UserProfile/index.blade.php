@@ -45,6 +45,9 @@
                                     <center>Photo</center>
                                 </th>
                                 <th>
+                                    <center>Role</center>
+                                </th>
+                                <th>
                                     <center>Action</center>
                                 </th>
                             </tr>
@@ -76,6 +79,10 @@
                                         <td><img class="img-thumbnail post-image"
                                                 data-src="{{ $user->user_profile->photo == null ? asset('images/user/default_dp.jpg') : asset('images/user/' . $user->user_profile->photo) }}"
                                                 src="{{ $user->user_profile->photo == null ? asset('images/user/default_dp.jpg') : asset('images/user/' . $user->user_profile->photo) }}">
+                                        </td>
+                                        <td
+                                            class="{{ $user->role == 1 ? 'text-success' : ($user->role == 3 ? 'text-primary' : 'text-danger') }}">
+                                            {{ $user->role == 1 ? 'Admin' : ($user->role == 3 ? 'Modarator' : 'User') }}
                                         </td>
                                         <td>
                                             <div class="d-flex justify-content-center">
@@ -121,7 +128,6 @@
         </div>
         {{-- @image model end --}}
     </div>
-
 
     @push('js')
         <script>
