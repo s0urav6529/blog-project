@@ -21,6 +21,7 @@ class PostController extends Controller
     {
         //dd($request->all());
         $categories = (new SubCategory())->pluckCategories();
+        $tags = (new Post())->selectTags();
 
         $query = (new Post())->postListDashboard($request);
 
@@ -34,7 +35,7 @@ class PostController extends Controller
             return view('backend.modules.post.table', compact('posts'))->render();
         }
 
-        return view('backend.modules.post.index', compact('posts', 'categories'));
+        return view('backend.modules.post.index', compact('posts', 'categories', 'tags'));
     }
 
     /**

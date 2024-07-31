@@ -122,16 +122,14 @@
 
     {{--  notification message toast --}}
     @if (session('msg'))
-        @push('js')
-            @include('backend.modules.common-script.toast')
-        @endpush
+        @include('backend.modules.common-script.toast')
     @endif
 
     @push('js')
         <script>
             /*  select to for filteration */
             $(document).ready(function() {
-                $('.status-select').select2();
+                $('#status-select').select2();
             });
 
             /* parameter is only included in the URL if it is explicitly provided during filteration */
@@ -143,8 +141,7 @@
                 });
             });
         </script>
-
-        {{-- common script tag for delete category --}}
-        @include('backend.modules.common-script.delete')
     @endpush
+    {{-- common script tag for delete category --}}
+    @include('backend.modules.common-script.delete')
 @endsection

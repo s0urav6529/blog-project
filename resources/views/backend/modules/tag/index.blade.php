@@ -55,9 +55,7 @@
 
     {{--  notification message toast --}}
     @if (session('msg'))
-        @push('js')
-            @include('backend.modules.common-script.toast')
-        @endpush
+        @include('backend.modules.common-script.toast')
     @endif
 
     @push('js')
@@ -69,8 +67,8 @@
             $(document).ready(function() {
 
                 // Initialize Select2 on the select elements
-                $('.status-select').select2();
-                $('.order_by-select').select2();
+                $('#status-select').select2();
+                $('#order_by-select').select2();
 
                 function updateFormValues() {
 
@@ -148,10 +146,9 @@
                         });
                     }
                 };
-
             });
         </script>
-        {{-- common script tag for delete tag --}}
-        @include('backend.modules.common-script.delete')
     @endpush
+    {{-- common script tag for delete tag --}}
+    @include('backend.modules.common-script.delete')
 @endsection

@@ -10,10 +10,10 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
-                        <div class="form-container d-flex align-items-center">
-                            <form id="filter-form" class="d-flex align-items-center">
+                        <div class="form-container d-flex flex-wrap">
+                            <form id="filter-form" class="d-flex flex-wrap align-items-center">
                                 <div class="form-group me-3">
-                                    <label class="post-l-category">Category </label>
+                                    <label class="post-l-category">Category</label>
                                     <select name="category" class="category-select form-control form-control-sm"
                                         id="category-select">
                                         <option value="" {{ request('category') === null ? 'selected' : '' }}>...
@@ -26,7 +26,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group me-3">
-                                    <label class="post-l-subcategory">Sub-category </label>
+                                    <label class="post-l-subcategory">Sub-category</label>
                                     <select name="sub_category" class="subcategory-select form-control form-control-sm"
                                         id="subcategory-select">
                                         <option value="" {{ request('sub_category') === null ? 'selected' : '' }}>...
@@ -34,42 +34,56 @@
                                     </select>
                                 </div>
                                 <div class="form-group me-5">
-                                    <label class="post-l-status">Status </label>
+                                    <label class="post-l-status">Status</label>
                                     <select name="status" class="status-select form-control form-control-sm"
                                         id="status-select">
                                         <option value="" {{ request('status') === null ? 'selected' : '' }}>...
                                         </option>
                                         <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Published
                                         </option>
-                                        <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>
-                                            Not Published
-                                        </option>
+                                        <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Not
+                                            Published</option>
                                     </select>
                                 </div>
                                 <div class="form-group me-5">
-                                    <label class="post-l-approval">Approval </label>
+                                    <label class="post-l-approval">Approval</label>
                                     <select name="approval" class="approval-select form-control form-control-sm"
                                         id="approval-select">
                                         <option value="" {{ request('approval') === null ? 'selected' : '' }}>...
                                         </option>
                                         <option value="1" {{ request('approval') === '1' ? 'selected' : '' }}>Approved
                                         </option>
-                                        <option value="0" {{ request('approval') === '0' ? 'selected' : '' }}>
-                                            Not Approved
-                                        </option>
+                                        <option value="0" {{ request('approval') === '0' ? 'selected' : '' }}>Not
+                                            Approved</option>
                                     </select>
+                                </div>
+                                <div class="form-group d-flex align-items-center me-5">
+                                    <label class="post-l-tag me-2">Tags</label>
+                                    <div class="d-flex flex-wrap">
+                                        @foreach ($tags as $tag)
+                                            <div class="form-check me-2">
+                                                <input class="form-check-input" type="checkbox" name="tags[]"
+                                                    value="{{ $tag->id }}" id="tag{{ $tag->id }}">
+                                                <label class="form-check-label" for="tag{{ $tag->id }}">
+                                                    {{ $tag->name }}
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 </div>
                             </form>
                         </div>
                         <a href="{{ route('post.create') }}">
                             <button class="btn btn-success">
-                                <i class="fa-solid fa-plus mx-1"></i>Add Post </button>
+                                <i class="fa-solid fa-plus mx-1"></i>Add Post
+                            </button>
                         </a>
                     </div>
                 </div>
                 <div class="card-body" id="results">
                     @include('backend.modules.post.table', ['posts' => $posts])
                 </div>
+
             </div>
         </div>
 
@@ -95,9 +109,7 @@
 
     {{--  notification message toast --}}
     @if (session('msg'))
-        @push('js')
-            @include('backend.modules.common-script.toast')
-        @endpush
+        @include('backend.modules.common-script.toast')
     @endif
 
     @push('js')
@@ -121,10 +133,10 @@
             };
 
             $(document).ready(function() {
-                $('.status-select').select2();
-                $('.category-select').select2();
-                $('.approval-select').select2();
-                $('.subcategory-select').select2();
+                $('#status-select').select2();
+                $('#category-select').select2();
+                $('#approval-select').select2();
+                $('#subcategory-select').select2();
 
                 function filterQuery() {
 
@@ -224,10 +236,9 @@
                 };
             });
         </script>
-
-        {{-- common script tag for image modal --}}
-        @include('backend.modules.post.commonJs.modalTrigger')
-        {{-- common script tag for delete post --}}
-        @include('backend.modules.common-script.delete')
     @endpush
+    {{-- common script tag for image modal --}}
+    @include('backend.modules.post.commonJs.modalTrigger')
+    {{-- common script tag for delete post --}}
+    @include('backend.modules.common-script.delete')
 @endsection

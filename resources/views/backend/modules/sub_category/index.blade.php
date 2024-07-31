@@ -67,18 +67,16 @@
 
     {{--  notification message toast --}}
     @if (session('msg'))
-        @push('js')
-            @include('backend.modules.common-script.toast')
-        @endpush
+        @include('backend.modules.common-script.toast')
     @endif
 
     @push('js')
         <script>
             /*  select to for filteration of status */
             $(document).ready(function() {
-                $('.status-select').select2();
-                $('.category-select').select2();
-                $('.order_by-select').select2();
+                $('#status-select').select2();
+                $('#category-select').select2();
+                $('#order_by-select').select2();
 
                 function filterQuery() {
 
@@ -160,7 +158,7 @@
                 };
             });
         </script>
-        {{-- common script tag for delete subcategory --}}
-        @include('backend.modules.common-script.delete')
     @endpush
+    {{-- common script tag for delete subcategory --}}
+    @include('backend.modules.common-script.delete')
 @endsection

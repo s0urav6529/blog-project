@@ -72,25 +72,57 @@
 
 /* post index css */
 .post-l-category{
-    margin-left: 0px !important;
+    margin-left: 125px !important;
 }
 .post-l-status{
-    margin-left: 115px !important;
+    margin-left: 125px !important;
 }
 .post-l-subcategory{
-    margin-left: 40px !important;
+    margin-left: 50px !important;
 }
 .post-l-tag{
-    margin-left: 40px !important;
+    margin-left: 125px !important;
 }
 
 .post-l-approval{
-    margin-left: 10px !important;
-}
-.post-l-createdby{
-    margin-left: 40px !important;
+    margin-left: 20px !important;
 }
 
+.form-group.d-flex {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.form-group.d-flex .post-l-tag {
+    margin-right: 1rem;
+}
+
+.form-check {
+    margin-right: 1rem;
+}
+
+.form-check-input {
+    margin-right: 0.5rem;
+}
+
+.form-check-input:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.form-check-input:focus {
+    outline: 2px solid #007bff;
+}
+
+@media (max-width: 576px) {
+    .form-group {
+        margin-bottom: 0.5rem;
+    }
+
+    .form-check {
+        margin-right: 0.5rem;
+    }
+}
 
 
 
