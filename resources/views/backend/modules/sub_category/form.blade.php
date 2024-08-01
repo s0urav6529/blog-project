@@ -15,7 +15,8 @@
 
 {!! Form::label('category_id', 'Category', ['class' => 'mt-2']) !!}
 {!! Form::select('category_id', $category_data, null, [
-    'class' => 'form-select mt-1',
+    'id' => 'category_id',
+    'class' => 'form-select mt-1 subcat-cat-length',
     'placeholder' => 'Select category...',
 ]) !!}
 

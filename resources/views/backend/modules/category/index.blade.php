@@ -129,7 +129,7 @@
         <script>
             /*  select to for filteration */
             $(document).ready(function() {
-                $('#status-select').select2();
+                $('.status-select').select2();
             });
 
             /* parameter is only included in the URL if it is explicitly provided during filteration */

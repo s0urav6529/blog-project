@@ -105,6 +105,15 @@ class Post extends Model
             $query->where('is_approved', $request->approval);
         }
 
+        if ($request->filled('tags')) {
+
+            $tags = json_decode($request->tags, true);
+
+            $query->whereHas('tag', function ($q) use ($tags) {
+                $q->whereIn('tags.id', $tags);
+            }, '=', count($tags));
+        }
+
 
         return $query;
     }

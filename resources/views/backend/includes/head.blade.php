@@ -6,6 +6,7 @@
 <title>@yield('page_title') | SM blog</title>
 <link rel="stylesheet" href="{{ asset('backend/css/post_css.css') }}">
 <link rel="stylesheet" href="{{ asset('backend/css/filter_form.css') }}">
+{{-- <link rel="stylesheet" href="{{ asset('backend/css/select2.css') }}"> --}}
 <link href="{{ asset('backend/css/styles.css') }}" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 {{-- select2 start --}}

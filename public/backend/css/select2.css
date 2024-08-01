@@ -1,0 +1,33 @@
+.subcat-cat-length {
+    width: 100% !important;
+}
+
+.select2-subcat {
+    width: 100% !important;
+}
+
+.select2-subcat--default .select2-selection--single {
+    width: 100% !important;
+}
+
+span.select2-selection__arrow {
+    margin-left: 455px !important;
+}
+
+span#select2-category_id-container {
+    width: 155px !important;
+}
+
+ul#select2-category_id-results {
+    width: 605px !important;
+}
+
+
+span.select2-dropdown.select2-dropdown--below {
+    width: 610px !important;
+}
+
+span.select2-selection.select2-selection--single {
+    height: 40px !important;
+
+}

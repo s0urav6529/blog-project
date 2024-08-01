@@ -9,8 +9,8 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="form-container d-flex flex-wrap">
+                    <div class="d-flex justify-content-between align-items-center header-area">
+                        <div class="form-container d-flex flex-wrap filter-area">
                             <form id="filter-form" class="d-flex flex-wrap align-items-center">
                                 <div class="form-group me-3">
                                     <label class="post-l-category">Category</label>
@@ -59,31 +59,28 @@
                                 </div>
                                 <div class="form-group d-flex align-items-center me-5">
                                     <label class="post-l-tag me-2">Tags</label>
-                                    <div class="d-flex flex-wrap">
+                                    <div class="tag-container">
                                         @foreach ($tags as $tag)
                                             <div class="form-check me-2">
                                                 <input class="form-check-input" type="checkbox" name="tags[]"
                                                     value="{{ $tag->id }}" id="tag{{ $tag->id }}">
-                                                <label class="form-check-label" for="tag{{ $tag->id }}">
-                                                    {{ $tag->name }}
-                                                </label>
+                                                <label class="form-check-label"> {{ $tag->name }}</label>
                                             </div>
                                         @endforeach
                                     </div>
                                 </div>
                             </form>
                         </div>
-                        <a href="{{ route('post.create') }}">
-                            <button class="btn btn-success">
+                        <div class="btn-area">
+                            <a href="{{ route('post.create') }}" class="btn btn-success btn-place">
                                 <i class="fa-solid fa-plus mx-1"></i>Add Post
-                            </button>
-                        </a>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body" id="results">
                     @include('backend.modules.post.table', ['posts' => $posts])
                 </div>
-
             </div>
         </div>
 
@@ -126,7 +123,6 @@
                             `<option value="${subCategory.id}">${subCategory.name}</option>`
                         );
                     });
-
                 }).catch(error => {
                     console.log(error);
                 });
@@ -146,27 +142,49 @@
                     let status = urlParams.get('status') || '';
                     let approval = urlParams.get('approval') || '';
                     let subCategory = urlParams.get('sub_category') || '';
-
+                    let tags = urlParams.get('tags') ? JSON.parse(urlParams.get('tags')) : [];
 
                     $('#category-select').val(category).trigger('change');
                     $('#status-select').val(status).trigger('change');
                     $('#approval-select').val(approval).trigger('change');
                     $('#subcategory-select').val(subCategory).trigger('change');
+
+                    $('input[name="tags[]"]').each(function() {
+                        if (tags.includes($(this).val())) {
+                            $(this).prop('checked', true);
+                        } else {
+                            $(this).prop('checked', false);
+                        }
+                    });
                 }
 
                 function sendRequest() {
 
                     let form = $('#filter-form');
                     let url = "{{ route('post.index') }}";
-                    let params = form.serializeArray();
+                    let params = form.serializeArray().filter(function(param) {
+                        return param.name !== 'tags[]';
+                    });
 
-                    let query = params.map(function(param) {
+                    let tags = [];
+                    $('input[name="tags[]"]:checked').each(function() {
+                        tags.push($(this).val());
+                    });
+
+                    let query = params.filter(function(param) {
+                        return param.value !== 'undefined' && param.value !== '';
+                    }).map(function(param) {
                         return encodeURIComponent(param.name) + '=' + encodeURIComponent(param.value);
-                    }).filter(function(param) {
-                        return param.split('=')[1] !== '';
-                    }).join('&');
+                    });
 
-                    url = url + (query ? '?' + query : '');
+                    // Add tags array to the query string
+                    if (tags.length > 0) {
+                        query.push('tags=' + encodeURIComponent(JSON.stringify(tags)));
+                    }
+
+                    url = url + (query.length ? '?' + query.join('&') : '');
+
+                    console.log(url);
 
                     $.ajax({
                         url: url,
@@ -187,22 +205,22 @@
                 // Initialize form values based on URL parameters on page load
                 filterQuery();
 
-                $('#category-select, #status-select, #approval-select, #subcategory-select').on('change', function(
-                    event) {
+                $('#category-select, #status-select, #approval-select, #subcategory-select, input[name="tags[]"]').on(
+                    'change',
+                    function(event) {
 
-                    if (event.target.id == 'category-select') {
+                        if (event.target.id == 'category-select') {
+                            let category_id = $(event.target).val();
+                            let subcategory_id = $('#subcategory-select');
+                            subcategory_id.empty();
+                            subcategory_id.append(`<option value=''>...</option>`);
 
-                        let category_id = $(event.target).val();
-                        let subcategory_id = $('#subcategory-select');
-                        subcategory_id.empty();
-                        subcategory_id.append(`<option value=''>...</option>`);
-
-                        if (category_id != '') {
-                            subCategoryLoad(category_id);
+                            if (category_id != '') {
+                                subCategoryLoad(category_id);
+                            }
                         }
-                    }
-                    sendRequest();
-                });
+                        sendRequest();
+                    });
 
                 // Handle the back and forward button and restore the state
                 window.onpopstate = function(event) {

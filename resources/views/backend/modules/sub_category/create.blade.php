@@ -51,6 +51,9 @@
                 let slug = name.replaceAll(' ', '-').toLowerCase();
                 $('#slug').val(slug);
             })
+            $(document).ready(function() {
+                $('#category_id').select2();
+            });
         </script>
     @endpush
 
