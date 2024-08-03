@@ -72,5 +72,7 @@
 {{-- common script tag for delete subcategory --}}
 @include('backend.modules.common-script.delete')
 
-{{-- common script tag for toast message --}}
-@include('backend.modules.common-script.toast')
+{{--  common notification toast message --}}
+@if (session('msg'))
+    @include('backend.modules.common-script.toast')
+@endif
