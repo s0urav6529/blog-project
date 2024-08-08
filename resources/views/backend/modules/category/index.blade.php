@@ -9,13 +9,14 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="form-container d-flex align-items-center">
+                    <div class="d-flex justify-content-between align-items-center header-area">
+                        <div class="form-container d-flex align-items-center filter-area-category">
                             <form id="filter-form" action="{{ route('category.index') }}" method="get"
                                 class="d-flex align-items-center">
                                 <div class="form-group me-3">
                                     <label class="cat-l-status">Status </label>
-                                    <select name="status" class="status-select form-control form-control-sm">
+                                    <select name="status" class="status-select form-control form-control-sm"
+                                        id="status-select">
                                         <option value="" {{ request('status') === null ? 'selected' : '' }}>...
                                         </option>
                                         <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Active
@@ -24,97 +25,47 @@
                                         </option>
                                     </select>
                                 </div>
-                                <div class="form-group ms-5">
-                                    <input type="submit" value="Filter" class="btn btn-primary custom-submit-btn">
+                                <div class="form-group me-5">
+                                    <label class="cat-l-orderby">Order By </label>
+                                    <select name="order_by" class="order_by-select form-control form-control-sm"
+                                        id="order_by-select">
+                                        <option value="" {{ request('order_by') === null ? 'selected' : '' }}>...
+                                        </option>
+                                        <option value="desc" {{ request('order_by') === 'desc' ? 'selected' : '' }}>Desc
+                                        </option>
+                                        <option value="asc" {{ request('order_by') === 'asc' ? 'selected' : '' }}>Asc
+                                        </option>
+                                    </select>
                                 </div>
                             </form>
                         </div>
-                        <a href="{{ route('category.create') }}">
-                            <button class="btn btn-success">
-                                <i class="fa-solid fa-plus mx-1"></i>Add Category
-                            </button>
-                        </a>
+
+                        <div class="search-area-category">
+                            <div class="category-search">
+                                <form id="search-form">
+                                    <input type="text" name="search" id="search" class="form-control"
+                                        placeholder="Search categories...">
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="add-btn-category">
+                            <a href="{{ route('category.create') }}">
+                                <button class="btn btn-success">
+                                    <i class="fa-solid fa-plus mx-1"></i>Add Category
+                                </button>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body" id="results">
                     {{-- @if (session('msg'))
                         <div class="alert alert-{{ session('notification_color') }}" id="alert-msg">
                             {{ session('msg') }}
                         </div>
                     @endif --}}
-                    <table class="table table-striped table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>SL</th>
-                                <th>Category Name</th>
-                                <th>Category Slug</th>
-                                <th>Order By</th>
-                                <th>Status</th>
-                                <th>Created At</th>
-                                <th>Updated At</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if ($category_data->isEmpty())
-                                <tr>
-                                    <td colspan="8" class="text-center">
-                                        <div class="alert alert-warning mb-0" role="alert">
-                                            <strong>No Category Found !</strong>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @else
-                                @foreach ($category_data as $index => $category)
-                                    <tr>
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>{{ $category->name }}</td>
-                                        <td>{{ $category->slug }}</td>
-                                        <td>{{ $category->order_by }}</td>
-                                        <td class="{{ $category->status == 1 ? 'text-success' : 'text-danger' }}">
-                                            {{ $category->status == 1 ? 'Active' : 'Inactive' }}
-                                        </td>
-                                        <td>{{ $category->created_at->toDateTimeString() }}</td>
-                                        <td>{{ $category->created_at != $category->updated_at ? $category->updated_at->toDateTimeString() : 'Not updated' }}
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <a href="{{ route('category.show', $category->id) }}"><button
-                                                        class="btn btn-info btn-sm"><i
-                                                            class="fa-solid fa-eye"></i></button></a>
-
-                                                <a href="{{ route('category.edit', $category->id) }}"><button
-                                                        class="btn btn-warning btn-sm mx-1"><i
-                                                            class="fa-solid fa-edit"></i></button></a>
-
-                                                {!! Form::open([
-                                                    'method' => 'delete',
-                                                    'id' => 'form_' . $category->id,
-                                                    'route' => ['category.destroy', $category->id],
-                                                ]) !!}
-
-                                                {!! Form::button('<i class="fa-solid fa-trash"></i>', [
-                                                    'type' => 'button',
-                                                    'data-id' => $category->id,
-                                                    'class' => 'delete btn btn-danger btn-sm',
-                                                ]) !!}
-
-                                                {!! Form::close() !!}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @endif
-                        </tbody>
-                    </table>
-
-                    {{-- pagination open --}}
-                    <div class="mt-3 d-flex justify-content-end">
-                        {{ $category_data->withQueryString()->links() }}
-                    </div>
-                    {{-- pagination end --}}
-
+                    @include('backend.modules.category.table', ['categories' => $categories])
                 </div>
             </div>
         </div>
@@ -127,18 +78,120 @@
 
     @push('js')
         <script>
-            /*  select to for filteration */
             $(document).ready(function() {
-                $('.status-select').select2();
-            });
 
-            /* parameter is only included in the URL if it is explicitly provided during filteration */
-            $('#filter-form').on('submit', function(event) {
-                $(this).find('input, select').each(function() {
-                    if (!$(this).val()) {
-                        $(this).prop('disabled', true);
-                    }
+                $('#status-select').select2();
+                $('#order_by-select').select2();
+
+
+                /* filtering in category start */
+                function updateFormValues() {
+
+                    let urlParams = new URLSearchParams(window.location.search);
+
+                    let status = urlParams.get('status') || '';
+                    let orderBy = urlParams.get('order_by') || '';
+
+                    // Set the value for status-select and order_by-select
+                    $('#status-select').val(status).trigger('change');
+                    $('#order_by-select').val(orderBy).trigger('change');
+                }
+
+                function sendRequest() {
+                    let form = $('#filter-form');
+                    let url = form.attr('action');
+                    let params = form.serializeArray();
+
+                    let query = params.map(function(param) {
+                        return encodeURIComponent(param.name) + '=' + encodeURIComponent(param.value);
+                    }).filter(function(param) {
+                        return param.split('=')[1] !== '';
+                    }).join('&');
+
+                    url = url + (query ? '?' + query : '');
+
+                    $.ajax({
+                        url: url,
+                        method: 'GET',
+                        success: function(response) {
+                            $('#results').html(response);
+                            // Push the new state to the history stack
+                            history.pushState({
+                                url: url
+                            }, '', url);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                }
+
+                updateFormValues();
+
+                // Bind change event to select elements
+                $('#status-select, #order_by-select').on('change', function() {
+                    sendRequest();
                 });
+
+                // Handle the back and forward button and restore the state
+                window.onpopstate = function(event) {
+                    if (event.state && event.state.url) {
+                        let url = event.state.url;
+
+                        // Update the form values based on the URL
+                        let urlParams = new URLSearchParams(new URL(url).search);
+                        let status = urlParams.get('status') || '';
+                        let orderBy = urlParams.get('order_by') || '';
+
+                        // Set the value for status-select and order_by-select
+                        $('#status-select').val(status).trigger('change');
+                        $('#order_by-select').val(orderBy).trigger('change');
+
+                        $.ajax({
+                            url: url,
+                            method: 'GET',
+                            success: function(response) {
+                                $('#results').html(response);
+                            },
+                            error: function(xhr, status, error) {
+                                console.error(error);
+                            }
+                        });
+                    }
+                };
+                /* filtering in category end */
+
+
+                /* searching in category */
+                $('#search-form').on('submit', function(event) {
+                    event.preventDefault();
+                    fetchCategories();
+                });
+
+                $(document).on('click', '.pagination a', function(event) {
+                    event.preventDefault();
+                    let page = $(this).attr('href').split('page=')[1];
+                    fetchCategories(page);
+                });
+
+                function fetchCategories(page = 1) {
+                    $.ajax({
+                        url: '{{ route('category.search') }}',
+                        method: 'GET',
+                        data: {
+                            search: $('#search').val(),
+                            page: page
+                        },
+                        success: function(response) {
+                            $('#results').html(response);
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+                        }
+                    });
+                }
+                /* filtering in category end */
+
             });
         </script>
     @endpush

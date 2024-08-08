@@ -17,8 +17,12 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $category_data = (new Category())->catListDashboard($request)->paginate(10);
-        return view('backend.modules.category.index', compact('category_data'));
+        $categories = (new Category())->catListDashboard($request)->paginate(10);
+
+        if ($request->ajax()) {
+            return view('backend.modules.category.table', compact('categories'))->render();
+        }
+        return view('backend.modules.category.index', compact('categories'));
     }
 
     /**
@@ -127,5 +131,14 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $category->delete();
         return response()->json(['msg' => 'Category deleted successfully !']);
+    }
+
+    public function searchCategory(Request $request)
+    {
+
+        $categories = Category::where('slug', 'like', '%' . $request->input('search') . '%')
+            ->paginate(10);
+
+        return view('backend.modules.category.table', compact('categories'))->render();
     }
 }

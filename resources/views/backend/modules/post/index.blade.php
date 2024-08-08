@@ -10,7 +10,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center header-area">
-                        <div class="form-container d-flex flex-wrap filter-area">
+                        <div class="form-container d-flex flex-wrap filter-area-post">
                             <form id="filter-form" class="d-flex flex-wrap align-items-center">
                                 <div class="form-group me-3">
                                     <label class="post-l-category">Category</label>
@@ -72,7 +72,7 @@
                             </form>
                         </div>
                         <div class="btn-area">
-                            <a href="{{ route('post.create') }}" class="btn btn-success btn-place">
+                            <a href="{{ route('post.create') }}" class="btn btn-success post-btn-place">
                                 <i class="fa-solid fa-plus mx-1"></i>Add Post
                             </a>
                         </div>

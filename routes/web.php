@@ -59,11 +59,14 @@ Route::group(['middleware' => 'lang'], static function () {
 
     Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
 
+        Route::get('/search-category', [CategoryController::class, 'searchCategory'])->name('category.search');
+
         Route::group(['middleware' => 'admin'], static function () {
             Route::resource('/category', CategoryController::class);
             Route::resource('/sub-category', SubCategoryController::class);
             Route::resource('/tag', TagController::class);
         });
+
 
         Route::get('/', [BackendController::class, 'index'])->name('back.index');
 

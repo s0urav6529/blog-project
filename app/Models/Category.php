@@ -28,7 +28,13 @@ class Category extends Model
             $query->where('status', $request->status);
         }
 
-        return $query->orderBy('order_by', 'asc');
+        if ($request->filled('order_by')) {
+            $query->orderBy('order_by', $request->order_by);
+        } else {
+            $query->orderBy('order_by', 'asc');
+        }
+
+        return $query;
     }
 
     public function catListFrontend(bool $withSubCategory = false, $isActive = false)

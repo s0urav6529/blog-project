@@ -46,9 +46,23 @@
     width: 150px !important;
 }
 
+/* table header area */
+.header-area {
+    width: 100% !important;
+}
+
 /* category index css */
-.cat-l-status{
+.filter-area-category {
+    width: 50% !important;
+}
+.search-area-category{
+    width: 30% !important;
+}
+.cat-l-status {
     margin-left: 40px !important;
+}
+.cat-l-orderby{
+    margin-left: 75px !important;
 }
 
 /* sub category index css */
@@ -62,6 +76,11 @@
     margin-left: 45px !important;
 }
 
+.category-search {
+    margin-left: 120px !important;
+    width: 75% !important;
+}
+
 /* tag index css */
 .tag-l-status {
     margin-left: 40px !important;
@@ -71,6 +90,14 @@
 }
 
 /* post index css */
+.filter-area-post {
+    width: 90% !important;
+}
+
+.post-btn-place {
+    margin-top: -130px;
+}
+
 .post-l-category{
     margin-left: 125px !important;
 }
