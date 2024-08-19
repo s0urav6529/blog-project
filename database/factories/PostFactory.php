@@ -21,9 +21,9 @@ class PostFactory extends Factory
         return [
             'title' => $title,
             'slug' => Str::slug($title),
-            'category_id' => 105,
-            'sub_category_id' => random_int(181, 183),
-            'user_id' => random_int(2, 3),
+            'category_id' => 2,
+            'sub_category_id' => random_int(13, 13),
+            'user_id' => random_int(1, 7),
             'status' => random_int(0, 1),
             'is_approved' => random_int(0, 1),
             'description' => $this->faker->paragraph,
