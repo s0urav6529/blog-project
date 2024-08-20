@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Backend\PhotoUploadController;
 use App\Http\Requests\UserProfileStoreRequest;
 use App\Models\District;
-use App\Models\Division;
 use App\Models\Thana;
 use App\Models\User;
 use App\Models\UserProfile;
@@ -84,7 +83,7 @@ class UserProfileController extends Controller
         $roles = [
             1 => 'Admin',
             2 => 'User',
-            3 => 'Modarator'
+            3 => 'Modarator',
         ];
 
         return view('backend.modules.UserProfile.edit', compact('userProfile', 'divisions', 'profile', 'isEditable', 'role', 'roles'));
@@ -153,12 +152,12 @@ class UserProfileController extends Controller
             return response()->json([
                 'msg' => 'Profile Photo uploaded successfully !',
                 'notification_color' => 'success',
-                'photo' => url($path . $profile->photo)
+                'photo' => url($path . $profile->photo),
             ]);
         } else {
             return response()->json([
                 'msg' => 'Please add profile information first !',
-                'notification_color' => 'warning'
+                'notification_color' => 'warning',
             ]);
         }
     }

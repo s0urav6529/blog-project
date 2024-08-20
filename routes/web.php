@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Backend\BackendController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\PostController;
@@ -9,10 +7,9 @@ use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\TagController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Frontend\CommentController;
-use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserProfileController;
-use App\Models\SubCategory;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+ */
 
 Route::group(['middleware' => 'lang'], static function () {
 
@@ -50,12 +47,10 @@ Route::group(['middleware' => 'lang'], static function () {
     /* notification modal */
     Route::get('/my-notifications', [NotificationController::class, 'userWiseNotifications']);
 
-
     Route::get('/get-districts/{division_id}', [UserProfileController::class, 'getDivisionWiseDistrict']);
     Route::get('/get-thanas/{district_id}', [UserProfileController::class, 'getDistrictWiseThana']);
 
     Route::get('/post-count/{post_id}', [FrontendController::class, 'postReadCount']);
-
 
     Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
 
@@ -66,7 +61,6 @@ Route::group(['middleware' => 'lang'], static function () {
             Route::resource('/sub-category', SubCategoryController::class);
             Route::resource('/tag', TagController::class);
         });
-
 
         Route::get('/', [BackendController::class, 'index'])->name('back.index');
 
